@@ -1,0 +1,58 @@
+{
+  "name": "jubao-dk",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cnpm": "^6.0.0",
+    "core-js": "^2.6.5",
+    "install": "^0.12.2",
+    "muse-ui": "^3.0.2",
+    "muse-ui-loading": "^0.2.0",
+    "muse-ui-message": "^0.2.1",
+    "muse-ui-toast": "^0.3.0",
+    "npm": "^6.9.0",
+    "nprogress": "^0.2.0",
+    "postcss-pxtorem": "^4.0.1",
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.3",
+    "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.5.4"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.6.0",
+    "@vue/cli-service": "^3.6.0",
+    "cnpm": "^6.0.0",
+    "compression-webpack-plugin": "^2.0.0",
+    "install": "^0.12.2",
+    "muse-ui-toast": "^0.3.0",
+    "node-sass": "^4.9.0",
+    "postcss-pxtorem": "^4.0.1",
+    "sass-loader": "^7.1.0",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {},
+      "postcss-pxtorem": {
+        "rootValue": 32,
+        "propList": [
+          "*"
+        ],
+        "selectorBlackList": [
+          "mu-"
+        ]
+      }
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}

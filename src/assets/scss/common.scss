@@ -1,0 +1,241 @@
+//该文件用来放局部引用的自定义通用scss文件，包括通用scss函数通用scss混合，需要用的文件自行引入
+// 不换行,...形式处理多余文字，默认单行不行 @include no-wrap;
+@mixin no-wrap ($row:1) {
+  @if $row == 1 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $row;
+    overflow: hidden;
+  }
+}
+// 扩展点击区域
+@mixin extend-click{
+  position: relative;
+  &:before{
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+  }
+}
+//过渡居中 需父级定位 horizontal and vertical
+@mixin be-center($type:''){
+  position: absolute;
+  @if $type == 'horizontal' {
+    top:50%;
+    transform: translateY(-50%);
+  }@else if $type == 'vertical'{
+    left: 50%;
+    transform: translateX(-50%);
+  }@else {
+    top:50%;
+    left:50%;
+    transform: translate3d(-50%,-50%,0);
+  }
+}
+//移动端1像素处理
+@mixin pixel ($type){
+  @media (-webkit-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5) {
+      transform:$type+'(0.7)';    //1.5 * 0.7接近1
+  }
+  @media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2) {
+      transform:$type+'(0.5)';    //2 * 0.5 = 1
+  }
+  @media (-webkit-min-device-pixel-ratio: 2.5),(min-device-pixel-ratio: 2.5) {
+      transform:$type+'(0.4)';    //2.5 * 0.4 = 1
+  }
+  @media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3) {
+      transform:$type+'(0.333)';    //3 * 0.333 接近 1
+  }
+  @media (-webkit-min-device-pixel-ratio: 3.5),(min-device-pixel-ratio: 3.5) {
+      transform:$type+'(0.2857)';    //3.5 * 0.2857 接近 1
+  }
+}
+
+@mixin border-direction($direction,$color){
+  position: absolute;
+  display: block;
+  content: '';
+  @if $direction == 'top' {
+    @include pixel(scaleY);
+    border-top: 1px solid $color;
+    transform-origin: 0 0;
+    height: 1px;
+    width: 100%;
+    left: 0;
+    top: 0;
+  }@else if $direction == 'bottom'{
+    @include pixel(scaleY);
+    border-top: 1px solid $color;
+    transform-origin: 0 100%;
+    height: 1px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }@else if $direction == 'left'{
+    @include pixel(scaleX);
+    border-left: 1px solid $color;
+    transform-origin: 0 0;
+    width: 1px;
+    height: 100%;
+    top:0;
+    left:0;
+  }@else if $direction == 'right'{
+    @include pixel(scaleX);
+    border-left: 1px solid $color;
+    transform-origin:100% 0;
+    width: 1px;
+    height: 100%;
+    top:0;
+    right:0;
+  }
+}
+
+@mixin border-1px($direction,$color:#ccc) {
+  position:relative;
+  &::after{
+    @include border-direction($direction,$color)
+  }
+}
+//两条边框的情况
+@mixin border-1px-tr($color:#ccc){ //上右边框
+  position:relative;
+  &::before{
+    @include border-direction('top',$color)
+  }
+  &::after{
+    @include border-direction('right',$color)
+  }
+}
+@mixin border-1px-tl($color:#ccc){ //上左边框
+  position:relative;
+  &::before{
+    @include border-direction('top',$color)
+  }
+  &::after{
+    @include border-direction('left',$color)
+  }
+}
+@mixin border-1px-tb($color:#ccc){ //上下边框
+  position:relative;
+  &::before{
+    @include border-direction('top',$color)
+  }
+  &::after{
+    @include border-direction('bottom',$color)
+  }
+}
+@mixin border-1px-rb($color:#ccc){ //右下边框
+  position:relative;
+  &::before{
+    @include border-direction('right',$color)
+  }
+  &::after{
+    @include border-direction('bottom',$color)
+  }
+}
+@mixin border-1px-lb($color:#ccc){ //左下边框
+  position:relative;
+  &::before{
+    @include border-direction('left',$color)
+  }
+  &::after{
+    @include border-direction('bottom',$color)
+  }
+}
+
+// 元素居中
+@mixin vc-hc($height,$align-v:center){
+  display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;      /* TWEENER - IE 10 */
+  display: -webkit-flex;     /* NEW - Chrome */
+  display: flex;
+  justify-content: $align-v;
+  align-items: center;
+  width: auto;
+  height: $height;
+}
+
+#solution-content table{
+  width: 100% !important;
+}
+
+#solution-content .detial_con table tr td:first-child{
+  width: 100px !important;
+}
+.tiaoli table{
+  width: 100% !important;
+}
+.toubao img{
+  width: 100% !important;
+}
+@mixin dpr($name,$px){
+  #{$name}:round($px)*1px;
+  [data-dpr="1"] & {
+    #{$name}:$px*1px
+  }
+  [data-dpr="2"] & {
+    #{$name}: $px * 1px;
+  }
+  // for mx3
+  [data-dpr="2.5"] & {
+    #{$name}: round($px * 2.5 / 2) * 1px;
+  }
+  // for 小米note
+  [data-dpr="2.75"] & {
+    #{$name}: round($px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    $name: round($px / 2 * 3) * 1px
+  }
+  // for 三星note4
+  [data-dpr="4"] & {
+    #{$name}: $px * 2px;
+  }
+}
+
+//除了dpr为1以外，其他的dpr全部设置border 1px为0.5px
+@mixin dprBorder($name,$px,$type,$color){
+  #{$name}:($px)*1px $type $color;
+  [data-dpr="1"] & {
+    #{$name}:$px*1px $type $color;
+  }
+  [data-dpr="2"] & {
+    #{$name}: ($px * 1/2) * 1px $type $color;
+  }
+  // for mx3
+  [data-dpr="2.5"] & {
+    #{$name}: ($px * 1/2) * 1px $type $color;
+  }
+  // for 小米note
+  [data-dpr="2.75"] & {
+    #{$name}: ($px * 1/2) * 1px $type $color;
+  }
+  [data-dpr="3"] & {
+    #{$name}: ($px * 1/2) * 1px $type $color;
+  }
+  // for 三星note4
+  [data-dpr="4"] & {
+    #{$name}: ($px * 1/2) * 1px $type $color;
+  }
+}
+
+@mixin flex-center(){
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between(){
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
