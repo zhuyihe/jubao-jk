@@ -12,6 +12,7 @@
   </div>
 </template>
 <script>
+import { routeBack } from '@/router/routerBack'
 export default {
   data() {
     return {

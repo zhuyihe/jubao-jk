@@ -11,8 +11,8 @@
         </a>
       </mu-button>
     </mu-appbar>
-    <div class="mu-homecontent homecontent">
-      <mu-carousel hide-controls class="banner">
+    <div class="mu-homecontent homecontent" >
+      <mu-carousel hide-controls class="banner" >
         <mu-carousel-item v-for="(item,index) in banner" :key="index">
           <img :src="item.image_url" class="ims">
         </mu-carousel-item>
@@ -32,7 +32,8 @@
             @click="getTab(item)"
           >{{item.name}}</mu-tab>
         </mu-tabs>
-        <template v-for="(value,index) in productLists">
+        <div v-loading='loading' style="position:relative" class="cir">
+        <template v-for="(value,index) in productLists" >
             <product-list
               :key="value.id"
               :index="index"
@@ -42,6 +43,7 @@
               
             ></product-list>
         </template>
+        </div>
       </div>
     </div>
     <tab></tab>
@@ -80,6 +82,7 @@ export default {
       active: 0,
       productLists: [],
       columnList: [],
+      loading:false
     };
   },
   mounted() {
@@ -138,8 +141,10 @@ export default {
       this.getProductList(res.rows[0].id);
     },
     async getProductList(category_id) {
+       this.loading=true
       let res = await cmnServiceProductList({ category_id: category_id });
       console.log(res);
+      this.loading=false
       if (res.err_code !== 0) {
         Toast({ message: res.err_msg || "未知错误", position: "bottom" });
         return;
@@ -154,6 +159,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.cir{
+  position: relative;
+}
 .navbar {
   text-align: center;
 }

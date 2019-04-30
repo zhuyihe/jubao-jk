@@ -22,4 +22,8 @@ export const mutations={
         };
         setLocalStorage('router',{to:toData,from:fromData,backUrl})
       },
+      USER_INFO(state,userInfo){
+        console.log(userInfo)
+        state.userInfo=userInfo
+      }
 }

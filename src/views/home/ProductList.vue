@@ -1,7 +1,7 @@
 <template>
 <mu-paper :z-depth="1" class="demo-list-wrap">
 <mu-sub-header inset v-if="showTitle">{{title}}</mu-sub-header>
-  <div v-for="(val,idx) in products" :key="idx">
+  <div v-for="(val,idx) in products" :key="idx" >
       <mu-list textline="two-line">
         <mu-list-item avatar button :ripple="true" :dense='false'>
         <mu-list-item-action class="actions">

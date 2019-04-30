@@ -5,19 +5,37 @@ import toasts from 'muse-ui-toast';
  * @param {String} type 提示框类型
  * @param {String} content 内容
  * @param {String} title 标题
+ * @param {Object} options 更改默认的配置信息
 */
-export const message = (type, content, title) => {
-    switch (type) {
-        case 'alert':
-            messages.alert(content, title)
-            break;
-        case 'confirm':
-            messages.confirm(content, title)
-            break;
-        case 'prompt':
-            messages.alert(content, title)
-            break;
-    }
+export const message = (type, content, options, title = '提示') => {
+    return new Promise((resolve, reject) => {
+        switch (type) {
+            case 'alert':
+                messages.alert(content, title, options).then(() => {
+                    resolve()
+                })
+                break;
+            case 'confirm':
+                messages.confirm(content, title, options).then(({ result }) => {
+                    if (result) {
+                        resolve()
+                    } else {
+                        reject()
+                    }
+                })
+                break;
+            case 'prompt':
+                messages.alert(content, title, options).then(({ result, value }) => {
+                    if (result) {
+                        resolve(value)
+                    } else {
+                        reject()
+                    }
+                })
+                break;
+        }
+    })
+
 }
 /** 
  * 提示消息
@@ -27,19 +45,19 @@ export const message = (type, content, title) => {
 export const toast = (type, content) => {
     switch (type) {
         case 'success':
-        toasts.success(content)
+            toasts.success(content)
             break;
         case 'message':
-        toasts.message(content)
+            toasts.message(content)
             break;
         case 'info':
-        toasts.info(content)
+            toasts.info(content)
             break;
         case 'warning':
-        toasts.warning(content)
+            toasts.warning(content)
             break;
         case 'error':
-        toasts.error(content)
+            toasts.error(content)
             break;
     }
 }

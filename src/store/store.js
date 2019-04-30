@@ -15,6 +15,7 @@ export default new Vuex.Store({
       return {
         // 只储存state中的access_token
         access_token: val.access_token,
+        userInfo:val.userInfo
       }
     }
   })]

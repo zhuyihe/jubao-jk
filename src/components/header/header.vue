@@ -1,27 +1,37 @@
 <template>
-  <mu-appbar style="width: 100%;" class="navbar">
-    <router-link
-      :to="backUrl || $store.state.backUrl"
-      tag="span"
-      class="header_back"
-      @click.native="back"
-    >
-      <mu-button icon slot="left" v-if="backShow">
-        <mu-icon value="perm_identity"></mu-icon>
+ <mu-appbar style="width: 100%;" class="navbar" :class="className">
+      <mu-button icon slot="left" :to='backUrl || $store.state.backUrl' @click.native="back" v-if="routerLinkMode">
+        <mu-icon :value="backIcon" v-if='backShow'></mu-icon>
+        {{backText}}
       </mu-button>
-    </router-link>
-
-    <!--如果没有输入backUrl，则不能为router-link-->
-    <!-- <mu-button icon slot="left" @click="back" >
-      <mu-icon value="perm_identity" v-if="backShow"></mu-icon>
-    </mu-button> -->
-    aaaaa
-    <!-- <mu-button icon slot="right">
-      <a :href="telphone" class="phone">
-        <mu-icon value="phone"></mu-icon>
-      </a>
-    </mu-button> -->
-  </mu-appbar>
+      <mu-button icon slot="left"  @click.native="back" v-else>
+        <mu-icon :value="backIcon" v-if='backShow'></mu-icon>
+        {{backText}}
+      </mu-button>
+      {{title}}
+      <template v-if='goIcon'>
+        <mu-button icon slot="right" :to="goUrl" v-if="goUrl"  @click="go">
+          <mu-icon :value="goIcon"  v-if="goShow"></mu-icon>
+      </mu-button>
+      <mu-button icon slot="right"  v-if="!goUrl && !goTouchFlag"  @click="go">
+          <mu-icon :value="goIcon"  v-if="goShow"></mu-icon>
+      </mu-button>
+       <mu-button icon slot="right"  v-if="!goUrl && goTouchFlag"  @click="go">
+          <mu-icon :value="goIcon"  v-if="goShow"></mu-icon>
+      </mu-button>
+      </template>
+      <template v-else>
+         <mu-button flat slot="right" :to="goUrl" v-if="goUrl"  @click="go">
+          {{goText}}
+      </mu-button>
+      <mu-button flat slot="right"  v-if="!goUrl && !goTouchFlag"  @click="go">
+          {{goText}}
+      </mu-button>
+       <mu-button flat slot="right"  v-if="!goUrl && goTouchFlag"  @click="go">
+          {{goText}}
+      </mu-button>
+      </template>
+    </mu-appbar>
 </template>
 <script>
 import { removeStorage } from "@assets/js/SessionStorage";
@@ -30,7 +40,7 @@ export default {
     className: { type: String, default: "" },
     routerLinkMode: { type: Boolean, default: true },
     backUrl: { default: "" }, //返回的路由地址，eg: /dashboard
-    backIcon: { type: String, default: "icon-fanhui" }, //返回按钮对应的图标，默认为 < 图标
+    backIcon: { type: String, default: "arrow_back" }, //返回按钮对应的图标，默认为 < 图标
     backText: { type: String, default: "" }, //返回按钮对应的文本；一般会在文本和图标中二选一
     backShow: { type: Boolean, default: true }, //是否显示返回图标；默认为显示，也可以适应没有返回图标的情况
 
