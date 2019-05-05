@@ -78,7 +78,6 @@ export default {
           };
           cmnChannelLogin(data)
             .then(res => {
-              console.log(res);
               this.loading = false;
               let userInfo={
                 app_alias:res.data.app_alias,

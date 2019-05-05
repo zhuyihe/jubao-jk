@@ -9,9 +9,9 @@ axios.defaults.baseURL = process.env.VUE_APP_LOGOUT_URL;
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded;charset=UTF-8";
 axios.defaults.headers["Platform"] = "H5"
-let loading= Loading({
-    text: "正在加载中......",
-});
+// let loading= Loading({
+//     text: "正在加载中......",
+// });
 /*
  *请求前拦截
  *用于处理需要请求前的操作
@@ -35,9 +35,9 @@ axios.interceptors.response.use(
     response => {
         return new Promise((resolve, reject) => {
             //请求成功后关闭加载框
-            if (loading) {
-                loading.close();
-            }
+            // if (loading) {
+            //     loading.close();
+            // }
             const res = response.data;
             if (res.err_code === 0) {
                 resolve(res)
@@ -49,9 +49,9 @@ axios.interceptors.response.use(
     error => {
         console.log(error)
         //请求成功后关闭加载框
-        if (loading) {
-            loading.close();
-        }
+        // if (loading) {
+        //     loading.close();
+        // }
         //断网处理或者请求超时
         if (!error.response) {
             //请求超时
