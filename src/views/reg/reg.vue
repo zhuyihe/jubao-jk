@@ -32,15 +32,21 @@
         data-mu-loading-size="24"
       >提交</mu-button>
     </mu-form>
-    <dialog :openFullscreen='openFullscreen' :title="agreementContent.title"></dialog>
+    <Dialogs
+      :openFullscreen="openFullscreen"
+      :title="agreementContent.title"
+      v-on:getOpen="getOpen"
+      :html="agreementContent.content"
+    ></Dialogs>
   </div>
 </template>
 <script>
 import { cmnAgreementList } from "@api";
-import  Dialog  from "@/components/Dialog";
+import Dialogs from "@/components/Dialog";
+import { mobile_reg } from "@assets/js/reg";
 export default {
   components: {
-    Dialog
+    Dialogs
   },
   data() {
     return {
@@ -80,8 +86,13 @@ export default {
     reg() {},
     getCode() {},
     getcaptchaCode() {},
-    show(){
-        this.openFullscreen=true;
+    show() {
+      this.openFullscreen = true;
+      // console.log(this.openFullscreen);
+    },
+    getOpen(data) {
+      this.openFullscreen = !data;
+      console.log(data);
     },
     async getAgreement() {
       let res = await cmnAgreementList();
@@ -106,6 +117,9 @@ export default {
 }
 .mu-agrees {
   margin-right: 0;
+}
+.mu-dialog {
+  box-shadow: none !important;
 }
 </style>
 

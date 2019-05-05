@@ -8,16 +8,10 @@
         @back="closeFullscreenDialog"
         :routerLinkMode="false"
       ></v-header>
-      <!-- <mu-appbar color="primary" title="Fullscreen Diaolog">
-        <mu-button slot="left" icon @click="closeFullscreenDialog">
-          <mu-icon value="close"></mu-icon>
-        </mu-button>
-        <mu-button slot="right" flat @click="closeFullscreenDialog">Done</mu-button>
-      </mu-appbar>-->
       <div class="main">
         <div class="content" v-html="html">网络不佳，暂无数据~</div>
       </div>
-      <div class="bottom" @click="next" v-touchFeel>
+      <div class="bottom" @click="closeFullscreenDialog">
         <span>我知道了</span>
       </div>
     </mu-dialog>
@@ -25,7 +19,7 @@
 </template>
 <script>
 export default {
-  //   name: "dialog",
+  name: "dialogs",
   props: {
     title: {
       type: String
@@ -34,16 +28,21 @@ export default {
       type: String,
       default: "网络异常"
     },
-    openFullscreen:{
-        type: Boolean,
+    openFullscreen: {
+      type: Boolean
     }
+  },
+  mounted() {
+    console.log(this.openFullscreen);
   },
   methods: {
     openFullscreenDialog() {
-      this.openFullscreen = true;
+      // this.openFullscreen = true;
     },
     closeFullscreenDialog() {
-      this.openFullscreen = false;
+      // this.openFullscreen = false;
+      this.$emit("getOpen", this.openFullscreen);
+      console.log(this.openFullscreen);
     }
   }
 };
@@ -82,5 +81,8 @@ export default {
     line-height: 36px;
     color: #ffffff;
   }
+}
+.mu-dialog {
+  box-shadow: none !important;
 }
 </style>
