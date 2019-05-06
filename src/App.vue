@@ -1,34 +1,24 @@
 <template>
   <div id="app">
-    <transition
+    <!-- <transition
       :name="transitionName"
-      @before-leave="beforeLeave"
-      @after-leave="afterLeave"
-      @before-enter="beforeEnter"
-      @after-enter="afterEnter"
     >
       <router-view class="router"></router-view>
-    </transition>
+    </transition>-->
+    <transition :name="transitionName"> 
+　　　　　　<router-view class="Router"></router-view>
+　　　　</transition>
   </div>
 </template>
 <script>
-import { routeBack } from '@/router/routerBack'
+import { routeBack } from "@/router/routerBack";
 export default {
   data() {
     return {
-      transitionName: ""
+      transitionName: 'slide-right'
     };
   },
-  methods: {
-    beforeLeave(el) {
-      var bg = document.createElement("div");
-      bg.className = "router_bg";
-      el.appendChild(bg);
-    },
-    afterLeave(el) {},
-    beforeEnter(el) {},
-    afterEnter(el) {}
-  },
+  methods: {},
   watch: {
     $route: function(to, from) {
       //history添加记录
@@ -63,7 +53,7 @@ export default {
       } else if (toLevel < fromLevel) {
         this.transitionName = "slide-right";
       } else {
-        this.transitionName = "default";
+        this.transitionName = "slide-right";
       }
     }
   }
@@ -71,8 +61,28 @@ export default {
 </script>
 
 <style lang="scss">
-.aa{
-  font-size: 40px
+.aa {
+  font-size: 40px;
+}
+.Router {
+     position: absolute;
+     width: 100%;
+     transition: .3s  ease-in-out;
+    //  top: 40px;
+}
+
+.slide-left-enter,
+ .slide-right-leave-active {
+    //  opacity: 0;
+    -webkit-transform: translate(100%, 0);
+    transform: translate(100%, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+     opacity: 0;
+    -webkit-transform: translate(-100%, 0);
+    transform: translate(-100% 0);
 }
 .router {
   position: absolute;
@@ -84,50 +94,5 @@ export default {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -webkit-overflow-scrolling: touch;
-}
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-enter-active {
-  transition: transform 0.3s;
-  -webkit-transition: -webkit-transform 0.3s;
-}
-.slide-left-leave-active {
-  transition: transform 0.3s 0.1s;
-  -webkit-transition: -webkit-transform 0.3s 0.1s;
-}
-.slide-left-enter,
-.slide-right-leave-active {
-  z-index: 1000000;
-  //box-shadow: rgba(0,0,0,.3) pxToRem(-10) 0 pxToRem(5);
-}
-.slide-left-enter-to,
-.slide-left-leave-to {
-  z-index: inherit;
-}
-
-.slide-right-enter {
-  transform: translate(-50%, 0);
-}
-.slide-right-enter-to {
-  transform: translate(0, 0);
-}
-.slide-right-leave {
-  transform: translate(0, 0);
-}
-.slide-right-leave-to {
-  transform: translate(100%, 0);
-}
-
-.slide-left-enter {
-  transform: translate(100%, 0);
-}
-.slide-left-enter-to {
-  transform: translate(0, 0);
-}
-.slide-left-leave {
-  transform: translate(0, 0);
-}
-.slide-left-leave-to {
-  transform: translate(-50%, 0);
 }
 </style>

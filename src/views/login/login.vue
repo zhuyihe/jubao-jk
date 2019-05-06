@@ -21,7 +21,7 @@
           data-mu-loading-size="24"
         >提交</mu-button>
         <div class="buttons">
-          <mu-button flat>忘记密码</mu-button>
+          <mu-button flat :to="{path:'/recovery'}">忘记密码</mu-button>
           <mu-button flat color="primary" :to="{path:'/smslogin',query:$route.query}">验证码登陆</mu-button>
         </div>
       </mu-form-item>
@@ -80,7 +80,7 @@ export default {
             .then(res => {
               this.loading = false;
               let userInfo={
-                app_alias:res.data.app_alias,
+                appname:res.data.app_alias,
                 app_id:res.data.app_id,
                 app_key:res.data.app_key,
                 app_name:res.data.app_name
@@ -88,7 +88,7 @@ export default {
               console.log(userInfo)
               self.$store.commit('USER_INFO',userInfo)
               self.$store.commit('COMMIT_TOKEN',res.data.access_token)
-              self.$router.push("/dashboard");
+              self.$router.replace("/dashboard");
             })
             .catch(e => {
               switch (e.err_code) {

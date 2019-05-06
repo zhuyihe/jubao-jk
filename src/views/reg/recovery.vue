@@ -1,6 +1,6 @@
 <template>
   <div class="reg">
-    <v-header title="注册"></v-header>
+    <v-header title="重置密码"></v-header>
     <mu-form ref="form" class="mu-demo-form forms" :model="validateForm">
       <mu-form-item :rules="mobileRules" label="请输入电话号码" icon="phone" prop="mobile">
         <mu-text-field v-model="validateForm.mobile" full-width prop="mobile"></mu-text-field>
@@ -10,18 +10,11 @@
           <mu-button color="info" small round @click="getCode" :disabled="disabled">{{text}}</mu-button>
         </mu-text-field>
       </mu-form-item>
-      <mu-form-item :rules="passwordRules" label="请输入密码" icon="lock_open" prop="password">
-        <mu-text-field v-model="validateForm.password" full-width prop="password" type="password"></mu-text-field>
+      <mu-form-item :rules="passwordRules" label="请输入密码" icon="lock_open" prop="login_password">
+        <mu-text-field v-model="validateForm.login_password" full-width prop="login_password" type="password"></mu-text-field>
       </mu-form-item>
       <mu-form-item label="确认密码" icon="lock" prop="repassword">
         <mu-text-field v-model="repassword" full-width prop="repassword" type="password"></mu-text-field>
-      </mu-form-item>
-      <mu-form-item label="邀请码" icon="face" prop="invite_code" :rules="inviteCode">
-        <mu-text-field v-model="validateForm.invite_code" full-width prop="invite_code"></mu-text-field>
-      </mu-form-item>
-      <mu-form-item prop="isAgree" :rules="argeeRules" class="mu-agrees">
-        <mu-checkbox label="同意" v-model="validateForm.isAgree" class="mu-agrees"></mu-checkbox>
-        <span class="mu-agree" @click="show">用户协议</span>
       </mu-form-item>
       <mu-button
         color="primary"
@@ -32,35 +25,22 @@
         data-mu-loading-size="24"
       >提交</mu-button>
     </mu-form>
-    <Dialogs
-      :openFullscreen="openFullscreen"
-      :title="agreementContent.title"
-      v-on:getOpen="getOpen"
-      :html="agreementContent.content"
-    ></Dialogs>
   </div>
 </template>
 <script>
-import { cmnAgreementList, cmnSmsSend, cmnChannelReg } from "@api";
-import Dialogs from "@/components/Dialog";
+import { cmnUserRecover, cmnSmsSend } from "@api";
 import { mobile_reg } from "@assets/js/reg";
 import { toast } from "@assets/js/common";
 export default {
-  components: {
-    Dialogs
-  },
   data() {
     return {
       validateForm: {
         mobile: "",
         sms_code: "",
-        password: "",
-        invite_code: ""
+        login_password: "",
       },
-      openFullscreen: false,
       repassword: "",
       text: "获取验证码",
-      agreementContent: "",
       count: 60,
       disabled: false,
       mobileRules: [
@@ -68,7 +48,6 @@ export default {
         { validate: val => mobile_reg.test(val), message: "手机号不正确" }
       ],
       smsCode: [{ validate: val => !!val, message: "必须填写验证码" }],
-      inviteCode: [{ validate: val => !!val, message: "必须填写邀请码" }],
       passwordRules: [
         { validate: val => !!val, message: "必须填写密码" },
         {
@@ -76,12 +55,8 @@ export default {
           message: "密码长度大于6位数"
         }
       ],
-      argeeRules: [{ validate: val => !!val, message: "必须同意用户协议" }],
       loading: false
     };
-  },
-  mounted() {
-    this.getAgreement();
   },
   methods: {
     reg() {
@@ -89,19 +64,11 @@ export default {
       let self = this;
       this.$refs.form.validate().then(result => {
         if (result) {
-          if (self.validateForm.password === self.repassword) {
-            cmnChannelReg(this.validateForm)
+          if (self.validateForm.login_password === self.repassword) {
+            cmnUserRecover(this.validateForm)
               .then(res => {
                 self.loading = false;
-                let userInfo = {
-                  appname: res.data.app_alias,
-                  app_id: res.data.app_id,
-                  app_key: res.data.app_key,
-                  app_name: res.data.app_name
-                };
-                self.$store.commit("USER_INFO", userInfo);
-                self.$store.commit("COMMIT_TOKEN", res.data.access_token);
-                self.$router.replace("/dashboard");
+                this.$router.push("/login");
               })
               .catch(e => {
                 self.loading = false;
@@ -144,20 +111,6 @@ export default {
       } else {
         toast("error", "请输入正确的手机号");
       }
-    },
-    show() {
-      this.openFullscreen = true;
-    },
-    getOpen(data) {
-      this.openFullscreen = !data;
-    },
-    async getAgreement() {
-      let res = await cmnAgreementList();
-      var arr = res.data.filter(item => {
-        return item.title == "用户协议";
-      });
-      this.agreementContent = arr[0];
-      console.log(res);
     }
   }
 };

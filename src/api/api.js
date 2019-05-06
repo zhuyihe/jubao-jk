@@ -15,3 +15,16 @@ export const cmnSmsVerify = (params) => post("/v1/cmn/sms/verify", params);
 export const cmnSmsSend = (params) => post("/v1/cmn/sms/send", params); 
 // 获取平台服务协议
 export const cmnAgreementList = (params) => get("/v1/cmn/agreement/list", params); 
+// 渠道用户注册
+export const cmnChannelReg = (params) => post("/v1/api/cmn/biz/channel/register", params); 
+// 忘记密码
+export const cmnUserRecover = (params) => post("/v1/cmn/user/recover", params); 
+//获取用户信息
+export const cmnUserInfo = (params) => get("/v1/cmn/user/info", params); 
+//更新用户信息
+export const cmnUserUpdate = (params) => post("/v1/cmn/user/update", params); 
+//邮寄地址
+export const cmnUseraddressList = (params) => get("/v1/cmn/useraddress/list", params); 
+
+
+

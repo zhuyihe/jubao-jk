@@ -21,6 +21,9 @@ axios.interceptors.request.use(
         if (store.state.access_token) {
             config.headers["Authorization"] = "Bearer " + store.state.access_token;
         }
+        if(store.state.userInfo.app_key){
+            config.headers["AppKey"] = store.state.userInfo.app_key;
+        }
         return config;
     },
     error => {

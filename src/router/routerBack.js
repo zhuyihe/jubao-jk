@@ -30,6 +30,22 @@ export const routeBack = (to, from) => {
       to: '/reg',
       defaultBack: from.fullPath,
     },
+    {
+      to: '/recovery',
+      defaultBack: from.fullPath,
+    },
+    {
+      to: '/setEmail',
+      defaultBack: from.fullPath,
+    },
+    {
+      to: '/setTel',
+      defaultBack: from.fullPath,
+    },
+    {
+      to: '/setAddress',
+      defaultBack: from.fullPath,
+    },
   ];
 
   // console.log(from.fullPath)

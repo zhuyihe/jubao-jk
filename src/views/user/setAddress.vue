@@ -1,0 +1,76 @@
+<template>
+  <div class="address">
+    <v-header title="地址管理"></v-header>
+    <mu-list ref="container">
+      <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load">
+        <div class="lsits" v-for="(item,index) in addressRows" :key="index">
+          <mu-list-item :ripple="false">
+            <mu-list-item-title>{{item.recipients}}</mu-list-item-title>
+            <mu-list-item-title class="phone">{{item.mobile}}</mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item :ripple="false" class="adress">
+            <mu-list-item-title>{{item.province+item.city+item.district+item.street}}</mu-list-item-title>
+          </mu-list-item>
+          <mu-list-item :ripple="false" class="adress">
+            <mu-list-item-title>
+              <mu-checkbox v-model="item.is_primary" label="默认地址"></mu-checkbox>
+            </mu-list-item-title>
+            <mu-list-item-title class="dothis">
+              <mu-button color="primary" small flat>
+                <mu-icon left value="grade"></mu-icon>编辑
+              </mu-button>
+              <mu-button color="red" small flat>
+                <mu-icon left value="delete"></mu-icon>删除
+              </mu-button>
+            </mu-list-item-title>
+          </mu-list-item>
+        </div>
+        <mu-divider></mu-divider>
+      </mu-load-more>
+    </mu-list>
+  </div>
+</template>
+<script>
+import { cmnUseraddressList } from "@api";
+export default {
+  data() {
+    return {
+      checkbox: true,
+      refreshing: false,
+      loading: false,
+      addressRows: [],
+      total: ""
+    };
+  },
+  mounted() {
+    this.getAdress();
+  },
+  methods: {
+    async getAdress() {
+      let res = await cmnUseraddressList();
+      if (res.err_code === 0) {
+        this.addressRows = res.rows;
+        this.total = res.total;
+      }
+    },
+    refresh() {
+      this.refreshing = true;
+      this.$refs.container.scrollTop = 0;
+      setTimeout(() => {
+        this.refreshing = false;
+        // this.text = this.text === "List" ? "Menu" : "List";
+        // this.num = 10;
+      }, 2000);
+    },
+    load() {}
+  }
+};
+</script>
+<style lang="scss" scoped>
+.phone {
+  text-align: right;
+}
+.dothis {
+  text-align: right;
+}
+</style>
