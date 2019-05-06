@@ -46,6 +46,13 @@ export const routeBack = (to, from) => {
       to: '/setAddress',
       defaultBack: from.fullPath,
     },
+    {
+      to: '/addAddress',
+      defaultBack: {
+        path: '/setAddress',
+        query: to.query
+      }
+    },
   ];
 
   // console.log(from.fullPath)

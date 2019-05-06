@@ -11,8 +11,8 @@
         </a>
       </mu-button>
     </mu-appbar>
-    <div class="mu-homecontent homecontent" >
-      <mu-carousel hide-controls class="banner" >
+    <div class="mu-homecontent homecontent">
+      <mu-carousel hide-controls class="banner">
         <mu-carousel-item v-for="(item,index) in banner" :key="index">
           <img :src="item.image_url" class="ims">
         </mu-carousel-item>
@@ -32,17 +32,16 @@
             @click="getTab(item)"
           >{{item.name}}</mu-tab>
         </mu-tabs>
-        <div v-loading='loading' style="position:relative" class="cir">
-        <template v-for="(value,index) in productLists" >
+        <div v-loading="loading" style="position:relative" class="cir">
+          <template v-for="(value,index) in productLists">
             <product-list
               :key="value.id"
               :index="index"
               :title="value.name"
               :showTitle="Boolean(value.id && productLists.length>1)"
               :products="value.products"
-              
             ></product-list>
-        </template>
+          </template>
         </div>
       </div>
     </div>
@@ -65,9 +64,9 @@ import {
   getStorage,
   setStorage
 } from "@assets/js/SessionStorage";
-import Loading from 'muse-ui-loading';
-import 'muse-ui-loading/dist/muse-ui-loading.css';
-import Tab from '@/components/Tab' 
+import Loading from "muse-ui-loading";
+import "muse-ui-loading/dist/muse-ui-loading.css";
+import Tab from "@/components/Tab";
 export default {
   name: "home",
   components: {
@@ -82,7 +81,7 @@ export default {
       active: 0,
       productLists: [],
       columnList: [],
-      loading:false
+      loading: false
     };
   },
   mounted() {
@@ -141,10 +140,10 @@ export default {
       this.getProductList(res.rows[0].id);
     },
     async getProductList(category_id) {
-       this.loading=true
+      this.loading = true;
       let res = await cmnServiceProductList({ category_id: category_id });
       console.log(res);
-      this.loading=false
+      this.loading = false;
       if (res.err_code !== 0) {
         Toast({ message: res.err_msg || "未知错误", position: "bottom" });
         return;
@@ -154,23 +153,29 @@ export default {
     },
     getTab(item) {
       this.getProductList(item.id);
-    },
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
-.cir{
+.cir {
   position: relative;
 }
 .navbar {
   text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000000000000;
 }
-.mu-homecontent{
+.mu-homecontent {
   height: calc(100% - 50px);
-  overflow: scroll
+  overflow: scroll;
+  padding-top: 57px;
 }
-.homecontent{
-  padding-bottom: 100px
+.homecontent {
+  padding-bottom: 100px;
 }
 .phone {
   position: relative;
