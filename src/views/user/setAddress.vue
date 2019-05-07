@@ -1,8 +1,15 @@
 <template>
-  <div class="address">
+  <div class="address demo-loadmore-wrap">
     <v-header title="地址管理" class="header"></v-header>
-    <mu-list ref="container" v-if="addressRows.length!==0" class="mu-listss">
-      <mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load">
+    <mu-list ref="container" class="demo-loadmore-content mu-listss" v-if="addressRows.length!==0">
+      <mu-load-more
+        @refresh="refresh"
+        :refreshing="refreshing"
+        :loading="loading"
+        @load="load"
+        :loaded-all="loadAll"
+        :loading-text="loadText"
+      >
         <div class="lsits" v-for="(item,index) in addressRows" :key="index">
           <mu-list-item :ripple="false">
             <mu-list-item-title>{{item.recipients}}</mu-list-item-title>
@@ -13,19 +20,25 @@
           </mu-list-item>
           <mu-list-item :ripple="false" class="adress">
             <mu-list-item-title>
-              <mu-checkbox v-model="item.is_primary" label="默认地址"></mu-checkbox>
+              <mu-checkbox
+                v-model="item.is_primary"
+                value="eat"
+                label="默认地址"
+                @click="isTop(item.id,item.is_primary)"
+                :readonly="item.is_primary==true"
+              ></mu-checkbox>
             </mu-list-item-title>
             <mu-list-item-title class="dothis">
-              <mu-button color="primary" small flat>
+              <mu-button color="primary" small flat @click="edit(item)">
                 <mu-icon left value="border_color"></mu-icon>编辑
               </mu-button>
-              <mu-button color="red" small flat>
+              <mu-button color="red" small flat @click="deleteItem(item)">
                 <mu-icon left value="delete"></mu-icon>删除
               </mu-button>
             </mu-list-item-title>
           </mu-list-item>
+          <mu-divider></mu-divider>
         </div>
-        <mu-divider></mu-divider>
       </mu-load-more>
     </mu-list>
     <div class="tupian" v-else>
@@ -38,7 +51,12 @@
   </div>
 </template>
 <script>
-import { cmnUseraddressList } from "@api";
+import {
+  cmnUseraddressList,
+  cmnSetdefaultAddr,
+  cmnUseraddressDelete
+} from "@api";
+import { toast, message } from "@assets/js/common";
 export default {
   data() {
     return {
@@ -46,31 +64,88 @@ export default {
       refreshing: false,
       loading: false,
       addressRows: [],
-      total: ""
+      total: "",
+      pages: {
+        page: 1,
+        rows: 5
+      },
+      loadAll: false,
+      loadText: "正在加载中"
     };
   },
   mounted() {
-    this.getAdress();
+    this.getAdress(this.pages);
   },
   methods: {
-    async getAdress() {
-      let res = await cmnUseraddressList();
+    async getAdress(data, index) {
+      let res = await cmnUseraddressList(data);
       if (res.err_code === 0) {
-        this.addressRows = res.rows;
+        //下拉
+        if (index === 1) {
+          this.addressRows.push(...res.rows);
+          setTimeout(() => {
+            this.loading = false;
+          }, 2000);
+          //数据加载完
+          if (res.rows.length < 2) {
+            this.loadText = "暂无更多数据";
+            setTimeout(() => {
+              this.loadAll = true;
+            }, 2000);
+          }
+        } else {
+          this.addressRows = res.rows;
+        }
         this.total = res.total;
-        console.log(this.addressRows.length);
       }
     },
     refresh() {
       this.refreshing = true;
       this.$refs.container.scrollTop = 0;
+      //重新加载列表
+      this.pages.page = 1;
+      this.loadAll = false;
+      this.getAdress(this.pages);
       setTimeout(() => {
         this.refreshing = false;
-        // this.text = this.text === "List" ? "Menu" : "List";
-        // this.num = 10;
       }, 2000);
     },
-    load() {}
+    load() {
+      this.loading = true;
+      this.pages.page++;
+      this.getAdress(this.pages, 1);
+    },
+    async isTop(id, isCheck) {
+      console.log(isCheck);
+      let res = await cmnSetdefaultAddr({ id: id });
+      if (res.err_code === 0) {
+        //重新加载列表
+        this.refresh();
+        toast("success", "默认地址设置成功");
+      } else {
+        toast("error", e.err_msg);
+      }
+    },
+    edit(item) {
+      this.$router.push({
+        path: "/addAddress",
+        query: item
+      });
+    },
+    deleteItem(item) {
+      message("confirm", "你确定删除地址吗？")
+        .then(() => {
+          cmnUseraddressDelete({ id: item.id })
+            .then(res => {
+              toast("success", "删除成功");
+              this.refresh();
+            })
+            .catch(e => {
+              toast("error", e.err_code);
+            });
+        })
+        .catch(() => {});
+    }
   }
 };
 </script>
@@ -104,5 +179,16 @@ export default {
 }
 .mu-listss {
   margin-top: 50px;
+}
+.demo-loadmore-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.demo-loadmore-content {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 </style>

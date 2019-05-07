@@ -1,6 +1,6 @@
 <template>
   <div class="setTel">
-    <v-header title="我的手机号"></v-header>
+    <v-header title="我的邮箱"></v-header>
     <mu-form ref="form" class="mu-demo-form forms" :model="validateForm">
       <mu-form-item label="您现在的邮箱为" icon="email">
         <mu-text-field v-model="oldemail" full-width disabled></mu-text-field>

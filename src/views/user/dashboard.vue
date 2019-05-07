@@ -22,7 +22,7 @@
       </mu-list-item>
     </mu-list>
     <mu-list class="showAll">
-      <mu-list-item button ripple>
+      <mu-list-item button ripple to='orderList'>
         <mu-list-item-action>
           <mu-icon value="description" color="blue" class="icons"></mu-icon>
         </mu-list-item-action>
@@ -34,19 +34,19 @@
     </mu-list>
     <mu-divider></mu-divider>
     <mu-list textline="two-line" class="price pricenone">
-      <mu-list-item ripple button>
+      <mu-list-item ripple button to='orderList?active1=1'>
         <mu-list-item-content>
           <mu-icon value="assignment_returned" color="info"></mu-icon>
           <mu-list-item-sub-title>未生效</mu-list-item-sub-title>
         </mu-list-item-content>
       </mu-list-item>
-      <mu-list-item ripple button>
+      <mu-list-item ripple button to='orderList?active1=2'>
         <mu-list-item-content>
           <mu-icon value="assignment_turned_in" color="info"></mu-icon>
           <mu-list-item-sub-title>已生效</mu-list-item-sub-title>
         </mu-list-item-content>
       </mu-list-item>
-      <mu-list-item ripple button>
+      <mu-list-item ripple button to='orderList?active1=3'>
         <mu-list-item-content>
           <mu-icon value="assignment_late" color="info">查看全部</mu-icon>
           <mu-list-item-sub-title>已失效</mu-list-item-sub-title>
@@ -94,7 +94,7 @@
         </mu-list-item-action>
       </mu-list-item>
       <mu-divider></mu-divider>
-      <mu-list-item button ripple to='bankCard'>
+      <!-- <mu-list-item button ripple to='bankCard'>
         <mu-list-item-action>
           <mu-icon value="credit_card" color="blue" class="icons"></mu-icon>
         </mu-list-item-action>
@@ -103,7 +103,7 @@
           <mu-icon value="keyboard_arrow_right"></mu-icon>
         </mu-list-item-action>
       </mu-list-item>
-      <mu-divider></mu-divider>
+      <mu-divider></mu-divider> -->
       <mu-list-item button ripple @click="signOut">
         <mu-list-item-action>
           <mu-icon value="exit_to_app" color="blue" class="icons"></mu-icon>

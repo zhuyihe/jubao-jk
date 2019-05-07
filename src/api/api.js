@@ -25,6 +25,19 @@ export const cmnUserInfo = (params) => get("/v1/cmn/user/info", params);
 export const cmnUserUpdate = (params) => post("/v1/cmn/user/update", params); 
 //邮寄地址
 export const cmnUseraddressList = (params) => get("/v1/cmn/useraddress/list", params); 
+//添加地址
+export const cmnUseraddressAdd = (params) => post("/v1/cmn/useraddress/add", params); 
+//设置默认地址
+export const cmnSetdefaultAddr = (params) => get("/v1/cmn/useraddress/setdefaultaddr", params);
+//删除地址
+export const cmnUseraddressDelete = (params) => get("/v1/cmn/useraddress/delete", params);
+//查询所有订单列表
+export const cmnBizChanneOrderlList = (params) => get("/v1/cmn/biz/channel/orderflow/list.v2", params);
+
+
+ 
+
+
 
 
 

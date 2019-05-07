@@ -44,7 +44,7 @@ export const routeBack = (to, from) => {
     },
     {
       to: '/setAddress',
-      defaultBack: from.fullPath,
+      defaultBack: '/dashboard',
     },
     {
       to: '/addAddress',
@@ -52,6 +52,10 @@ export const routeBack = (to, from) => {
         path: '/setAddress',
         query: to.query
       }
+    },
+    {
+      to: '/orderList',
+      defaultBack: '/dashboard'
     },
   ];
 

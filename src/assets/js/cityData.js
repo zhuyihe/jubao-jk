@@ -1,7 +1,7 @@
 /**
  * Created by huhai on 2017/4/26.
  */
-var cities = [{
+ const cities = [{
   "label": "北京",
   "value": 110000,
   "children": [{
@@ -12933,4 +12933,6 @@ for (var i = 0; i < cities.length; i++) {
 }
 
 let dataList = cities;
-module.exports = dataList;
+export default {
+  dataList
+} 

@@ -110,6 +110,7 @@ let router = [{
       level: 7
     }
   },
+  { path: '/orderList', component: getComponent('user', 'orderList'), name: 'orderList',meta:{ requiresAuth: true ,level: 2 } },
 ]
 const routers = new Router({
   routes: router
