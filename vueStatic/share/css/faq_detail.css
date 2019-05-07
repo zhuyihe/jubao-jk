@@ -1,0 +1,54 @@
+body,
+ul,
+li,
+p,
+h1,
+h2,
+h3,
+dl,
+dt,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+li,
+dl,
+dt,
+dd {
+  list-style: none;
+}
+
+body {
+  background: #f2f7fc;
+}
+
+.question, .answer {
+  background-color: #fff;
+}
+
+.question {
+  padding: 0.3333333333rem;
+  font-size: 0.4rem;
+  color: #454545;
+  line-height: 0.56rem;
+  margin-bottom: 0.44rem;
+}
+
+.answer {
+  padding: 0.36rem;
+}
+.answer .related_ans {
+  height: 0.6666666667rem;
+  font-size: 0.48rem;
+  color: #529aff;
+}
+.answer .detail_con {
+  padding: 0.36rem 0;
+  font-size: 0.3733333333rem;
+  color: #454545;
+  line-height: 0.5333333333rem;
+}
+
+/*# sourceMappingURL=faq_detail.css.map */

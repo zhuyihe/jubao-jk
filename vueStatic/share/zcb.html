@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>整车保</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="./css/zcbShare.css" type="text/css">
+    <link rel="stylesheet" href="./css/common.css" type="text/css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css">
+    <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+    <link rel="stylesheet" href="./css/loading.css" type="text/css">
+    <script src="js/flexible.js"></script>
+</head>
+<style>
+    .foot_left1{
+    background-color: #fff;
+    color: red;
+  }
+  .foot_left2{
+    background-color: #06acf9;
+    color: #fff;
+  }
+</style>
+<body>
+    <div class="all" :class="{isShare:alias}">
+        <div class="header" v-show="alias" style="display: none;">
+            <a :href="backUrl" class="back"><i class="iconfont icon-fanhui"></i></a>
+            整车保
+        </div>
+        <div class="banner">
+            <img src="./img/zcbShare/zcbBanner.jpg" alt="">
+        </div>
+        <div class="pro_video">
+            <div class="video-wrapper">
+                <video :src="videoSrc"
+                       :class="{isPlay:!isVideoEnd}"
+                       ref="video"
+                       @ended="videoEnd"
+                       controls="controls"
+                >
+                    您的游览器不支持视频播放，请升级！
+                </video>
+                <div class="poster" :style="background(poster)" v-show="isVideoEnd">
+                    <div class="video-play" @click="videoPlay">
+                        <i class="iconfont icon-play"></i>
+                    </div>
+                    <div class="tip">{{videoTitle}}</div>
+                </div>
+            </div>
+        </div>
+        <!--整车保计算器 start-->
+        <ul class="zcb_count">
+            <li class="title">整车保----物流责任险</li>
+            <li class="distance_price_count">
+                <label class="label">始发地</label>
+                <div class="select_reset">
+                    <select v-model="startProvince" class="zcb_select1">
+                        <option v-for="(val,idx) in startProvinceList" :value="val">{{val}}</option>
+                    </select>
+                </div>
+                <div class="select_reset">
+                    <select v-model="startCity" class="zcb_select2" @change="countPrice">
+                        <option v-for="(val,idx) in startCityList"  :value="val" >{{val}}</option>
+                    </select>
+                </div>
+            </li>
+            <li class="distance_price_count">
+                <label class="label">目的地</label>
+                <div class="select_reset">
+                    <select v-model="endProvince" class="zcb_select1">
+                        <option v-for="(val,idx) in endProvinceList" :value="val">{{val}}</option>
+                    </select>
+                </div>
+                <div class="select_reset">
+                    <select v-model="endCity" class="zcb_select2" @change="countPrice">
+                        <option v-for="(val,idx) in endCityList" :value="val">{{val}}</option>
+                    </select>
+                </div>
+            </li>
+            <li><span class="label">里程</span><span class="red distance">{{distance}}</span><span>公里</span></li>
+            <li class="block"><span class="label">赔偿限额</span><span class="coverage br" :class="coverage===1500000?'bechose':''" @click="switchRadio(1500000)">150万</span><span class="coverage" :class="coverage===500000?'bechose':''" @click="switchRadio(500000)">50万</span></li>
+            <li class="price_box">
+                <span class="label">保费</span>
+                <span class="fr">
+            <span class="price">{{price | showPrice}}</span><span>元</span>
+          </span>
+
+            </li>
+        </ul>
+        <!--整车保计算器 end-->
+        <div class="pro_tab">
+            <div class="tab_item" :class="{tab_on: tabIndex===1 }" @click="tabIndex=1">
+                <span>产品介绍</span>
+            </div>
+            <div class="tab_item" :class="{tab_on: tabIndex===2 }" @click="tabIndex=2">
+                <span>详细说明</span>
+            </div>
+        </div>
+        <div class="pro_content" v-show="tabIndex===1">
+            <div class="imgWrapper" v-for="(item,index) in 10">
+                <img :src="'./img/zcbShare/zcb'+ item +'.jpg'" alt="">
+                <!--<span class="detail h5_detail_btn" v-if="item==11" @click="toGoldClaims"></span>-->
+            </div>
+        </div>
+        <div class="pro_info" v-show="tabIndex===2">
+            <div class="pro_item pro_TiaoKuan">
+                <div class="item_title">
+                    <b>产品条款</b>
+                    <i></i>
+                </div>
+                <div class="item_text text_center">
+                    <p>《物流责任保险条款》</p>
+                </div>
+            </div>
+            <div class="pro_item pro_ZeRen">
+                <div class="item_title">
+                    <b>保险责任</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <p class="isTitle">19项意外事故造成货物损失</p>
+                    <p class="hasIcon">火灾、爆炸；</p>
+                    <p class="hasIcon">运输工具发生碰撞、出轨、倾覆、坠落、搁浅、触礁、沉没，隧道坍塌、桥梁坍塌、码头坍塌；</p>
+                    <p class="hasIcon">碰撞、挤压导致包装破裂或容器损坏；</p>
+                    <p class="hasIcon">物流货物的正常装卸、搬运；</p>
+                    <p class="hasIcon">物流货物遭遇盗窃、抢劫；</p>
+                    <p class="hasIcon">整车货物连车失踪。</p>
+                    <p class="isTitle">11项自然灾害造成货物损失</p>
+                    <p class="hasIcon">雷电、冰雹、暴风、暴雨、洪水、地震、海啸、地陷、崖崩、滑坡、泥石流所造成的损失以及运输过程中遭受雨淋。</p>
+                    <div>详细保障范围以整车保产品协议为准。</div>
+                </div>
+            </div>
+            <div class="pro_item pro_Tab">
+                <div class="item_title">
+                    <b>责任限额及保费</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <div class="tab_con">
+                        <div class="tab_head">
+                            <div class="distance">干线距离</div>
+                            <div class="zeren">
+                                <div>每次事故责任</div>
+                                <div>
+                                    <span>限额150万</span>
+                                    <span>限额50万</span>
+                                </div>
+                                <div>对应保险费</div>
+                            </div>
+                        </div>
+                        <div class="tab_item">
+                            <div class="distance">500 公里以内</div>
+                            <div class="time">70元 / 次</div>
+                            <div class="time">40元 / 次</div>
+                        </div>
+                        <div class="tab_item" v-for="item in 14">
+                            <div class="distance">{{400+100*item}}-{{500+100*item}} 公里</div>
+                            <div class="time">{{70+10*item}}元 / 次</div>
+                            <div class="time">{{(40+8*item)>140?140:(40+8*item)}}元 / 次</div>
+                        </div>
+                        <div class="tab_item">
+                            <div class="distance">1900 公里以上</div>
+                            <div class="time">220元 / 次</div>
+                            <div class="time">140元 / 次</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pro_item pro_MianPei">
+                <div class="item_title">
+                    <b>免赔额</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <p>每次事故免赔额为人民币5000元或损失金额的10%，两者以高者为准。</p>
+                    <p>保险事故如发生在新疆、内蒙古、青海、甘肃四个行政区域内时，则该次事故的对应免赔额为：人民币5000元或损失金额的15%,两者以高者为准。</p>
+                    <p>火灾每次事故免赔额为人民币10000元或损失金额的30%，两者以高者为准。</p>
+                    <p>玻璃制品、陶瓷制品、石膏制品等易碎品的免赔额为：人民币5000元或损失金额的15%，两者以高者为准。</p>
+                </div>
+            </div>
+            <div class="pro_item pro_itemXuZi">
+                <div class="item_title">
+                    <b>投保须知</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <p class="isTitle">主要不保货物：</p>
+                    <p class="hasIcon">金银、珠宝、钻石、玉器、贵重金属； </p>
+                    <p class="hasIcon">古玩、古币、古书、古画、艺术作品、雕塑、邮票；</p>
+                    <p class="hasIcon">旧品、二手品、展览后之展品和陈列品等无法确定其价值的货品；</p>
+                    <p class="hasIcon">枪支弹药、爆炸物品；</p>
+                    <p class="hasIcon">现钞、有价证券、票据、文件、档案、帐册、图纸、技术资料、信用证、护照；</p>
+                    <p class="hasIcon">需冷藏或恒温运输的货物；</p>
+                    <p class="hasIcon">蔬菜、水果、活牲畜、禽鱼类和其他动物。易腐品、易蛀品、农产品，如果仁、花生、玉米、豆类、大小麦、豆粕、鱼粉、菜籽饼、地瓜干、木薯干、肉类、蛋类、蔬菜、水果类等；易变质品、活品，如海鲜、动植物等；</p>
+                    <p class="hasIcon">易燃易爆及危险品（参照GB12268-2005《危险货物品名表》）；</p>
+                    <p class="hasIcon">危险品，化工品如硫酸、水泥等；</p>
+                    <p class="hasIcon">军火、军品；</p>
+                    <p class="hasIcon">原木、原棉、天然橡胶等；</p>
+                    <p class="hasIcon">汽车，船舶；</p>
+                    <p class="hasIcon">无任何包装且无法确定单件价值的大宗货物如煤炭、矿石/砂、沥青、焦油、水泥等;</p>
+                    <p class="hasIcon">重大件机械设备。</p>
+                    <p class="isTitle">主要不赔事项：</p>
+                    <p class="hasIcon">违反国家、行业或物流企业的安全运输规定或物流操作规程；</p>
+                    <p class="hasIcon">投保人、被保险人及其代表的故意行为或重大过失；</p>
+                    <p class="hasIcon">战争、类似战争行为、敌对行动、军事行动、武装冲突、罢工、骚乱、暴动、政变、谋反、恐怖活动； </p>
+                    <p class="hasIcon">行政行为或司法行为;</p>
+                    <p class="hasIcon">运输或装卸工具不适合运输或装卸物流货物，或仓库不具备存储物流货物的条件；</p>
+                    <p class="hasIcon">物流货物设计错误、工艺不善、本质缺陷或特性、自然渗漏、自然损耗、自然磨损、自燃或由于自身原因造成腐烂、变质、伤病、死亡等自身变化；</p>
+                    <p class="hasIcon">物流货物包装不当，或物流货物包装完好而内容损坏或不符，或物流货物标记错制、漏制、不清；</p>
+                    <p class="hasIcon">发货人或收货人确定的物流货物数量、规格或内容不准确。</p>
+                    <p class="blue_font">以上仅为保险条款部分摘要，详细描述请见保险条款具体内容。</p>
+                </div>
+            </div>
+            <div class="pro_item pro_LiPei">
+                <div class="item_title">
+                    <b>理赔指南</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <div>
+                        <i></i>
+                        <p class="blue_font">电话报案</p>
+                        <p>保险事故发生后，应及时报案。建议首先拨打首页客户服务热线，与客服人员取得联系。<br>
+                          报案成功后，专属保险顾问会及时联系被保险人，指导被保险人处理现场。</p>
+                    </div>
+                    <div>
+                        <i></i>
+                        <p class="blue_font">审核</p>
+                        <p>查勘员完成查勘工作后，专属保险顾问会发送理赔资料清单，指导被保险人收集填写，直至资料合格后，由保险顾问提交给保险公司核损。<br>
+                          保险公司给出核损方案后，您的专属保险顾问会从专业的角度和维护被保险人利益的立场，审核其合理性。</p>
+                    </div>
+                    <div>
+                        <i></i>
+                        <p class="blue_font">赔付保险金</p>
+                        <p>被保险人与保险公司对赔偿金额皆无异议后，保险公司赔付保险金到被保险人指定账户，本次理赔完成并结案。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="zcb_bottom" v-show="alias" style="display: none;">
+            <span class="foot_left1" v-if="flag">{{price | showPrice}}</span>
+            <a :href="backUrl" class="foot_left2" v-else><i class="iconfont icon-shouye"></i>首页</a>
+            <a :href="'tel:'+phoneNumber" class="foot_center" v-if="flag">服务顾问</a>
+            <a :href="'tel:'+servicePhone" class="foot_center" v-else>客服</a>
+            <!-- <a :href="createUrl" class="foot_right">立即投保</a> -->
+            <span @click="insured" class="foot_right">立即投保</span>
+        </div>
+        <div class="loading">
+            <span class="cicle"></span>
+            <div class="reload">
+                <i class="iconfont icon-wifi"></i><br>
+                网络不给力，请重新加载<br>
+                <div onclick="window.location.reload()">重新加载</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/common.js?v=20180911"></script>
+<script src="js/loading.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/mixins.js?v=20180911"></script>
+<script>
+
+    var vm = new Vue({
+        el: '.all',
+        mixins:[provinceCity,showData,zcbCountPrice,mobile,goldClaims,videoLogic,iframeHeight],
+        data: {
+            videoSrc: "",
+            videoTitle:'',
+            isVideoEnd: true,
+            tabIndex: 1, // 控制tab选中状态
+            alias: getParamName('alias'),
+            productName:'整车保',
+            backUrl:backUrl,
+            flag: true,
+            servicePhone: "",
+            createUrl:backUrl+'/zcbCreate?t='+new Date().getTime()
+        },
+        created:function () {
+            var _this = this;
+            if(_this.alias && _this.alias != "null" && _this.alias != "undefined" && _this.alias != "") {
+                _this.flag = true;
+            }else{
+                _this.flag = false;
+            }
+            
+//            saveDefaultRegisterDate(this.alias,this.productName);
+          saveLocationInfo()
+            this.getPhone();
+            this._getData();
+            this.getProvinceList();
+        },
+        methods:{
+            insured:function() {
+                this.$nextTick(() => {
+                    setStorage({"createdRouter":this.createUrl});
+                    window.location.href = this.createUrl;
+                })
+            }
+        },
+        mounted() {
+            this.createUrl = this.backUrl+'/zcbCreate?t='+new Date().getTime();
+        }
+    });
+</script>
+</html>

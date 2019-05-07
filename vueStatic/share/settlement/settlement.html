@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>结算规则</title>
+    <style>
+        body,ul,li,p,h1,h2,h3,dl,dt,dd{margin:0;padding:0}ul,li,dl,dt,dd{list-style:none}a{color:#333;text-decoration:none}a:hover{color:#333}body{background:#eee}.all{width:100%;font-family:﻿PingFang-SC-Regular;background:#fff;padding-bottom:1.0666666667rem;padding-top:.1333333333rem}.all .item_text{font-weight:normal;font-stretch:normal;margin-top:.5333333333rem;padding:0 .2666666667rem 0 .4rem;letter-spacing:0}.all .item_text p{padding-left:.5733333333rem;font-size:.4rem;line-height:.72rem;color:#666}.all .item_text p.hasIcon{color:#333;font-family:PingFang-SC-Medium;font-size:.48rem;line-height:.4533333333rem;height:.4533333333rem;background:url("./img/huiji.png") no-repeat;background-size:.4rem;background-position: 0 0.0266666667rem;margin-bottom:.3733333333rem}.all .blue{color:#06acf9}
+    </style>
+    <style>
+        html{overflow-y:scroll;color:#000;background:#fff;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-spacing:0;border-collapse:collapse}fieldset,img{border:0}abbr,acronym{font-variant:normal;border:0}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-weight:500;font-style:normal}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}ins,a{text-decoration:none}div[id^="ad"]{display:none!important}
+    </style>
+    <script>
+        (function(win,lib){var doc=win.document;var docEl=doc.documentElement;var metaEl=doc.querySelector('meta[name="viewport"]');var flexibleEl=doc.querySelector('meta[name="flexible"]');var dpr=0;var scale=0;var tid;var flexible=lib.flexible||(lib.flexible={});if(metaEl){console.warn("将根据已有的meta标签来设置缩放比例");var match=metaEl.getAttribute("content").match(/initial\-scale=([\d\.]+)/);if(match){scale=parseFloat(match[1]);dpr=parseInt(1/scale)}}else{if(flexibleEl){var content=flexibleEl.getAttribute("content");if(content){var initialDpr=content.match(/initial\-dpr=([\d\.]+)/);var maximumDpr=content.match(/maximum\-dpr=([\d\.]+)/);if(initialDpr){dpr=parseFloat(initialDpr[1]);scale=parseFloat((1/dpr).toFixed(2))}if(maximumDpr){dpr=parseFloat(maximumDpr[1]);scale=parseFloat((1/dpr).toFixed(2))}}}}if(!dpr&&!scale){var isAndroid=win.navigator.appVersion.match(/android/gi);var isIPhone=win.navigator.appVersion.match(/iphone/gi);var devicePixelRatio=win.devicePixelRatio;if(isIPhone){if(devicePixelRatio>=3&&(!dpr||dpr>=3)){dpr=3}else{if(devicePixelRatio>=2&&(!dpr||dpr>=2)){dpr=2}else{dpr=1}}}else{dpr=1}scale=1/dpr}docEl.setAttribute("data-dpr",dpr);if(!metaEl){metaEl=doc.createElement("meta");metaEl.setAttribute("name","viewport");metaEl.setAttribute("content","initial-scale="+scale+", maximum-scale="+scale+", minimum-scale="+scale+", user-scalable=no");if(docEl.firstElementChild){docEl.firstElementChild.appendChild(metaEl)}else{var wrap=doc.createElement("div");wrap.appendChild(metaEl);doc.write(wrap.innerHTML)}}function refreshRem(){var width=docEl.getBoundingClientRect().width;if(width/dpr>540){width=540*dpr}var rem=width/10;docEl.style.fontSize=rem+"px";flexible.rem=win.rem=rem}win.addEventListener("resize",function(){clearTimeout(tid);tid=setTimeout(refreshRem,300)},false);win.addEventListener("pageshow",function(e){if(e.persisted){clearTimeout(tid);tid=setTimeout(refreshRem,300)}},false);if(doc.readyState==="complete"){doc.body.style.fontSize=12*dpr+"px"}else{doc.addEventListener("DOMContentLoaded",function(e){doc.body.style.fontSize=12*dpr+"px"},false)}refreshRem();flexible.dpr=win.dpr=dpr;flexible.refreshRem=refreshRem;flexible.rem2px=function(d){var val=parseFloat(d)*this.rem;if(typeof d==="string"&&d.match(/rem$/)){val+="px"}return val};flexible.px2rem=function(d){var val=parseFloat(d)/this.rem;if(typeof d==="string"&&d.match(/px$/)){val+="rem"}return val}})(window,window["lib"]||(window["lib"]={}));
+    </script>
+</head>
+<body>
+<div class="all">
+    <div class="item_text">
+        <p class="item_title hasIcon">1、结算收入按月统计：</p>
+        <p>收入统计周期为上月的26日至本月25日。</p>
+        <p>例如：2017年10月的收入，收入统计周期为</p>
+        <p>2017年8月26日至9月25日；</p>
+    </div>
+    <div class="item_text">
+        <p class="item_title hasIcon">2、结算申请开放时间：</p>
+        <p>每月1-10日开放申请，其它时间不开放，请您注意。</p>
+        <p>例如：2017年10月1-10日，可申请9月及之前累计未结算收入；</p>
+        <p>结算申请进度可在“结算查询”-“进度查询”中浏览和操作；</p>
+    </div>
+    <div class="item_text">
+        <p class="item_title hasIcon">3、到账时间：</p>
+        <p>聚保确认收到您开立的发票后的5个工作日到帐；</p>
+    </div>
+    <div class="item_text">
+        <p class="item_title hasIcon">4、单笔结算申请金额最少为500元。</p>
+        <p>本月收入不足500元，可累积到下月一起申请结算，如遇特殊情况，请联系聚保客服</p>
+        <p><a class="blue" href="tel:4008059680">40080-59680</a>处理；</p>
+    </div>
+    <div class="item_text">
+        <p class="item_title hasIcon">5、单笔申请结算金额大于5万元：</p>
+        <p>单笔申请结算金额大于5万元，不支持线上申请，请联系聚保客服<a class="blue" href="tel:4008059680">40080-59680</a>处理；</p>
+    </div>
+</div>
+</body>
+</html>

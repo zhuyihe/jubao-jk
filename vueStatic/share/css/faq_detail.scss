@@ -1,0 +1,55 @@
+@function rem($val) {
+    @return $val/75+rem;
+}
+
+body,
+ul,
+li,
+p,
+h1,
+h2,
+h3,
+dl,
+dt,
+dd {
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+li,
+dl,
+dt,
+dd {
+    list-style: none;
+}
+body{
+    background:rgba(242,247,252,1);
+}
+.question,.answer{
+    background-color: #fff;
+}
+.question{
+    padding: rem(25);
+    font-size:rem(30);
+    color:rgba(69,69,69,1);
+    line-height:rem(42);
+    margin-bottom: rem(33);
+
+}
+.answer{
+    padding: rem(27);
+
+    .related_ans{
+        height:rem(50);
+        font-size:rem(36);
+        color:rgba(82,154,255,1);
+    }
+    .detail_con{
+    padding: rem(27) 0;
+    font-size:rem(28);
+    color:rgba(69,69,69,1);
+    line-height:rem(40);
+    }
+}
+

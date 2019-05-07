@@ -1,0 +1,98 @@
+@import "mobile";
+
+$testBg:yellowgreen;
+$testBg2:#1acbbb;
+$colorBlue:"../img/color_blue.jpg";
+
+$imgLaozhou:"../img/laozhou.png";
+$iconStart:"../img/icon_start.png";
+$iconFullScreen:"../img/icon_full_screen.png";
+$iconProgressBar:"../img/icon_progress_bar.png";
+$iconBreak:"../img/icon_break.png";
+
+.video_box{
+  position: relative;overflow: hidden;
+  //开始图片
+  .video_wrap{
+    display: flex;justify-content: center;  position: relative;background: black;
+    .video_shade_box{
+      height:pxToRem(400);width:100%;position: absolute;left:0;top:0;z-index: 11;  background: rgba(0,0,0,.2);
+      .video_start{
+        position: absolute;left:50%;top:50%;margin: pxToRem(-40) 0 0 pxToRem(-40);z-index: 12;
+        width: pxToRem(80);height:pxToRem(80); border-radius: 50%;
+        background:rgba(0,0,0,.4) url($iconStart) no-repeat center center ;
+        background-size: auto pxToRem(50);
+      }
+    }
+    .video_cover{
+      height:pxToRem(400);width:pxToRem(750);position: absolute;left:0;top:0;z-index: 10;
+      background: url($imgLaozhou) no-repeat center center;
+      background-size: cover;
+    }
+    #laozhou_video{
+      height:pxToRem(400);
+    }
+  }
+  //控制条
+  .video_control_box{
+    height:pxToRem(48);width:100%; display: flex;align-items: center;
+    position: absolute;left:0;bottom: pxToRem(-48);z-index: 11;
+    .video_break{
+      width:pxToRem(20);height:pxToRem(28);background: url($iconBreak) no-repeat center center;  background-size: contain;
+      margin:0 pxToRem(20);
+    }
+    .video_break2{
+      width:pxToRem(20);height:pxToRem(28);background: url($iconStart) no-repeat center center;  background-size: contain;
+      margin:0 pxToRem(20);
+    }
+    .video_time{
+      height:pxToRem(28);  font-size:pxToRem(16);line-height:pxToRem(28);color:#fff;
+    }
+    .current_time_box{  }
+    .video_progress_box{
+      width:pxToRem(500);height:pxToRem(4);margin:0 pxToRem(18);
+      display: flex;align-items: center;position: relative;background: #fff;
+      span{
+        display: inline-block;
+        height:pxToRem(4);
+      }
+      span.video_yet_bar{
+        position: absolute;z-index:14;
+        left:0;top:0;bottom:0;right:pxToRem(500);background: $testBg2;
+      }
+      span.video_control_radio{
+        position: absolute;top:50%;margin-top:pxToRem(-9);left:pxToRem(0);
+        height:pxToRem(18);width:pxToRem(18);border-radius: 50%;background: #fff url($colorBlue) no-repeat center center;
+        background-size: pxToRem(4) pxToRem(4);z-index: 15;
+      }
+      span.video_buffered_bar{
+        position: absolute;z-index:13;
+        left:0;top:0;bottom:0;right:pxToRem(500);
+        background: #00a0e9;
+      }
+    }
+    .alltime_box{
+
+    }
+    .video_full_srceen{
+      width:pxToRem(28);height:pxToRem(28);background: url($iconFullScreen) no-repeat center center;background-size: contain;
+      margin:0 pxToRem(20);
+    }
+
+
+    button{
+      float:left;width:80px;height:30px;background: #f2f2f2;color:black;text-align: center;line-height: 30px;
+    }
+    button:hover{cursor: pointer;}
+  }
+}
+//全屏样式设置
+html:-moz-full-screen {
+  background: black;
+}
+html:-webkit-full-screen {
+  background: black;
+}
+html:fullscreen {
+  background: black;
+}

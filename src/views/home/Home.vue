@@ -153,7 +153,8 @@ export default {
     },
     getTab(item) {
       this.getProductList(item.id);
-    }
+    },
+    NameTransLink() {}
   }
 };
 </script>

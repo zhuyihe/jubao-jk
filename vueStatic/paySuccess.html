@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" media="screen">
+  <title>保险服务平台</title>
+  <meta name="keywords" content="物流保险,货运保险,员工保险,普货保">
+  <meta name="description" content="让您投保不上当,理赔有人帮！让物流人买到放心的保险，让物流平台放心卖保险！提供货运保险,员工保险,普货保,零担保，城配保等众多物流保险服务！">
+  <script>
+    function rem(){
+      var html = document.documentElement;
+      var windowWidth = html.clientWidth;
+      html.style.fontSize = windowWidth / 7.5 + 'px';
+    }
+    rem();
+    window.onresize=rem;
+  </script>
+  <link rel="stylesheet" type="text/css" href="resource/paySuccess.css?v=20180517">
+  <link rel="stylesheet" type="text/css" href="resource/loading.css?v=20180517">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css?v=20180517">
+  <script src="resource/jquery-1.9.1.min.js"></script>
+  <script src="resource/common.js?v=20180517"></script>
+  <script src="resource/vue.min.js?v=20180517"></script>
+  <script src="resource/loading.js?v=20180517"></script>
+</head>
+<body>
+<div class="wrapper" id="vue">
+  <loading ref="loading">
+    <div class="paySuccess">
+    <div class="header">
+      <a class="back" href="../#/home"><img src="./resource/back1.png" alt="" v-if="!token"></a>
+      <span class="back" @click="window.history.back()" ><img src="./resource/back1.png" alt="" v-if="token"></span>
+      <span class="center">
+        保单详情
+      </span>
+      <a class="right" href="../#/dashboard" v-if="token">完成</a>
+    </div>
+    <div class="content">
+      <ul class="order_list">
+        <li class="item">保单号码：<span v-html="order.policy_no"></span></li>
+        <li class="item">投保人：<span v-html="order.policyholder"></span></li>
+        <li class="item">被保险人：<span v-html="order.beneficiary"></span></li>
+        <li class="item">运输车辆：头：<span v-html="order.plate_no"></span>&nbsp;&nbsp;&nbsp;挂：<span v-html="order.plate_extra_no"></span></li>
+        <li class="item">起始地点：<span v-html="order.start_province + order.start_city || ''"></span></li>
+        <li class="item">结束地点：<span v-html="order.end_province + order.end_city || ''"></span></li>
+        <li class="item" v-if="order.effected_at">保险起期：<span v-html="format(order.effected_at)"></span></li>
+        <li class="item" v-if="order.expired_at">保险止期：<span v-html="format(order.expired_at)"></span></li>
+        <li class="item">{{coverageName}}：<span v-html="order.coverage && order.coverage/10000"></span>万</li>
+      </ul>
+      <ul class="order_list" v-if="showDdphb">
+        本保险适用条款：《中国大地财产保险股份有限公司公路货物运输保险（2014版）条款》（基本险条款）
+        <li class="item">保险人对本次投保承担如下保险责任：</li>
+        <li class="item">（1）火灾、爆炸、雷电、冰雹、暴风、暴雨、洪水、海啸、地陷、崖崩、突发性滑坡、泥石流；</li>
+        <li class="item">（2）运输工具发生碰撞、倾覆，或隧道、码头坍塌，或在驳运过程中因驳运工具遭受搁浅、触礁、沉没、碰撞；</li>
+        <li class="item">（3）在装货、卸货或转载时发生意外事故；</li>
+        <li class="item">（4）在上述各项自然灾害或意外事故发生时，因纷乱致使被保险货物散失；</li>
+        <li class="item">（5）保险事故发生后，被保险人为防止或减少保险标的的损失所支付的必要的、合理的费用，保险人按照本保险合同的约定也负责赔偿。</li>
+      </ul>
+      <ul class="order_list">
+        <li class="title">本次投保申报运单信息包含：</li>
+        <template v-if="order.cargos_list && order.cargos_list.length>0">
+          <template  v-for="(item,index) in order.cargos_list">
+            <li class="item mart">运单号：<span v-html="item.track_no"></span></li>
+            <li class="item">货物名称：<span v-html="item.cargo_name"></span></li>
+            <li class="item" v-if="productType=='zcb'||productType=='zxb'">数量：<span v-html="item.quantity/100 +' '+ item.unit"></span></li>
+            <li class="item" v-else>数量：<span v-html="item.quantity +' '+ item.unit"></span></li>
+          </template>
+        </template>
+        <li v-else>详情查看装车清单</li>
+      </ul>
+      <div class="cargo" v-if="order.file_urls && order.file_urls.length>0">
+        <p class="title">装车清单</p>
+        <p class="bewrite">若遇险情，以您上传的装车清单附件作为赔偿依据。</p>
+        <ul class="file_list" v-for="(item,index) in order.file_urls">
+          <li><span class="name">{{getName(item)}}</span><a class="download" :href="item" target="_blank">下载</a></li>
+        </ul>
+      </div>
+      <a class="policy_order" :href="baodanBtn?baodanBtn:'javascript:;'" target="_blank" >{{baodanBtn?'查看电子保单':'电子保单生成中'}}</a>
+    </div>
+    <!--<div class="bottom" @click="shareShow = true" v-if="token">-->
+      <!--一键分享给客户-->
+    <!--</div>-->
+    <div class="share-bg" @click="shareShow=false" v-show="shareShow"></div>
+    <div class="share CDshare" :class="{show:shareShow}">
+      <div class="share-title">选择要分享到的平台</div>
+      <div class="bdsharebuttonbox"  data-tag="share_0">
+        <div class="btn">
+          <a href="javascript:void(0)" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+          <div class="tip">微信</div>
+        </div>
+        <div class="btn">
+          <a href="javascript:void(0)" class="bds_qzone " data-cmd="qzone" title="分享到QQ空间"></a>
+          <div class="tip">QQ空间</div>
+        </div>
+        <div class="btn">
+          <a href="javascript:void(0)" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+          <div class="tip">新浪微博</div>
+        </div>
+        <div class="btn">
+          <a href="javascript:void(0)" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+          <div class="tip">QQ好友</div>
+        </div>
+      </div>
+      <div class="share-cancel" @click="shareShow=false">取消分享</div>
+    </div>
+  </div>
+  </loading>
+</div>
+</body>
+<script src="share/js/common.js?v=20180912"></script>
+<script>
+  var vm = new Vue({
+    el: "#vue",
+    data: function () {
+      return {
+        order:{},
+        baodanBtn: '',   //保单按钮地址
+        shareShow:false,
+        token:getToken(),
+        timer:null,
+        timerNum:0,
+        coverageName:'保险金额',
+        showDdphb:false,
+      }
+    },
+    created: function () {
+      if(location.search.indexOf("ddphb") != -1) {
+        this.showDdphb = true;
+      }
+      let ext =getParamName('ext');
+      this.productType = getParamName('productType') || JSON.parse(ext).productType;
+      this.orderId = getParamName('orderId')  || JSON.parse(ext).orderId;
+      this.alias = getParamName('alias');
+//      saveDefaultRegisterDate(this.alias);
+      saveLocationInfo()
+
+      this.ajaxChoice();
+      this.getBaodan();
+      this.getMsg();
+      this.baiduShare();
+    },
+    methods: {
+      ajaxChoice: function () {
+        console.log(this.productType);
+        switch (this.productType) {
+          case 'zcb':
+            this.getMsgAjax = zcbOrderPolicyInfo;
+            this.getBaodanAjax = zcbOrderPolicy;
+            this.baodan = zcbUrl + '/v1/zcb/order/policy' + '?order_id=' + this.orderId;
+            this.coverageName = '赔偿限额'
+            break;
+          case 'hynb-dchynb': case 'dchyb-xdphb': case 'dchyb-ddphb':
+            this.getMsgAjax = DchybOrderPolicyInfo;
+            this.getBaodanAjax = DchybOrderPolicy;
+            this.baodan = dchybUrl + '/v1/dchyb/order/policy' + '?order_id=' + this.orderId;
+            break;
+          case 'zxb':
+            this.getMsgAjax = zxbOrderPolicyInfo;
+            this.getBaodanAjax = zxbOrderPolicy;
+            this.baodan = zcbUrl + '/v1/zxb/order/policy' + '?id=' + this.orderId;
+						this.coverageName = '责任限额'
+            break;
+          case 'dchyb': case 'dchyb-djb': case 'dchyb-jyb-new': case 'dchyb-jyb-new-zhx': case 'dchyb-jyb-old': case 'dchyb-gsb': case 'dchyb-ddphb-zhx': case 'dchyb-llb': case 'phb':
+            this.getMsgAjax = DchybOrderPolicyInfo;
+            this.getBaodanAjax = DchybOrderPolicy;
+            this.baodan = dchybUrl + '/v1/dchyb/order/policy' + '?order_id=' + this.orderId;
+            break;
+        }
+      },
+      baiduShare: function () {
+        var beforeUrl = '';
+        if (window.location.href.indexOf("www") != -1) {
+          beforeUrl = "http://www.jubao56.com/m"
+        } else {
+          beforeUrl = "http://test.jubao56.com/m"
+        }
+        var shareList = [{
+          "tag": "share_0",
+          "bdUrl": beforeUrl + "/vueStatic/paySuccess.html?orderId=" + this.orderId + "&productType=" + this.productType
+        }];
+        var finalShare = shareList
+//        console.log(finalShare)
+        window._bd_share_config = {
+          "common": {
+            "bdText": "聚保保单!我们将用心为您负责!",
+            "bdMini": "2",
+            "bdMiniList": false,
+            "bdPic": "http://www.jubao56.com/upload_admin/2016-07-05%2010:08:50-banner4_m.jpg",
+            "bdStyle": "0",
+            "bdSize": "32"
+          }, "share": finalShare
+        };
+        //百度分享代码动态引入
+        // with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+      },
+      //获取运单信息
+      getMsg: function () {
+        this.getMsgAjax(this.orderId * 1, function (res) {
+					vm.$refs.loading.close();
+//          var res = JSON.parse(resp);
+          if(res.err_code !== 0){Toast(res.err_msg || '未知错误');return;}
+          vm.order = res.data;
+          if(vm.productType === 'zcb' || vm.productType === 'zxb'){
+            vm.order.file_urls = res.data.cargos.filter(function (item) {
+              return item.file_url
+						}).map(function (item) {return item.file_url});
+            vm.order.cargos_list = res.data.cargos.filter(function (item) {
+              return item.cargo_name || item.track_no || item.quantity || item.unit
+						})
+          }else if(vm.productType === 'phb' || vm.productType === 'dchyb'){
+						vm.order.file_urls = res.data.type === 2 ? res.data.cargo_file_urls:[];
+						vm.order.cargos_list = res.data.type === 1 ? [{
+							track_no:res.data.track_no,
+							cargo_name:res.data.cargo_name,
+							quantity:res.data.quantity,
+							unit:''
+            }]:[]
+          }
+//          console.log(vm.order,111)
+        },function () {
+					vm.$refs.loading.close();
+				})
+      },
+      //获取电子保单
+      getBaodan: function () {
+      	clearTimeout(this.timer);
+				this.timerNum ++; //最多连续发7次请求
+				if(this.timerNum > 7)return;
+        this.getBaodanAjax(this.orderId*1, function (res) {
+          if(typeof res === 'object'){
+						if(res.err_code === 1119 && vm.productType === 'phb'){
+//						  Toast('电子保单正在生成请稍后...');
+							vm.timer = setTimeout(function () {
+								vm.getBaodan();
+							},5000)
+						}else{
+							Toast(res.err_msg || '未知错误')
+						}
+          }else{
+						vm.baodanBtn = vm.baodan;
+          }
+        })
+      },
+      getName:function(val){
+      	var name = val.substring(val.lastIndexOf('/')+1);
+      	var str = name.substring(0,name.length-4);
+      	if(str.length>8){
+      		name = str.substring(0,8) + '~' + name.substring(name.length-4)
+        }
+        return name
+      },
+			format:function(val){
+      	return format(new Date(val),'yyyy年MM月dd日 hh:mm:ss')
+      }
+    }
+  })
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>相关问答</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="css/faq_detail.css" type="text/css">
+    <link rel="stylesheet" href="./css/common.css" type="text/css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css">
+    <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+    <link rel="stylesheet" href="./css/loading.css" type="text/css">
+    <script src="js/flexible.js"></script>
+</head>
+<body>
+<div class="all jubao">
+        <div class="header" >
+                <a onclick="history.back()" class="back"><i class="iconfont icon-fanhui"></i></a>
+                问答详情
+            </div>
+    <div class="question">
+        <p>{{question}}</p>
+    </div>
+    <div class="answer">
+        <span class="related_ans">相关答案</span>
+        <p class="detail_con">{{answer}}</p>
+    </div>
+    <div class="loading">
+        <span class="cicle"></span>
+        <div class="reload">
+            <i class="iconfont icon-wifi"></i><br>
+            网络不给力，请重新加载<br>
+            <div onclick="window.location.reload()">重新加载</div>
+        </div>
+    </div>
+    <script class="jubao" src="js/vue.js"></script>
+    <script class="jubao" src="js/common.js?v=20180912"></script>
+    <script class="jubao" src="js/loading.js"></script>
+    <script src="js/ajax.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/mixins.js?v=20180912"></script>
+    <script class="jubao">
+        var vm = new Vue({
+            el: '.all',
+            mixins:[faqDetail],
+            data: {
+
+            },
+            computed:{
+
+            },
+            created:function () {
+                this.getFaqDetail()
+            },
+            methods:{
+
+            },
+        });
+    </script>
+</div>
+</body>
+</html>

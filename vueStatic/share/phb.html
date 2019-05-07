@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>普货保--特惠版</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link rel="stylesheet" href="./css/hwb.css" type="text/css">
+  <link rel="stylesheet" href="./css/common.css" type="text/css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css">
+  <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+  <link rel="stylesheet" href="./css/loading.css" type="text/css">
+  <link rel="stylesheet" href="./css/vuejs-dialog.min.css">
+  <script src="js/flexible.js"></script>
+  <style>
+    .all{
+      position: absolute;
+      top:0;
+      left:0;
+      bottom: 0;
+      right: 0;
+      /*overflow-y: scroll;*/
+      background: #eee;
+    }
+    .toast{
+      top:50% !important;
+    }
+    .foot_left1{
+      background-color: #fff;
+      color: red;
+    }
+    .foot_left2{
+      background-color: #06acf9;
+      color: #fff;
+    }
+    .dg-main-content{
+      width: 80%;
+    }
+    .dg-content-cont--floating{
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+    .dg-content-body{
+      border: none;
+    }
+    .dg-btn--ok{
+      border: 1px solid #06acf9;
+      font-weight: normal;
+      color: #06acf9;
+    }
+    .dg-backdrop{
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body>
+<div class="all" :class="{isShare:alias}">
+  <div class="header" v-show="alias" style="display: none;">
+    <a :href="backUrl+'/'" class="back"><i class="iconfont icon-fanhui"></i></a>
+    普货保--特惠版
+  </div>
+  <div class="banner">
+    <img src="img/phb/phbBanner.jpg" alt="">
+  </div>
+  <div class="pro_video">
+    <div class="video-wrapper">
+      <video :src="videoSrc"
+             :class="{isPlay:!isVideoEnd}"
+             ref="video"
+             @ended="videoEnd"
+             controls="controls"
+      >
+        您的游览器不支持视频播放，请升级！
+      </video>
+      <div class="poster" :style="background(poster)" v-show="isVideoEnd">
+        <div class="video-play" @click="videoPlay">
+          <i class="iconfont icon-play"></i>
+        </div>
+        <div class="tip">普货保--特惠版</div>
+      </div>
+    </div>
+  </div>
+  <!--计算器 start-->
+  <ul class="dchyb_count" style="border-top: none;">
+    <li class="title">普货保--特惠版（公路货运基本险）</li>
+    <li class="title">保险费率<span class="fr">{{rate ? (rate/10000)+'%' : '--'}}</span></li>
+    <li class="block"><span class="label">保险金额</span><input  type="number" :placeholder="'保额不超过'+maxCoverage/10000+'万元'"  v-model="coverage"  @keyup="countPrice"><span class="fr">万元</span></li>
+    <li class="price_box">
+      <span class="label">保&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费</span>
+      <span class="fr price red">￥{{(price/100).toFixed(2)}}</span>
+    </li>
+  </ul>
+  <!--计算器 end-->
+  <div class="pro_tab">
+    <div class="tab_item" :class="{tab_on: tabIndex===1 }" @click="tabIndex=1">
+      <span>产品介绍</span>
+    </div>
+    <div class="tab_item" :class="{tab_on: tabIndex===2 }" @click="tabIndex=2">
+      <span>详细说明</span>
+    </div>
+  </div>
+  <div class="pro_content" v-show="tabIndex===1">
+    <div class="imgWrapper" v-for="(item,index) in 6">
+      <img :src="'./img/phb/phb0'+ item +'.jpg'" alt="">
+      <!--<router-link class="detail" v-if="index==8" :to="'/goldClaims'">了解详情</router-link>-->
+    </div>
+  </div>
+  <div class="pro_info" v-show="tabIndex===2">
+    <div class="pro_item pro_item1">
+      <div class="item_title">
+        <b>产品条款</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>《国内水路、陆路货物运输保险条款》基本险</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item2">
+      <div class="item_title">
+        <b>承保标的货物种类</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>普通货物类，一般社会生活、生产物资</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item9">
+      <div class="item_title">
+        <b>保险责任</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>因火灾、爆炸、雷电、冰雹、暴风、暴雨、洪水、地震、海啸、地陷、崖崩、滑坡、泥石流所造成的损失；</p>
+        <p>由于运输工具发生碰撞、搁浅、触礁、倾覆、沉没、出轨或隧道、码头坍塌所造成的损失；</p>
+        <p>在装货、卸货或转载时因遭受不属于包装质量不善或装卸人员违反操作规程所造成的损失；</p>
+        <p>按国家规定或一般惯例应分摊的共同海损的费用；</p>
+        <p>在发生上述灾害、事故时，因纷乱而造成货物的散失及因施救或保护货物所支付的直接合理的费用。</p>
+        <p class="blue_font">投保人有超出上述保障范围需求的，请投保其他保险产品。</p>
+        <p class="blue_font">投保人不得在发生保险事故后申报本保险，保险人也不对保单生效前的事故承担任何责任。</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item9">
+      <div class="item_title">
+        <b>免赔额</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>每次事故绝对免赔额：RMB1000元或损失金额的10%，两者以高者为准。</p>
+        <p>部分货物为易碎品时，对易碎品的免赔额为：每次事故绝对免赔额：RMB10000元或损失金额的20%，两者以高者为准。（易碎品指玻璃、陶瓷、石膏、太阳能组件  等相关货物）</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item2">
+      <div class="item_title">
+        <b>最高保险金额</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>单次最高可申报保险金额人民币{{maxCoverage/10000}}万元；</p>
+        <p>每单最低保险费为人民币{{minPremium}}元。</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item2">
+      <div class="item_title">
+        <b>保险费率</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>{{rate ? (rate/10000)+'%' : '--'}}</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item2">
+      <div class="item_title">
+        <b>保险费用</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>保险费=保险金额*保险费率</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item9">
+      <div class="item_title">
+        <b>主要不保货物</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>金银、珠宝、钻石、玉器、贵重金属；</p>
+        <p>古玩、古币、古书、古画、艺术作品、雕塑、邮票；</p>
+        <p>旧品、二手品、展览后之展品和陈列品等无法确定其价值的货品；</p>
+        <p>枪支弹药、爆炸物品；</p>
+        <p>现钞、有价证券、票据、文件、档案、帐册、图纸、技术资料、信用证、护照，；</p>
+        <p>需冷藏或恒温运输的货物；</p>
+        <p>蔬菜、水果、活牲畜、禽鱼类和其他动物。易腐品、易蛀品、农产品，如果仁、花生、玉米、豆类、大小麦、豆粕、鱼粉、菜籽饼、地瓜干、木薯干、肉类、蛋类、蔬菜、水果类等；易变质品、活品，如海鲜、动植物等； </p>
+        <p>易燃易爆及危险品（参照GB12268-2005《危险货物品名表》）；</p>
+        <p>危险品，化工品如硫酸、水泥等；</p>
+        <p>军火、军品；</p>
+        <p>原木、原棉、天然橡胶等；</p>
+        <p>无任何包装且无法确定单件价值的大宗货物，如煤炭、矿石/砂、沥青、焦油、水泥等；</p>
+        <p>重大件机械设备；</p>
+        <p>精密仪器或设备；</p>
+        <p>整车货物均为玻璃、陶瓷、太阳能组件等易碎品的。</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item9">
+      <div class="item_title">
+        <b>主要不赔事项</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>战争或军事行动；</p>
+        <p>核事件或核爆炸；</p>
+        <p>保险货物本身的缺陷、自然损耗，以及货物包装不善；</p>
+        <p>被保险人的故意行为或过失；</p>
+        <p>全程是公路货物运输的，盗窃和整件提货不着的损失；</p>
+        <p>其他不属于保险责任范围内的损失。</p>
+        <p class="blue_font">以上仅为保险条款部分摘要，详细描述请见保险条款具体内容。</p>
+      </div>
+    </div>
+    <div class="pro_item pro_item11">
+      <div class="item_title">
+        <b>理赔指南</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <div>
+          <i></i>
+          <p>电话报案</p>
+          <p>保险事故发生后，应及时报案。建议首先拨打首页客户服务热线，与客服人员取得联系。<br>
+            报案成功后，专属保险顾问会及时联系被保险人，指导被保险人处理现场。</p>
+        </div>
+        <div>
+          <i></i>
+          <p>审核</p>
+          <p>查勘员完成查勘工作后，专属保险顾问会发送理赔资料清单，指导被保险人收集填写，直至资料合格后，由保险顾问提交给保险公司核损。<br>
+            保险公司给出核损方案后，您的专属保险顾问会从专业的角度和维护被保险人利益的立场，审核其合理性。</p>
+        </div>
+        <div>
+          <i></i>
+          <p>赔付保险金</p>
+          <p>被保险人与保险公司对赔偿金额皆无异议后，保险公司赔付保险金到被保险人指定账户，本次理赔完成并结案。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="zcb_bottom" v-show="alias" style="display: none;">
+    <span class="foot_left1" v-if="flag">{{price | showPrice}}</span>
+    <a :href="backUrl" class="foot_left2" v-else><i class="iconfont icon-shouye"></i>首页</a>
+    <a :href="'tel:'+phoneNumber" class="foot_center" v-if="flag">服务顾问</a>
+    <a :href="'tel:'+servicePhone" class="foot_center" v-else>客服</a>
+    <!-- <a :href="createUrl" class="foot_right">立即投保</a> -->
+    <span @click="insured" class="foot_right">立即投保</span>
+  </div>
+  <div class="loading">
+    <span class="cicle"></span>
+    <div class="reload">
+      <i class="iconfont icon-wifi"></i><br>
+      网络不给力，请重新加载<br>
+      <div onclick="window.location.reload()">重新加载</div>
+    </div>
+  </div>
+</div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/common.js?v=20180912"></script>
+<script src="js/loading.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/mixins.js?v=20180912"></script>
+<script src="js/vuejs-dialog.min.js"></script>
+<!-- <script src="js/vuejs-dialog-mixin.min.js"></script> -->
+<script>
+  window.Vue.use(VuejsDialog.main.default);
+  var vm = new Vue({
+    el: '.all',
+    mixins:[dchybDetail,mobile,videoLogic,iframeHeight],
+    data: {
+      videoSrc: "",
+      videoTitle:'',
+      isVideoEnd: true,
+      tabIndex: 1, // 控制tab选中状态
+      alias: getParamName('alias'),
+      productType:'xdphb',
+      backUrl:backUrl,
+      createUrl:backUrl +'/phbCreate?t='+new Date().getTime(),
+      productName:'普货保',
+      flag: true,
+      servicePhone: "",
+      timerFlag:false,
+    },
+    created:function () {
+      var _this = this;
+      if(_this.alias && _this.alias != "null" && _this.alias != "undefined" && _this.alias != "") {
+          _this.flag = true;
+      }else{
+          _this.flag = false;
+      }
+//      saveDefaultRegisterDate(this.alias,this.productName);
+      saveLocationInfo()
+      this.getPhone();
+      this.init();
+      this._getData();
+    },
+    methods: {
+      insured:function() {
+        var _this = this;
+        var timerNow = new Date().getTime();
+        var timerStrat = new Date('2018/09/14 22:00:00').getTime();
+        var timerEnd = new Date('2018/09/15 00:00:00').getTime();
+        
+        if(timerStrat < timerNow && timerNow < timerEnd) {
+          this.timerFlag = true;
+        }
+        if(_this.timerFlag) {
+          this.$dialog.alert('因国任财险机房搬迁，故普货保产品无法投保，请您购买其他产品',{okText:"知道了"}).then(function(dialog) {
+            console.log('Closed');
+          });
+          return false;
+        }else{
+          this.$nextTick(() => {
+                    setStorage({"createdRouter":this.createUrl});
+                    window.location.href = this.createUrl;
+                })
+        }
+      }
+    }
+  });
+</script>
+</html>

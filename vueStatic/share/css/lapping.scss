@@ -1,0 +1,51 @@
+$black:#333;
+$white: rgb(255, 255, 255);
+@function rem($val) {
+  @return $val/75+rem;
+}
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul, li, dl, dt, dd {
+  list-style: none;
+}
+
+a {
+  color: $black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: $black;
+}
+
+.all{
+  width: 100%;
+  font-family: PingFang-SC-Medium;
+  font-size: rem(24);
+  color: #333;
+  .banner{
+    font-size: 0;
+    img{
+      width: 100%;
+      height: auto;
+    }
+    &.mar img{
+      margin-bottom: rem(50);
+      &:last-child{
+        margin-bottom: 0;
+      }
+    }
+  }
+  .section{
+    padding: 0 rem(36) rem(35) rem(30);
+    font-size: rem(36);
+    line-height: rem(66);
+    letter-spacing: 0;
+    color: #333;
+    text-align: justify;
+    text-indent: 2em;
+  }
+}

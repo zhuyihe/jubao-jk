@@ -1,0 +1,83 @@
+@charset "UTF-8";
+body, ul, li, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0; }
+
+ul, li, dl, dt, dd {
+  list-style: none; }
+
+a {
+  color: #333333;
+  text-decoration: none; }
+
+a:hover {
+  color: #333333; }
+
+body {
+  background: #eee; }
+
+.all {
+  width: 100%;
+  font-family: ﻿PingFang-SC-Regular;
+  font-size: rem(24);
+  color: #333333; }
+  .all .header {
+    height: 1.2rem;
+    text-align: center;
+    font-size: 0.5333333333rem;
+    line-height: 1.2rem;
+    background: #fff;
+    z-index: 1000; }
+    .all .header .back {
+      position: absolute;
+      left: 0.2666666667rem; }
+      .all .header .back .icon-fanhui {
+        height: 1.2rem;
+        font-size: 0.5333333333rem;
+        line-height: 1.2rem; }
+  .all .content_box {
+    background: #eee;
+    position: absolute;
+    top: 1.2rem;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+    .all .content_box .content {
+      height: 100%;
+      padding: 0 0.4rem;
+      overflow-y: scroll; }
+      .all .content_box .content .tip {
+        padding: 0.5333333333rem 0; }
+        .all .content_box .content .tip .title {
+          font-size: 0.5333333333rem; }
+        .all .content_box .content .tip .detail {
+          font-size: 0.2666666667rem;
+          color: #999; }
+          .all .content_box .content .tip .detail .time {
+            margin-right: 0.2666666667rem; }
+      .all .content_box .content .html {
+        padding-bottom: 0.5333333333rem; }
+        .all .content_box .content .html img {
+          max-width: 100% !important; }
+  .all .goJubao {
+    background: #eee;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1.6rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    .all .goJubao a {
+      width: 95%;
+      background: #06acf9;
+      height: 1.3333333333rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.5333333333rem;
+      border-radius: 0.0666666667rem; }
+
+/*# sourceMappingURL=active.css.map */

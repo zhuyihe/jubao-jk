@@ -1,0 +1,92 @@
+@function rem($val) {
+    @return $val/75+rem;
+}
+
+body,
+ul,
+li,
+p,
+h1,
+h2,
+h3,
+dl,
+dt,
+dd {
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+li,
+dl,
+dt,
+dd {
+    list-style: none;
+}
+
+html,
+body {
+    height: 100%;
+    background-color: #f2f7fc;
+}
+.mt0{
+    margin-top: 0!important;
+}
+
+.pro_faq {
+    background: #fff;
+    margin: rem(20) 0;
+    .title {
+        overflow: hidden;
+        padding: rem(38) rem(22);
+        .little_faq {
+            float: left;
+            font-size: rem(32);
+            color: rgba(88, 88, 88, 1);
+            line-height: rem(45);
+        }
+        .view_all {
+            float: right;
+            font-size: rem(28);
+            color: rgba(88, 88, 88, 1);
+            line-height: rem(40);
+            &::after {
+                content: "";
+                display: inline-block;
+                background: url(../img/icon_back.png) center no-repeat;
+                background-size: contain;
+                width: rem(24);
+                height: rem(24);
+                transform: rotate(180deg) translateX(-5px);
+            }
+        }
+    }
+    .content {
+        padding: 0 rem(42) rem(33) rem(22);
+        .ico {
+            width: rem(23);
+            height: rem(33);
+            font-size: rem(24);
+            line-height: rem(33);
+            border: 1px solid;
+            padding: 0 1px;
+            box-sizing: border-box;
+        }
+        .question {
+            .ico {
+                color: rgba(255, 126, 42, 1);
+            }
+        }
+        .answer {
+            margin-top: rem(33);
+            .ico {
+                color: rgba(46, 163, 255, 1);
+            }
+            span:nth-of-type(2){
+                font-size:rem(28);
+                color:rgba(69,69,69,1);
+                line-height:rem(40);
+              }
+        }
+    }
+}

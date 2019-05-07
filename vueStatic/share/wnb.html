@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预约货运万能保</title>
+    <link rel="stylesheet" href="css/wnb.css" type="text/css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css">
+    <link rel="stylesheet" href="./css/common.css" type="text/css">
+    <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+    <link rel="stylesheet" href="./css/loading.css" type="text/css">
+    <script src="js/flexible.js"></script>
+</head>
+<body>
+<div class="all" :class="{isShare:alias}">
+    <div class="header" v-show="alias" style="display: none;">
+        <a :href="backUrl" class="back"><i class="iconfont icon-fanhui"></i></a>
+        预约货运万能保
+    </div>
+    <div class="banner">
+        <img src="img/wnb/wnbBanner.jpg" alt="">
+    </div>
+    <div class="pro_video">
+        <div class="video-wrapper">
+            <video :src="videoSrc"
+                   :class="{isPlay:!isVideoEnd}"
+                   ref="video"
+                   @ended="videoEnd"
+                   controls="controls"
+            >
+                您的游览器不支持视频播放，请升级！
+            </video>
+            <div class="poster" :style="background(poster)" v-show="isVideoEnd">
+                <div class="video-play" @click="videoPlay">
+                    <i class="iconfont icon-play"></i>
+                </div>
+                <div class="tip">{{videoTitle}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="pro_tab">
+        <div class="tab_item" :class="{tab_on: tabIndex===1 }" @click="tabIndex=1">
+            <span>产品介绍</span>
+        </div>
+        <div class="tab_item" :class="{tab_on: tabIndex===2 }" @click="tabIndex=2">
+            <span>详细说明</span>
+        </div>
+    </div>
+    <div class="pro_content" v-show="tabIndex===1">
+        <div class="imgWrapper" v-for="(item,index) in 9">
+            <img :src="'./img/wnb/wnb'+ item +'.jpg'" alt="">
+            <!--<span class="detail h5_detail_btn" v-if="item==10" @click="toGoldClaims">了解详情</span>-->
+        </div>
+    </div>
+    <div class="pro_info" v-show="tabIndex===2">
+        <div class="pro_item pro_TiaoKuan">
+            <div class="item_title">
+                <b>产品条款</b>
+                <i></i>
+            </div>
+            <div class="item_text text_center">
+                <p>《国内水路、陆路货物运输保险条款》</p>
+            </div>
+        </div>
+        <div class="pro_item pro_ZeRen">
+            <div class="item_title">
+                <b>保险责任</b>
+                <i></i>
+            </div>
+            <div class="item_text">
+                <p class="blue_font noIcon">基本险适用责任条款</p>
+                <p class="hasIcon">因火灾、爆炸、雷电、冰雹、暴风、暴雨、洪水、地震、海啸、地陷、崖崩、滑坡、泥石流所造成的损失；</p>
+                <p class="hasIcon">由于运输工具发生碰撞、搁浅、触礁、倾
+                    覆、沉没、出轨或隧道、码头坍塌所造成的损失；</p>
+                <p class="hasIcon">在装货、卸货或转载时因遭受不属于包装质量不善或装卸人员违反操作规程所造成的损失；</p>
+                <p class="hasIcon">按国家规定或一般惯例应分摊的共同海损的费用；</p>
+                <p class="hasIcon">在发生上述灾害、事故时，因纷乱而造成货物的散失及因施救或保护货物所支付的直接合理的费用。</p>
+                <p class="blue_font noIcon">综合险适用责任条款</p>
+                <p class="noIcon">除包括基本险责任外，保险人还负责赔偿：</p>
+                <p class="hasIcon">因受震动、碰撞、挤压而造成货物破碎、弯曲、凹瘪、折断、开裂或包装破裂致使货物散失的损失；</p>
+                <p class="hasIcon">液体货物因受震动、碰撞或挤压致使所用容器（包括封口)损坏而渗漏的损失，或用液体保藏的货物因液体渗漏而造成保藏货物腐烂变质的损失；</p>
+                <p class="hasIcon">遭受盗窃或整件提货不着的损失；</p>
+                <p class="hasIcon">符合安全运输规定而遭受雨淋所致的损失。</p>
+                <p class="blue_font noIcon">赠送附加险</p>
+                <p class="hasIcon">附加盗窃、抢劫保险条款</p>
+                <p class="hasIcon">附加偷窃、提货不着保险条款</p>
+            </div>
+        </div>
+        <div class="pro_item pro_LiuCheng">
+            <div class="item_title">
+                <b>投保流程</b>
+                <i></i>
+            </div>
+            <div class="item_text">
+                <p>制定专属保险方案 <br>
+                  （可拨打首页24小时客户服务热线，向客服人员提供您的保障需求，确定保险方案。）</p>
+                <p>签订年度货物运输保险协议</p>
+                <p>每次货物起运前在线申报填写货物信息</p>
+                <p>收到货物承保电子保单即投保成功</p>
+            </div>
+        </div>
+        <div class="pro_item pro_itemMianZe">
+            <div class="item_title">
+                <b>责任免除事项</b>
+                <i></i>
+            </div>
+            <div class="item_text">
+                <p class="hasIcon">战争或军事行动；</p>
+                <p class="hasIcon">核事件或核爆炸；</p>
+                <p class="hasIcon">保险货物本身的缺陷、自然损耗，以及货物包装不善；</p>
+                <p class="hasIcon">被保险人的故意行为或过失；</p>
+                <p class="hasIcon">其他不属于保险责任范围内的损失。</p>
+            </div>
+        </div>
+        <div class="pro_item pro_LiPei">
+            <div class="item_title">
+                <b>理赔指南</b>
+                <i></i>
+            </div>
+            <div class="item_text">
+                <div>
+                    <i></i>
+                    <p class="blue_font">电话报案</p>
+                    <p>保险事故发生后，应及时报案。建议首先拨打首页客户服务热线，与客服人员取得联系。<br>
+                      报案成功后，专属保险顾问会及时联系被保险人，指导被保险人处理现场。</p>
+                </div>
+                <div>
+                    <i></i>
+                    <p class="blue_font">审核</p>
+                    <p>查勘员完成查勘工作后，专属保险顾问会发送理赔资料清单，指导被保险人收集填写，直至资料合格后，由保险顾问提交给保险公司核损。<br>
+                      保险公司给出核损方案后，您的专属保险顾问会从专业的角度和维护被保险人利益的立场，审核其合理性。</p>
+                </div>
+                <div>
+                    <i></i>
+                    <p class="blue_font">赔付保险金</p>
+                    <p>被保险人与保险公司对赔偿金额皆无异议后，保险公司赔付保险金到被保险人指定账户，本次理赔完成并结案。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="zcb_bottom" v-show="alias" style="display: none;">
+        <a :href="backUrl" class="foot_left"><i class="iconfont icon-shouye"></i>首页</a>
+        <a :href="'tel:'+phoneNumber" class="foot_center">服务顾问</a>
+        <a :href="backUrl" class="foot_right">立即投保</a>
+    </div>
+    <div class="loading">
+        <span class="cicle"></span>
+        <div class="reload">
+            <i class="iconfont icon-wifi"></i><br>
+            网络不给力，请重新加载<br>
+            <div onclick="window.location.reload()">重新加载</div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/common.js?v=20180912"></script>
+<script src="js/loading.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/mixins.js?v=20180912"></script>
+<script>
+    var vm = new Vue({
+        el: '.all',
+        data: {
+            videoSrc: '',
+            videoTitle:'',
+            isVideoEnd: true,
+            tabIndex: 1, // 控制tab选中状态
+            alias: getParamName('alias'),
+            backUrl:backUrl,
+            productName:'预约货运万能保',
+        },
+        mixins:[mobile,goldClaims,videoLogic,iframeHeight],
+        created:function () {
+//            saveDefaultRegisterDate(this.alias);
+          saveLocationInfo()
+            this.getPhone();
+            this._getData();
+        },
+        methods:{
+        },
+    });
+</script>
+</html>

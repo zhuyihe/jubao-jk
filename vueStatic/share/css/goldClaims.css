@@ -1,0 +1,53 @@
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0; }
+
+ul, li, dl, dt, dd {
+  list-style: none; }
+
+a {
+  color: #333333;
+  text-decoration: none; }
+
+a:hover {
+  color: #333333; }
+
+body {
+  background: #fff; }
+
+.all {
+  width: 100%;
+  font-family: PingFang-SC-Medium;
+  color: #333333;
+  font-size: 0; }
+  .all .header {
+    position: relative;
+    height: 1.2rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.5333333333rem;
+    line-height: 1.2rem;
+    background: white;
+    border-bottom: 0.0133333333rem solid #ccc; }
+    .all .header .back {
+      position: absolute;
+      left: 0.2666666667rem; }
+      .all .header .back .icon-back {
+        height: 1.2rem;
+        font-size: 0.5333333333rem;
+        line-height: 1.2rem; }
+  .all .pic {
+    font-size: 0; }
+    .all .pic img {
+      width: 100%;
+      height: auto; }
+  .all .section {
+    padding: 0 0.48rem 0.4666666667rem 0.4rem;
+    font-size: 0.48rem;
+    line-height: 0.88rem;
+    letter-spacing: 0;
+    color: #333;
+    text-align: justify;
+    text-indent: 2em; }
+
+/*# sourceMappingURL=goldClaims.css.map */

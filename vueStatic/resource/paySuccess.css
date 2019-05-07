@@ -1,0 +1,137 @@
+body, ul, li {
+  margin: 0;
+  padding: 0; }
+
+ul, li {
+  list-style: none; }
+
+a {
+  text-decoration: none;
+  color: #000; }
+
+.paySuccess {
+  width: 100%;
+  font-size: 0.3rem; }
+
+.header {
+  height: 0.9rem;
+  width: 100%;
+  line-height: 0.9rem;
+  text-align: center;
+  font-size: 0.35rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #fff;
+  border-bottom: 1px solid #ccc; }
+  .header .back {
+    position: absolute;
+    top: 50%;
+    left: 0.2rem;
+    transform: translateY(-50%);
+    font-size: 0;
+    display: block; }
+    .header .back img {
+      display: block;
+      width: 0.28rem;
+      height: auto; }
+  .header .right {
+    position: absolute;
+    top: 50%;
+    right: 0.2rem;
+    transform: translateY(-50%); }
+
+.content {
+  color: #333;
+  margin: 0.9rem 0.2rem 2.2rem;
+  padding-top: 0.3rem; }
+  .content .policy_order {
+    display: block;
+    text-decoration: none;
+    font-size: 0.36rem;
+    background: #06acf9;
+    color: #fff;
+    width: 2.84rem;
+    padding: 0.1rem 0rem;
+    border-radius: 0.06rem;
+    text-align: center;
+    margin: 0.2rem auto 0.3rem; }
+  .content ul.order_list {
+    margin: 0.3rem 0.2rem 0;
+    border: 1px solid #ccc;
+    padding: 0.1rem 0.3rem;
+    line-height: 0.5rem; }
+    .content ul.order_list .title {
+      font-weight: bold; }
+    .content ul.order_list .mart {
+      margin-top: 0.2rem; }
+  .content .cargo {
+    padding: 0 0.2rem; }
+  .content p.title {
+    font-size: 0.3rem; }
+  .content p.bewrite {
+    font-size: 0.22rem; }
+  .content ul.file_list {
+    margin-top: 0.1rem; }
+    .content ul.file_list li {
+      word-break: break-all; }
+      .content ul.file_list li a.download {
+        color: #06acf9;
+        margin-left: 0.44rem; }
+
+.bottom {
+  width: 100%;
+  height: 0.9rem;
+  text-align: center;
+  line-height: 0.9rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #06acf9;
+  color: #fff;
+  font-size: 0.4rem; }
+
+.share-bg {
+  background: rgba(0, 0, 0, 0.2);
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.share {
+  transition: bottom .3s ease;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -3rem;
+  height: 3rem;
+  background: #fff;
+  z-index: 100; }
+  .share.show {
+    bottom: 0; }
+  .share .share-title {
+    height: 0.4rem;
+    text-align: center;
+    line-height: 0.4rem;
+    padding-top: 0.2rem;
+    background: #e6f7fe; }
+  .share .bdsharebuttonbox {
+    display: flex;
+    align-items: center;
+    height: 1.6rem;
+    justify-content: space-around;
+    background: #e6f7fe; }
+    .share .bdsharebuttonbox .btn {
+      width: 25%;
+      text-align: center; }
+      .share .bdsharebuttonbox .btn a {
+        display: block;
+        width: 100%;
+        background-position-x: 50% !important; }
+  .share .share-cancel {
+    text-align: center;
+    line-height: 0.8rem; }
+
+/*# sourceMappingURL=paySuccess.css.map */

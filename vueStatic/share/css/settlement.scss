@@ -1,0 +1,60 @@
+$black: rgb(51, 51, 51);
+$white: rgb(255, 255, 255);
+@function rem($val) {
+  @return $val/75+rem;
+}
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul, li, dl, dt, dd {
+  list-style: none;
+}
+
+a {
+  color: $black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: $black;
+}
+
+body {
+  background: #eee;
+}
+.all {
+  width: 100%;
+  font-family: ﻿PingFang-SC-Regular;
+  background: #fff;
+  padding-bottom: rem(80);
+  padding-top: rem(10);
+  .item_text {
+    font-weight: normal;
+    font-stretch: normal;
+    margin-top: rem(40);
+    padding: 0 rem(20) 0 rem(30);
+    letter-spacing: 0;
+    p {
+      padding-left: rem(43);
+      font-size: rem(30);
+      line-height: rem(54);
+      color: #666;
+      &.hasIcon {
+        color: #333;
+        font-family: PingFang-SC-Medium;
+        font-size: rem(36);
+        line-height: rem(34);
+        height: rem(34);
+        background: url("../img/hcbShare/huiji.png") no-repeat;
+        background-size: rem(30);
+        background-position: 0 rem(2);
+        margin-bottom: rem(28);
+      }
+    }
+  }
+  .blue{
+    color: #06acf9;
+  }
+}

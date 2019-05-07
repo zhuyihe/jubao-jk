@@ -1,0 +1,238 @@
+@charset "UTF-8";
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0; }
+
+ul, li, dl, dt, dd {
+  list-style: none; }
+
+a {
+  color: #333333; }
+
+a:hover {
+  color: #333333; }
+
+body {
+  background: #eee; }
+
+.all {
+  width: 100%;
+  font-family: ﻿PingFang-SC-Regular;
+  font-size: 0.32rem;
+  color: #333333; }
+  .all * {
+    box-sizing: initial; }
+  .all .pro_video {
+    width: 100%;
+    padding-bottom: 0.1333333333rem;
+    background: #eee; }
+  .all .video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 5.3333333333rem;
+    color: #fff;
+    background: #000;
+    overflow: hidden; }
+  .all .poster {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    background: #000;
+    background-size: cover !important; }
+  .all .video-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 1.0666666667rem;
+    height: 1.0666666667rem;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4); }
+  .all .video-wrapper .icon-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-44%, -50%, 0);
+    font-size: 0.5rem; }
+  .all video {
+    width: 0;
+    height: 0; }
+  .all video.isPlay {
+    width: 100%;
+    height: 100%; }
+  .all .tip {
+    width: 100%;
+    height: 0.5333333333rem;
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 0.2933333333rem;
+    line-height: 0.5333333333rem;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+  .all .header-tip {
+    position: relative;
+    height: 0.5733333333rem;
+    padding: 0 1.8666666667rem 0 0.2666666667rem;
+    line-height: 0.5733333333rem;
+    color: #333333;
+    background: white;
+    font-size: 0.32rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+  .all .audio-section {
+    background: white;
+    padding: 0.2666666667rem;
+    margin-bottom: 0.1333333333rem; }
+    .all .audio-section .audio-wrapper {
+      width: 9.48rem;
+      height: 1.3466666667rem;
+      border: solid 2px #eee;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box; }
+      .all .audio-section .audio-wrapper .audio-btn {
+        margin: 0 0.1333333333rem;
+        font-size: 0; }
+        .all .audio-section .audio-wrapper .audio-btn i {
+          font-size: 0.8rem;
+          margin: 0;
+          color: #009944; }
+          .all .audio-section .audio-wrapper .audio-btn i.gray {
+            color: #999999; }
+      .all .audio-section .audio-wrapper .audio-r .audio-msg {
+        font-size: 0.3466666667rem;
+        width: 6.6666666667rem;
+        height: 0.4rem;
+        line-height: 0.3466666667rem;
+        padding-top: 0.0533333333rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
+      .all .audio-section .audio-wrapper .audio-r .audio-progress {
+        width: 6.6666666667rem;
+        height: 0.1733333333rem;
+        margin-top: 0.1333333333rem;
+        display: flex; }
+        .all .audio-section .audio-wrapper .audio-r .audio-progress .lang {
+          position: relative;
+          width: 100%;
+          height: 0.04rem;
+          background: #999999; }
+          .all .audio-section .audio-wrapper .audio-r .audio-progress .lang .lang-s {
+            width: 0;
+            height: 100%;
+            background: #009944; }
+          .all .audio-section .audio-wrapper .audio-r .audio-progress .lang .cir {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0.1733333333rem;
+            height: 0.1733333333rem;
+            border-radius: 50%;
+            background: #009944;
+            border: 0.1333333333rem solid transparent;
+            background-clip: padding-box;
+            margin-left: -0.1333333333rem; }
+      .all .audio-section .audio-wrapper .audio-r .audio-tip {
+        width: 100%;
+        font-size: 0.2666666667rem;
+        color: #999999;
+        display: flex;
+        justify-content: space-between; }
+  .all .man-section {
+    background: white;
+    padding: 0.2666666667rem;
+    margin-bottom: 0.1333333333rem; }
+    .all .man-section .section-cnt img {
+      width: 100%;
+      height: auto; }
+  .all .course-section {
+    background: white;
+    padding: 0.2666666667rem;
+    margin-bottom: 0.1333333333rem; }
+    .all .course-section .course-msg {
+      width: 100%;
+      padding: 0 0.0666666667rem 0 0; }
+      .all .course-section .course-msg img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100% !important;
+        height: auto !important; }
+  .all .topic-section {
+    background: white;
+    padding: 0.2666666667rem; }
+    .all .topic-section .topic-article {
+      display: flex;
+      margin-bottom: 0.2533333333rem; }
+      .all .topic-section .topic-article:last-child {
+        margin-bottom: 0; }
+      .all .topic-section .topic-article .article-l {
+        width: 4.4666666667rem;
+        height: 2.6666666667rem;
+        border-radius: 0.0666666667rem;
+        overflow: hidden;
+        margin-right: 0.2666666667rem; }
+        .all .topic-section .topic-article .article-l img {
+          width: 100%;
+          height: 100%; }
+      .all .topic-section .topic-article .article-r {
+        width: 4.7333333333rem;
+        position: relative; }
+        .all .topic-section .topic-article .article-r dt {
+          width: 100%;
+          font-size: 0.4266666667rem;
+          line-height: 0.5333333333rem;
+          margin-bottom: 0.2rem;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden; }
+        .all .topic-section .topic-article .article-r dd {
+          position: relative;
+          width: 105%;
+          font-size: 0.32rem;
+          line-height: 0.48rem;
+          color: #666666;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden; }
+        .all .topic-section .topic-article .article-r .tip-right {
+          top: inherit;
+          bottom: 0;
+          left: 0; }
+
+.section-title {
+  margin-bottom: 0.2666666667rem;
+  border-left: 0.0666666667rem solid #06acf9;
+  font-size: 0.48rem;
+  height: 0.4533333333rem;
+  color: #06acf9;
+  line-height: 0.4533333333rem;
+  text-indent: 0.28rem; }
+
+.tip-right {
+  position: absolute;
+  right: 0.2666666667rem;
+  top: 0;
+  height: 0.5733333333rem;
+  line-height: 0.5733333333rem;
+  color: #333333; }
+  .tip-right img {
+    vertical-align: middle;
+    width: 0.48rem;
+    height: 0.2933333333rem;
+    margin-right: 0.12rem; }
+  .tip-right span {
+    font-size: 0.2933333333rem;
+    color: #666666; }
+
+/*# sourceMappingURL=courses.css.map */

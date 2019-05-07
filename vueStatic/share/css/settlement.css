@@ -1,0 +1,49 @@
+@charset "UTF-8";
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0; }
+
+ul, li, dl, dt, dd {
+  list-style: none; }
+
+a {
+  color: #333333;
+  text-decoration: none; }
+
+a:hover {
+  color: #333333; }
+
+body {
+  background: #eee; }
+
+.all {
+  width: 100%;
+  font-family: 锘縋ingFang-SC-Regular;
+  background: #fff;
+  padding-bottom: 1.0666666667rem;
+  padding-top: 0.1333333333rem; }
+  .all .item_text {
+    font-weight: normal;
+    font-stretch: normal;
+    margin-top: 0.5333333333rem;
+    padding: 0 0.2666666667rem 0 0.4rem;
+    letter-spacing: 0; }
+    .all .item_text p {
+      padding-left: 0.5733333333rem;
+      font-size: 0.4rem;
+      line-height: 0.72rem;
+      color: #666; }
+      .all .item_text p.hasIcon {
+        color: #333;
+        font-family: PingFang-SC-Medium;
+        font-size: 0.48rem;
+        line-height: 0.4533333333rem;
+        height: 0.4533333333rem;
+        background: url("../img/hcbShare/huiji.png") no-repeat;
+        background-size: 0.4rem;
+        background-position: 0 0.0266666667rem;
+        margin-bottom: 0.3733333333rem; }
+  .all .blue {
+    color: #06acf9; }
+
+/*# sourceMappingURL=settlement.css.map */

@@ -1,0 +1,53 @@
+@function pxToRem($val) {
+  @return $val/75+rem;
+}
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+ul,li{
+  list-style: inherit;
+}
+a {
+  color: #000;
+  text-decoration: none;
+}
+a:hover {
+  color: #000;
+}
+body {
+  background: #fff;
+}
+.mt40{
+  margin-top: pxToRem(40);
+}
+.ti40{
+  text-indent: pxToRem(40);
+}
+.content{
+  font-size: pxToRem(30);
+  padding: pxToRem(30) pxToRem(20);
+  line-height: pxToRem(50);
+}
+.title{
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: pxToRem(40);
+}
+.sub-title{
+  font-weight: bold;
+}
+.text{
+  position: relative;
+  span{
+    position: absolute;
+    top:0;
+    left: 0;
+  }
+  p{
+    padding-left: pxToRem(40);
+  }
+  li{
+    margin-left: pxToRem(40);
+  }
+}

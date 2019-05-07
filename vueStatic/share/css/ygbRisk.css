@@ -1,0 +1,73 @@
+.sign-in-enter-active, .sign-in-leave-active {
+  transition: all 0.3s ease; }
+
+.sign-in-enter, .sign-in-leave-to {
+  transform: translateX(100%); }
+
+.all {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: scroll;
+  z-index: 21;
+  background: #fff; }
+  .all .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1.2rem;
+    text-align: center;
+    font-size: 0.5333333333rem;
+    line-height: 1.2rem;
+    background: #fff;
+    z-index: 1000; }
+    .all .header .back {
+      position: absolute;
+      left: 0.2666666667rem; }
+      .all .header .back .icon-fanhui {
+        height: 1.2rem;
+        font-size: 0.5333333333rem;
+        line-height: 1.2rem; }
+  .all .showHeader {
+    margin-top: 1.2rem; }
+  .all .main {
+    min-height: 100%;
+    _height: 100%;
+    background: #f2fbff; }
+  .all .content {
+    padding: 0.4rem 0.2666666667rem 1.6rem; }
+    .all .content .pro {
+      font-size: 0.32rem;
+      text-indent: 2em;
+      color: #666; }
+    .all .content .title {
+      margin: 0.5333333333rem 0 0.4rem;
+      font-size: 0.4rem;
+      color: #333; }
+    .all .content .bar {
+      position: relative;
+      font-size: 0.4rem;
+      color: #333;
+      padding-left: 0.6666666667rem; }
+      .all .content .bar .tip {
+        position: absolute;
+        top: 0;
+        left: 0; }
+    .all .content .gray {
+      color: #666; }
+  .all .bottom {
+    margin-top: -1.3333333333rem;
+    width: 100%;
+    height: 1.3333333333rem;
+    background-color: #06acf9;
+    text-align: center;
+    line-height: 1.3333333333rem; }
+    .all .bottom span {
+      font-size: 0.5333333333rem;
+      line-height: 0.48rem;
+      color: #ffffff; }
+
+/*# sourceMappingURL=ygbRisk.css.map */

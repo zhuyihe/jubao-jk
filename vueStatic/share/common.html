@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>产品详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="css/ygb.css" type="text/css">
+    <link rel="stylesheet" href="./css/common.css" type="text/css">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+    <link rel="stylesheet" href="./css/loading.css" type="text/css">
+    <link rel="stylesheet" href="./plug/LCalendar/LCalendar.css">
+    <link rel="stylesheet" href="./css/faq_common.css" type="text/css">
+
+    <script src="js/flexible.js"></script>
+</head>
+<style>
+    .foot_left1 {
+        background-color: #fff;
+        color: red;
+    }
+
+    .foot_left2 {
+        background-color: #06acf9;
+        color: #fff;
+    }
+</style>
+
+<body>
+    <div class="all jubao" :class="{isShare:alias}">
+
+        <!-- 加载loding -->
+        <div class="loading">
+            <span class="cicle"></span>
+            <div class="reload">
+                <i class="iconfont icon-wifi"></i>
+                <br> 网络不给力，请重新加载
+                <br>
+                <div onclick="window.location.reload()">重新加载</div>
+            </div>
+        </div>
+
+        <!-- 页头标题 -->
+        <page-title :page-title="dataObj.product_name"></page-title>
+
+        <!-- 产品Banner -->
+        <page-banner v-if="dataObj.product_media_type==2 || dataObj.product_media_type==3" :page-banner="dataObj.product_header_image_url"></page-banner>
+
+        <!-- 产品视频 -->
+        <page-video v-if="dataObj.product_media_type==1 || dataObj.product_media_type==3" :media-type="mediaType" :product-cover="dataObj.cover_image_url" :product-video="dataObj.video_url" :product-name="dataObj.product_name"></page-video>
+
+        <!-- 保险试算 -->
+        <component v-if="dataObj.is_insure_trial_show" :is="currentComponent" :data-obj="dataObj"></component>
+
+        <!-- 产品问答 -->
+        <page-faq v-if="dataObj.is_qa_show" :product-id="dataObj.product_id"></page-faq>
+
+        <!-- 产品详情介绍 -->
+        <page-tab :tab-label="tabLabel" :tab-content="[dataObj.product_image_url,dataObj.product_detail_image_url]"></page-tab>
+
+        <!-- 页脚（客服、投保） -->
+        <page-footer v-show="fromApp!=1" v-if="dataObj.product_name!='预约货运万能保'" :flag="flag" :enabled-insure="dataObj.enabled_insure_for_front_end" :insured-link="dataObj.product_insure_url"></page-footer>
+        <page-footer1 v-else :flag="flag" v-show="fromApp!=1" :enabled-insure="dataObj.enabled_insure_for_front_end" :insured-link="dataObj.product_insure_url"></page-footer1>
+        <script>
+            (function(){var timeout=10000;var btn=false;var timer=setTimeout(function(){var reload=document.getElementsByClassName("reload")[0];var cicle=document.getElementsByClassName("cicle")[0];reload.style.display="block";cicle.style.display="none";btn=true},timeout);window.addEventListener("load",function(){if(!btn){var loading=document.getElementsByClassName("loading")[0];loading.style.display="none";clearTimeout(timer)}})})();
+        </script>
+        <script class="jubao" src="js/vue.js"></script>
+
+        <script class="jubao" src="js/common.js?v=201812229"></script>
+        
+        <script src="js/ajax.js?v=20190118"></script>
+        <script src="js/mixins.js?v=20190118"></script>
+
+        <script src="js/components.js?v=20190419"></script>
+        <!-- <script src="js/NumberToChinese.js"></script> -->
+
+        <script>
+            
+            var global_productName=""
+            var global_abbr=""
+            function getProductList(callback) {
+                var obj={}
+                var resArr = []
+                var abbr={
+                    "zcb":"zcb",
+                    "ygb":"ygb" ,
+                    "spb":"spb" ,
+                    "dchyb-xdphb":"xdphb",
+                    "dchyb-llb":"llb" ,
+                    // "大宗货物保":"hwb" ,
+                    "hynb-hczdsgb":"hcb" ,
+                    "hynb-dchynb":"dchynb",
+                    "zxb":"zxb" ,
+                    "dchyb-ddphb":"ddphb",
+                    "jkx":"axys" ,
+                    "dchyb-djb":"djb",
+                    "rbygb": "rbygb",
+                    "dchyb-jyb-new": "xjyb",
+                    "dchyb-jyb-new-zhx": "xjybzhx",
+                    "dchyb-jyb-old": "jjyb",
+                    "dchyb-ddphb-zhx": "phbzhx",
+                    "dchyb-gsb": "gsb",
+                    'hyx':'hyx'
+                }
+                cmnServiceConfig({os_type:8},function(res){
+                    if(res.err_code == 0) {
+                        serviceProductList({app_id:res.data.app_id},function(pramas){
+                            if(pramas.err_code == 0) {
+                                resArr = pramas.rows;
+                                resArr.map(function(item) {
+                                    obj[item.product_id] = {"title":item.product_name,"productName":item.product_name,"abbr":abbr[item.product_alias]}
+                                })
+                                callback&&callback(obj)
+                              return obj
+                            }
+                        })
+                    }
+                })
+            }
+            
+
+            getProductList(function(data){
+                var urlPid=getParamName("pid");
+                var urlFromApp=getParamName("fromApp")||0;
+                var productName=data[getParamName("pid")]["productName"]
+                
+                var isCommon=getParamName("isCommon");
+
+                document.title=(data[urlPid]['title']) || "保险服务平台";
+                if(productName == "货运年保超市") {
+                    window.location.href="./hyx.html?pid="+urlPid+"&appname="+getParamName("appname")+"&alias="+getParamName("alias")+"&fromApp="+urlFromApp
+                }
+                if(productName == "安享一生癌症医疗险"){
+                    window.location.href="axjkx.html?pid="+urlPid+"&appname="+getParamName("appname")+"&alias="+getParamName("alias")+"&fromApp="+urlFromApp
+                }
+                global_productName=data[urlPid]["productName"]
+                global_abbr=data[urlPid]["abbr"]
+                getVue()
+                return data[urlPid]
+            })
+            
+            function getVue() {
+                var vm = new Vue({
+                    el: '.all',
+                    mixins: [iframeHeight],
+                    data: {
+                        dataObj: {},
+                        productId: getParamName("pid") || "",
+                        mediaType: "8",
+                        productName: global_productName || "",
+                        alias: getParamName('alias'),
+                        flag: true,
+                        fromApp:getParamName("fromApp")||0,
+                        tabLabel: ["产品介绍", "详细说明"],
+                        tabContent: [
+                            { imgList: [] },
+                            { imgList: [] }
+                        ],
+                        showDdFlag: true
+                    },
+                    computed: {
+                        currentComponent: function () {
+                            return (global_abbr + "-count").toLowerCase()
+                        }
+                    },
+                    watch: {
+
+                    },
+                    created: function () {
+                        var _this = this;
+                        cmnBizGetProductInfo({
+                            app_id: getStorage("app_id") || 1,
+                            product_id: this.productId,
+                            product_name: this.productName
+                        }, function (res) {
+                            if (res.err_code === 0 && res.data) {
+                                _this.dataObj = res.data;
+                                console.log(_this.dataObj)
+                            }
+                        });
+                        //判断登陆
+                        if(getParamName('alias') == 'null' || getParamName('alias') == '') {
+                            this.flag = false;
+                        }else{
+                            this.flag = true;
+                        }
+                        
+                        var appname = getStorage("appname") || "baoxianshi";
+                        setStorage({"appname":getParamName("appname") || appname});
+                        var objname = getStorage("locationQuery")||{};
+                        objname.appname = appname;
+                        setStorage({"locationQuery":objname});
+                    }
+                })
+            }
+        </script>
+    </div>
+</body>
+
+</html>

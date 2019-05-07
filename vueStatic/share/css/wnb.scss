@@ -1,0 +1,385 @@
+$black: rgb(51, 51, 51);
+$white: rgb(255, 255, 255);
+@function rem($val) {
+  @return $val/75+rem;
+}
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul, li, dl, dt, dd {
+  list-style: none;
+}
+
+a {
+  color: $black;
+  text-decoration: none;
+}
+
+a:hover {
+  color: $black;
+}
+
+body {
+  background: #eee;
+}
+.all{
+  width: 100%;
+  font-family: ﻿PingFang-SC-Regular;
+  font-size: rem(24);
+  color: $black;
+  .banner{
+    width: 100%;
+    font-size: 0;
+    margin-bottom: rem(20);
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .pro_video{
+    width: 100%;
+    padding-bottom: rem(10);
+    background: #eee;
+  }
+  .video-wrapper{
+    position: relative;
+    width: 100%;
+    height: rem(400);
+    color: #fff;
+    background: #000;
+    overflow: hidden;
+  }
+  .poster{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    background: #000;
+    background-size: cover !important;
+  }
+  .video-play{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%,-50%,0);
+    width: rem(80);
+    height: rem(80);
+    border-radius: 50%;
+    background: rgba(0,0,0,.4);
+  }
+  .video-wrapper .icon-play{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-44%,-50%,0);
+    font-size: rem(37.5);
+  }
+  video{
+    width: 0;
+    height: 0;
+  }
+  video.isPlay{
+    width: 100%;
+    height: 100%;
+  }
+  .tip{
+    width: 100%;
+    height: rem(40);
+    background: rgba(0,0,0,.4);
+    font-size: rem(22);
+    line-height: rem(40);
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+  }
+  .pro_tab {
+    font-size: 0;
+    height: rem(73);
+    line-height: rem(73);
+    text-align: center;
+    background: #fff;
+  }
+  .pro_tab .tab_item{
+    display: inline-block;
+    font-size: rem(32);
+    width: 50%;
+    height: 100%;
+  }
+  .pro_tab .tab_on {
+    color: #fff;
+    background: #06acf9;
+  }
+  .pro_content{
+    width: 100%;
+    background: #fff;
+    .imgWrapper{
+      position: relative;
+      width: 100%;
+      font-size: 0;
+      padding-bottom: rem(30);
+      img{
+        width: 100%;
+        height: auto;
+      }
+      .detail{
+        display: block;
+        position: absolute;
+        left: rem(357);
+        bottom: rem(82);
+        width: rem(143);
+        height: rem(21);
+        border-radius: rem(8);
+        color:#fff;
+        font-size: rem(20);
+        text-align: center;
+        line-height: normal;
+        padding: rem(9) 0 rem(12);
+        background: #4eaa2d;
+        box-shadow: rem(3) rem(5) rem(10) #333;
+      }
+    }
+  }
+  .pro_foot{
+    width: 100%;
+    background: #fff;
+    height: rem(120);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .button{
+      display: block;
+      width: rem(661);
+      height: rem(82);
+      background-color: #06acf9;
+      border-radius: rem(10);
+      text-align: center;
+      line-height: rem(82);
+      font-size: rem(48);
+      color: #fff;
+    }
+  }
+  /* ---------------pro_info 产品详情------------------*/
+  .blue_bg {
+    background: #06acf9;
+  }
+  .blue_font {
+    color: #06acf9;
+  }
+  .pro_info {
+    background: #eee;
+    .pro_item {
+      background: #fff;
+      margin-top: rem(10);
+      .item_title {
+        position: relative;
+        font-size: rem(30);
+        height: rem(72);
+        line-height: rem(72);
+        text-align: center;
+        box-sizing: border-box;
+        background: #fafafa;
+        font-family: PingFang-SC-Bold;
+        letter-spacing: rem(3);
+        i {
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: rem(-30);
+          width: 0;
+          height: 100%;
+          border-top: rem(20) solid #fafafa;
+          border-right: rem(30) solid transparent;
+          border-left: rem(30) solid transparent;
+          z-index: 1;
+        }
+      }
+      .item_text {
+        font-family: PingFang-SC-Regular;
+        position: relative;
+        font-size: rem(30);
+        text-align:center;
+        background: #fff;
+        margin-top: rem(10);
+        padding: rem(20) rem(20);
+        letter-spacing: rem(3);
+        &.text_center p {
+          text-align: center;
+          padding-left: 0;
+        }
+        &>p {
+          padding: rem(10) 0;
+        }
+        p {
+          font-size: rem(30);
+          line-height: rem(50);
+          padding-left: rem(90);
+          text-align: left;
+          &.isTitle {
+            padding-left: rem(30);
+            background: none;
+            color: #0798dc;
+          }
+          &.hasIcon {
+            background: url("../img/hcbShare/huiji.png") no-repeat;
+            background-size: rem(30);
+            background-position: rem(20) rem(20);
+          }
+        }
+      }
+      &.pro_LiuCheng .item_text:after {
+        content: "";
+        display: block;
+        position: absolute;
+        background: #eee;
+        width: 1px;
+        height:rem(350);
+        top: rem(50);
+        left: rem(60);
+      }
+      &.pro_LiuCheng .item_text p {
+        position: relative;
+        &:after{
+          display: block;
+          content: "1";
+          position: absolute;
+          left: rem(20);
+          top: rem(10);
+          width: rem(40);
+          height: rem(40);
+          font-size: rem(30);
+          line-height: rem(40);
+          border: 1px solid #06acf9;
+          color: #333;
+          text-align: center;
+          border-radius: 50%;
+          z-index: 1;
+          background: #fff;
+        }
+        &:nth-child(2):after {
+          content: "2";
+        }
+        &:nth-child(3):after {
+          content: "3";
+        }
+        &:nth-child(4):after {
+          content: "4";
+        }
+      }
+      &.pro_LiPei {
+        .item_text div i {
+          float: left;
+          width: rem(65);
+          height: rem(65);
+          position: relative;
+          z-index: 1;
+          top: rem(8);
+          left: rem(8);
+          background-repeat: no-repeat;
+          background-size: rem(60);
+          background-position: 1px 0;
+        }
+        .item_text div:nth-child(1) i {
+          background-image: url("../img/hcbShare/icon_tel.png")
+        }
+        .item_text div:nth-child(2) i{
+          background-image: url("../img/hcbShare/icon_find.png")
+        }
+        .item_text div:nth-child(3) i{
+          background-image: url("../img/hcbShare/icon_money.jpg")
+        }
+        .item_text>div:after {
+          content: " ";
+          display: block;
+          position: absolute;
+          border: 1px solid #eee;
+          height: 75%;
+          top: rem(70);
+          left: rem(58);
+        }
+      }
+      &.pro_Tab .item_text{
+        margin-top: 1px;
+        padding-top: 0;
+      }
+      &.pro_Tab .tab_con {
+        width: rem(690);
+        margin: 0 auto;
+        .tab_head {
+          background-color: rgba(6, 172, 249, 1);
+          border-radius: 10px 10px 0 0;
+          padding-top: rem(40);
+          font-size: 0;
+          color: #fff;
+          &>div {
+            display: inline-block;
+            box-sizing: border-box;
+          }
+          .distance {
+            float: left;
+            width: rem(300);
+            height: rem(180);
+            line-height: rem(180);
+            font-size: rem(40);
+          }
+          .zeren {
+            width: rem(380);
+            font-size: rem(30);
+            border-left: 1px solid #fff;
+            div {
+              box-sizing: border-box;
+            }
+            &>div:first-child {
+              border-bottom: 1px solid #fff;
+              height: rem(50);
+              line-height: rem(50);
+            }
+            &>div:nth-child(2) {
+              height: rem(60);
+              line-height: rem(60);
+              font-size: 0;
+              span {
+                display: inline-block;
+                width: 48%;
+                height: 100%;
+                font-size: rem(30);
+                text-align: center;
+              }
+              span:first-child {
+                border-right: 1px solid #fff;
+              }
+            }
+            &>div:last-child {
+              border-top: 1px solid #fff;
+              height: rem(70);
+              line-height: rem(70);
+            }
+          }
+        }
+        .tab_item {
+          font-size: 0;
+          background: #e6f7fe;
+          padding: rem(24) 0 rem(30);
+          div {
+            display: inline-block;
+            font-size: rem(30);
+            text-align: center;
+            letter-spacing: 1px;
+            &.distance {
+              width: rem(300);
+            }
+            &.time {
+              width: rem(190);
+            }
+          }
+          &:last-child {
+            border-radius: 0 0 10px 10px;
+          }
+        }
+      }
+    }
+  }
+}

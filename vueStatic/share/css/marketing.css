@@ -1,0 +1,242 @@
+html {
+  font-size: 62.5%;
+  font-family: "Microsoft yahei";
+}
+
+body, h1, h2, h3, h4, h5, h6, blockquote, ol, ul, dl, dd, p, textarea, input, select, option, form {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+ol, ul, textarea, input, option, th, td {
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  font-size: 100%;
+}
+
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display: block;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+ul, ol {
+  list-style-type: none;
+}
+
+.clearfix:after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clear {
+  clear: both;
+  height: 0;
+  overflow: hidden;
+}
+
+input[type=text], textarea {
+  -webkit-appearance: none;
+}
+
+input:focus {
+  -webkit-user-modify: read-write-plaintext-only;
+}
+
+fieldset, img {
+  border: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a, textarea, input {
+  outline: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: '';
+  content: none;
+}
+
+textarea {
+  overflow: auto;
+  resize: none;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.video_box {
+  position: relative;
+  overflow: hidden;
+}
+.video_box .video_wrap {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: black;
+}
+.video_box .video_wrap .video_shade_box {
+  height: 5.3333333333rem;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 11;
+  background: rgba(0, 0, 0, 0.2);
+}
+.video_box .video_wrap .video_shade_box .video_start {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -0.5333333333rem 0 0 -0.5333333333rem;
+  z-index: 12;
+  width: 1.0666666667rem;
+  height: 1.0666666667rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4) url("../img/icon_start.png") no-repeat center center;
+  background-size: auto 0.6666666667rem;
+}
+.video_box .video_wrap .video_cover {
+  height: 5.3333333333rem;
+  width: 10rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  background: url("../img/laozhou.png") no-repeat center center;
+  background-size: cover;
+}
+.video_box .video_wrap #laozhou_video {
+  height: 5.3333333333rem;
+}
+.video_box .video_control_box {
+  height: 0.64rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  bottom: -0.64rem;
+  z-index: 11;
+}
+.video_box .video_control_box .video_break {
+  width: 0.2666666667rem;
+  height: 0.3733333333rem;
+  background: url("../img/icon_break.png") no-repeat center center;
+  background-size: contain;
+  margin: 0 0.2666666667rem;
+}
+.video_box .video_control_box .video_break2 {
+  width: 0.2666666667rem;
+  height: 0.3733333333rem;
+  background: url("../img/icon_start.png") no-repeat center center;
+  background-size: contain;
+  margin: 0 0.2666666667rem;
+}
+.video_box .video_control_box .video_time {
+  height: 0.3733333333rem;
+  font-size: 0.2133333333rem;
+  line-height: 0.3733333333rem;
+  color: #fff;
+}
+.video_box .video_control_box .video_progress_box {
+  width: 6.6666666667rem;
+  height: 0.0533333333rem;
+  margin: 0 0.24rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: #fff;
+}
+.video_box .video_control_box .video_progress_box span {
+  display: inline-block;
+  height: 0.0533333333rem;
+}
+.video_box .video_control_box .video_progress_box span.video_yet_bar {
+  position: absolute;
+  z-index: 14;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 6.6666666667rem;
+  background: #1acbbb;
+}
+.video_box .video_control_box .video_progress_box span.video_control_radio {
+  position: absolute;
+  top: 50%;
+  margin-top: -0.12rem;
+  left: 0rem;
+  height: 0.24rem;
+  width: 0.24rem;
+  border-radius: 50%;
+  background: #fff url("../img/color_blue.jpg") no-repeat center center;
+  background-size: 0.0533333333rem 0.0533333333rem;
+  z-index: 15;
+}
+.video_box .video_control_box .video_progress_box span.video_buffered_bar {
+  position: absolute;
+  z-index: 13;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 6.6666666667rem;
+  background: #00a0e9;
+}
+.video_box .video_control_box .video_full_srceen {
+  width: 0.3733333333rem;
+  height: 0.3733333333rem;
+  background: url("../img/icon_full_screen.png") no-repeat center center;
+  background-size: contain;
+  margin: 0 0.2666666667rem;
+}
+.video_box .video_control_box button {
+  float: left;
+  width: 80px;
+  height: 30px;
+  background: #f2f2f2;
+  color: black;
+  text-align: center;
+  line-height: 30px;
+}
+.video_box .video_control_box button:hover {
+  cursor: pointer;
+}
+
+html:-moz-full-screen {
+  background: black;
+}
+
+html:-webkit-full-screen {
+  background: black;
+}
+
+html:fullscreen {
+  background: black;
+}
+
+/*# sourceMappingURL=marketing.css.map */

@@ -1,0 +1,336 @@
+$black: rgb(51, 51, 51);
+$gray: rgb(102, 102, 102);
+$gray-q: rgb(153, 153, 153);
+$white: rgb(255, 255, 255);
+$blue: rgb(6, 172, 249);
+$green: rgb(0, 153, 68);
+@function rem($val) {
+  @return $val/75+rem;
+}
+
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
+
+ul, li, dl, dt, dd {
+  list-style: none;
+}
+
+a {
+  color: $black;
+}
+
+a:hover {
+  color: $black;
+}
+
+body {
+  background: #eee;
+}
+
+.all {
+  width: 100%;
+  font-family: ﻿PingFang-SC-Regular;
+  font-size: rem(24);
+  color: $black;
+  *{box-sizing: initial;}
+  .pro_video{
+    width: 100%;
+    padding-bottom: rem(10);
+    background: #eee;
+  }
+  .video-wrapper{
+    position: relative;
+    width: 100%;
+    height: rem(400);
+    color: #fff;
+    background: #000;
+    overflow: hidden;
+  }
+  .poster{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    background: #000;
+    background-size: cover !important;
+  }
+  .video-play{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%,-50%,0);
+    width: rem(80);
+    height: rem(80);
+    border-radius: 50%;
+    background: rgba(0,0,0,.4);
+  }
+  .video-wrapper .icon-play{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-44%,-50%,0);
+    font-size: rem(37.5);
+  }
+  video{
+    width: 0;
+    height: 0;
+  }
+  video.isPlay{
+    width: 100%;
+    height: 100%;
+  }
+  .tip{
+    width: 100%;
+    height: rem(40);
+    background: rgba(0,0,0,.4);
+    font-size: rem(22);
+    line-height: rem(40);
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+  .header-tip {
+    position: relative;
+    height: rem(43);
+    padding: 0 rem(140) 0 rem(20);
+    line-height: rem(43);
+    color: $black;
+    background: $white;
+    font-size: rem(24);
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+  .audio-section {
+    background: $white;
+    padding: rem(20);
+    margin-bottom: rem(10);
+    .audio-wrapper {
+      width: rem(711);
+      height: rem(101);
+      border: solid 2px #eee;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      .audio-btn {
+        margin: 0 rem(10);
+        font-size: 0;
+        i {
+          font-size: rem(60);
+          margin: 0;
+          color: $green;
+          &.gray{
+            color: $gray-q;
+          }
+        }
+      }
+      .audio-r {
+        .audio-msg {
+          font-size: rem(26);
+          width: rem(500);
+          height: rem(30);
+          line-height: rem(26);
+          padding-top: rem(4) ;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+        }
+        .audio-progress {
+          width: rem(500);
+          height: rem(13);
+          margin-top: rem(10);
+          display: flex;
+          //align-items: center;
+          .lang {
+            position: relative;
+            width: 100%;
+            height: rem(3);
+            background: $gray-q;
+            .lang-s {
+              width: 0;
+              height: 100%;
+              background: $green;
+            }
+            .cir {
+              position: absolute;
+              left: 0;
+              top: 50%;
+              transform: translateY(-50%);
+              width: rem(13);
+              height: rem(13);
+              border-radius: 50%;
+              background: $green;
+              border: rem(10) solid transparent;
+              background-clip: padding-box;
+              margin-left: rem(-10);
+            }
+          }
+        }
+        .audio-tip {
+          width: 100%;
+          font-size: rem(20);
+          color: $gray-q;
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+  .man-section {
+    background: $white;
+    padding: rem(20);
+    margin-bottom: rem(10);
+    .section-cnt {
+      img{
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+  .course-section {
+    background: $white;
+    padding: rem(20);
+    margin-bottom: rem(10);
+    .course-msg {
+      width: 100%;
+      padding: 0 rem(5) 0 0;
+      //text-indent: 2em;
+      //line-height: rem(45);
+      //font-size: 0;
+      //&>*{
+      //  padding: 0;
+      //  margin: 0;
+      //  font-family: ﻿PingFang-SC-Regular;
+      //  white-space: pre-wrap; /*css-3*/
+      //  white-space: -moz-pre-wrap; /*Mozilla,since1999*/
+      //  white-space: -pre-wrap; /*Opera4-6*/
+      //  white-space: -o-pre-wrap; /*Opera7*/
+      //  word-wrap: break-word; /*InternetExplorer5.5+*/
+      //}
+      img{
+        display: block;
+        margin: 0 auto;
+        max-width: 100% !important;
+        height: auto !important;
+      }
+    }
+  }
+  .topic-section {
+    background: $white;
+    padding: rem(20);
+    .topic-article {
+      display: flex;
+      margin-bottom: rem(19);
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .article-l {
+        width: rem(335);
+        height: rem(200);
+        border-radius: rem(5);
+        overflow: hidden;
+        margin-right: rem(20);
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .article-r {
+        width: rem(355);
+        position: relative;
+        dt {
+          width: 100%;
+          font-size: rem(32);
+          line-height: rem(40);
+          //height: rem(35);
+          margin-bottom: rem(15);
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          //overflow: hidden;
+          //text-overflow:ellipsis;
+          //white-space: nowrap;
+        }
+        dd {
+          position: relative;
+          width: 105%;
+          font-size: rem(24);
+          line-height: rem(36);
+          color: $gray;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+        }
+        .tip-right{
+          top: inherit;
+          bottom: 0;
+          left: 0;
+        }
+      }
+    }
+  }
+}
+
+.section-title {
+  margin-bottom: rem(20);
+  border-left: rem(5) solid $blue;
+  font-size: rem(36);
+  height: rem(34);
+  color: $blue;
+  line-height: rem(34);
+  text-indent: rem(21);
+}
+
+.tip-right {
+  position: absolute;
+  right: rem(20);
+  top: 0;
+  height: rem(43);
+  line-height: rem(43);
+  color: $black;
+  img {
+    vertical-align: middle;
+    width: rem(36);
+    height: rem(22);
+    margin-right: rem(9);
+  }
+  span {
+    font-size: rem(22);
+    color: $gray;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

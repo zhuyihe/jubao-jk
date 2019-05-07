@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <!-- <meta name="format-detection" content="telephone=no"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>货运年保超市</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css">
+    <link rel="stylesheet" href="./css/common.css" type="text/css">
+    <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+    <link rel="stylesheet" href="./css/loading.css" type="text/css">
+    <script src="js/flexible.js"></script>
+    <style>
+        body,
+        img,
+        div,
+        ul,
+        li,
+        a {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .aaa {
+            margin-top: 10px;
+            width: 100%;
+            height: 2rem;
+        }
+
+        .aaa p {
+            color: #363535;
+            text-align: center;
+            font-size: .4rem;
+            line-height: .7rem;
+        }
+
+        .aaa p span {
+            color: #3e87d0;
+        }
+
+        .aaa p a {
+            color: #2ea2f5;
+
+        }
+
+        .documentBottomL {
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            width: 50%;
+            height: 1.4rem;
+            background: #00DDAA;
+        }
+
+        /* .documentBottomR {
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            width: 50%;
+            height: 1.4rem;
+            background: #2ea2f5;
+        } */
+
+        /* .documentBottomRS {
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            width: 100%;
+            height: 1.4rem;
+            background: #2ea2f5;
+        } */
+
+        .documentBottomL p {
+            width: 100%;
+            color: #fff;
+            line-height: 1.4rem;
+            text-align: center;
+            font-size: .5rem;
+        }
+
+        .documentBottomR p {
+            width: 100%;
+            color: #fff;
+            line-height: 1.4rem;
+            text-align: center;
+            /* font-size: .5rem; */
+        }
+
+        /* .documentBottomRS p {
+            width: 100%;
+            color: #fff;
+            line-height: 1.4rem;
+            text-align: center;
+            font-size: .5rem;
+        } */
+
+        .zuihou {
+            margin-bottom: 1.4rem
+        }
+        .jisu{
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            width: 100%;
+            height: 1.4rem;
+            background: white;
+            display: -webkit-flex;
+            justify-content: space-around;
+            border-top: 1px solid #e2e2e2;
+            padding-top: 10px
+        }
+        .jisu a{
+            color: white;
+            font-size: 16px;
+        }
+        .fangan{
+            width:40%;
+            height:50px;
+            background:rgba(255,116,72,1);
+            box-shadow:1px 2px 4px 0px rgba(249,210,199,1);
+            border-radius:6px;
+            text-align: center;
+            line-height: 50px;
+
+        }
+        .guwen{
+            width:40%;
+            height:50px;
+            background:rgba(46,163,255,1);
+            box-shadow:1px 2px 4px 0px rgba(194,224,248,1);
+            border-radius:6px;
+            text-align: center;
+            line-height: 50px
+        }
+        .img{
+            background: #ECECEC
+        }
+        .img img{
+            /* margin: 5px 0; */
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="all">
+        <div class="header" v-show="alias" style="display: none;">
+            <a :href="backUrl" class="back">
+                <i class="iconfont icon-fanhui"></i>
+            </a>
+            货运年保超市
+        </div>
+        <div class="img">
+            <img src="./img/hyx/hyx_01.png">
+            <img src="./img/hyx/long.jpg" alt="">
+        </div>
+        <a class="documentBottomL" v-show="flag" :href="backUrl">
+            首页
+        </a>
+        <ul class="jisu" v-show="urlFromApp==0">
+            <li class="fangan"><a :href="shisuan"><p @click="checlRouter()">极速出方案</p></a></li>
+            <li class="guwen">
+                <a :class="{ 'documentBottomR': isA, 'documentBottomRS': isB }" :href="'tel:'+phoneNumber">
+                   <p> 联系服务顾问</p>
+                </a>
+            </li>
+        </ul>
+        
+    </div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/common.js?v=20190408"></script>
+<!-- <script src="js/loading.js"></script> -->
+<script src="js/ajax.js"></script>
+<script src="js/mixins.js?v=20180912"></script>
+<script src="js/NumberToChinese.js"></script>
+<script>
+    var vm = new Vue({
+        el: '.all',
+        data: {
+            videoSrc: '',
+            videoTitle: '',
+            isVideoEnd: true,
+            caseIndex: 0,
+            tabIndex: 1, // 控制tab选中状态
+            alias: getParamName('alias'),
+            backUrl: backUrl,
+            productName: '货车重大事故保',
+            priceData: [],
+            isWWW: isWWW,
+            urlFromApp:getParamName("fromApp")||0,
+            isA: true,
+            isB: false,
+            flag: true,
+            shisuan:'',
+        },
+        mixins: [mobile, goldClaims, videoLogic, iframeHeight, hynbPrice],
+        computed: {
+
+        },
+
+        created: function () {
+            // var locationQuery=getStorage("locationQuery");
+            // if(locationQuery && locationQuery.alias && locationQuery.alias != null && locationQuery.alias != "") {
+            //     this.flag = false;
+            //     this.isA= false;
+            //     this.isB= true;
+            // }else{
+            //     this.flag = true;
+            //     isA=true,
+            //     isB=false,
+            //     console.log(this.isA+"-------"+this.isB)
+            // }
+            
+            // if(!getStorage("AndroidShareFlag")) {
+            //     setStorage({"AndroidShareFlag":"true"});
+            // }
+            // if(getStorage("AndroidShareFlag") == "true" && location.href.indexOf('?') == -1) {
+            //     location.href = location.href.replace("&","?");
+            //     setStorage({"AndroidShareFlag":"false"});
+            // }
+            var hostname=window.location.hostname;
+            if(window.location.href.indexOf('www')==-1){
+                if(window.location.href.indexOf('newjubao')==-1){
+                    if(window.location.href.indexOf('test')==-1){
+                        this.shisuan='http://'+hostname+'/#/payfor'
+                    }else{
+                        this.shisuan='http://test.jubao56.com/m/#/payfor'
+                    }
+                   
+                }else{
+                    this.shisuan='http://test.jubao56.com/newjubao/#/payfor'
+                }
+            }else{
+                this.shisuan='http://www.jubao56.com/m/#/payfor'
+            }
+            if(window.localStorage.getItem("aliasConfig")) {
+                this.flag = false;
+                this.isA = false;
+                this.isB = true;
+            }
+            
+            saveLocationInfo()
+            this.getPhone();
+            this._getData();
+            this.getPriceData();
+        },
+        methods: {
+            checlRouter(){
+                window.localStorage['chexian']='chexian';
+            }
+        },
+        destroyed: function () {
+            removeStorage('AndroidShareFlag');
+        },
+        // watch:{
+        //     //监听flag是否变化
+        //     flag:{
+        //         handler() {
+        //             console.log("flag发生变化");
+        //             // window.location.reload();
+        //         }
+        //     }
+        // }
+    });
+</script>
+
+</html>

@@ -1,7 +1,7 @@
 <template>
   <div class="orderList">
     <div class="header">
-      <v-header title="我的保单" ></v-header>
+      <v-header title="我的保单"></v-header>
       <mu-tabs
         :value.sync="active1"
         inverse
@@ -9,25 +9,31 @@
         text-color="#409EFF"
         center
         class="mu-ta"
-        @change="change"
       >
-        <mu-tab>全部</mu-tab>
-        <mu-tab>未生效</mu-tab>
-        <mu-tab>已生效</mu-tab>
-        <mu-tab>已失效</mu-tab>
+        <template v-for="(item,index) in tabList">
+          <mu-tab :key="index">{{item}}</mu-tab>
+        </template>
       </mu-tabs>
     </div>
     <div v-if="active1 === 0">
-      <all-orders></all-orders>
+      <keep-alive>
+        <all-orders></all-orders>
+      </keep-alive>
     </div>
     <div v-if="active1 === 1">
-      <all-orders :orderStatus="8"></all-orders>
+      <keep-alive>
+        <all-orders :orderStatus="8"></all-orders>
+      </keep-alive>
     </div>
     <div v-if="active1 === 2">
-      <all-orders :orderStatus="256"></all-orders>
+      <keep-alive>
+        <all-orders :orderStatus="256"></all-orders>
+      </keep-alive>
     </div>
     <div v-if="active1 === 3">
-      <all-orders :orderStatus="512"></all-orders>
+      <keep-alive>
+        <all-orders :orderStatus="512"></all-orders>
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -37,17 +43,14 @@ export default {
   components: { AllOrders },
   data() {
     return {
-      active1: 2
+      active1: 0,
+      tabList: ["全部", "未生效", "已生效", "已失效"]
     };
   },
   mounted() {
-      this.active1=this.$route.query.active1
-      console.log(this.active1)
-  },
-  methods:{
-      change(item){
-          console.log(item)
-      }
+    if (JSON.stringify(this.$route.query) !== "{}") {
+      this.active1 = Number(this.$route.query.active1);
+    }
   }
 };
 </script>
@@ -60,7 +63,7 @@ export default {
   z-index: 10000;
 }
 .mu-ta {
-//   margin-top: 10px;
+  //   margin-top: 10px;
 }
 .mu-ta .mu-tab {
   color: $black;

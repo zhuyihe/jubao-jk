@@ -1,0 +1,55 @@
+@charset "UTF-8";
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 1; }
+
+ul, li, dl, dt, dd {
+  list-style: none; }
+
+a {
+  color: #333333;
+  text-decoration: none; }
+
+a:hover {
+  color: #333333; }
+
+body {
+  background: #fff; }
+
+.all {
+  width: 100%;
+  font-family: 锘縋ingFang-SC-Regular;
+  font-size: 0.32rem;
+  color: #666; }
+  .all .header {
+    position: relative;
+    height: 1.2rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.5333333333rem;
+    line-height: 1.2rem;
+    background: white;
+    border-bottom: 0.0133333333rem solid #ccc; }
+    .all .header .back {
+      position: absolute;
+      left: 0.2666666667rem; }
+      .all .header .back .icon-back {
+        height: 1.2rem;
+        font-size: 0.5333333333rem;
+        line-height: 1.2rem; }
+  .all .title {
+    color: #000;
+    font-size: 0.4rem;
+    line-height: 0.64rem;
+    padding: 0.4rem 0.3333333333rem 0.36rem 0.4rem; }
+  .all .section {
+    text-align: justify;
+    padding: 0 0.3333333333rem 0.24rem 0.4rem;
+    line-height: 0.48rem;
+    color: #666;
+    letter-spacing: 0;
+    word-break: break-all; }
+    .all .section span {
+      color: #000; }
+
+/*# sourceMappingURL=agreement.css.map */

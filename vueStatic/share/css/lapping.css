@@ -1,0 +1,38 @@
+body, ul, li, p, h1, h2, h3, dl, dt, dd {
+  margin: 0;
+  padding: 0; }
+
+ul, li, dl, dt, dd {
+  list-style: none; }
+
+a {
+  color: #333;
+  text-decoration: none; }
+
+a:hover {
+  color: #333; }
+
+.all {
+  width: 100%;
+  font-family: PingFang-SC-Medium;
+  font-size: 0.32rem;
+  color: #333; }
+  .all .banner {
+    font-size: 0; }
+    .all .banner img {
+      width: 100%;
+      height: auto; }
+    .all .banner.mar img {
+      margin-bottom: 0.6666666667rem; }
+      .all .banner.mar img:last-child {
+        margin-bottom: 0; }
+  .all .section {
+    padding: 0 0.48rem 0.4666666667rem 0.4rem;
+    font-size: 0.48rem;
+    line-height: 0.88rem;
+    letter-spacing: 0;
+    color: #333;
+    text-align: justify;
+    text-indent: 2em; }
+
+/*# sourceMappingURL=lapping.css.map */

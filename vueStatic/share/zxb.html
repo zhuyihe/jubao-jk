@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>专线保</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link rel="stylesheet" href="./css/zxb.css" type="text/css">
+  <link rel="stylesheet" href="./css/common.css" type="text/css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css">
+  <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+  <link rel="stylesheet" href="./css/loading.css" type="text/css">
+  <script src="js/flexible.js"></script>
+</head>
+<style>
+  .foot_left1{
+    background-color: #fff;
+    color: red;
+  }
+  .foot_left2{
+    background-color: #06acf9;
+    color: #fff;
+  }
+</style>
+<body>
+<div class="all" :class="{isShare:alias}">
+  <div class="header" v-show="alias" style="display: none;">
+    <a :href="backUrl" class="back"><i class="iconfont icon-fanhui"></i></a>
+    专线保
+  </div>
+  <div class="banner">
+    <img src="./img/zxb/zxbBanner.jpg" alt="">
+  </div>
+  <div class="pro_video">
+    <div class="video-wrapper">
+      <video :src="videoSrc"
+             :class="{isPlay:!isVideoEnd}"
+             ref="video"
+             @ended="videoEnd"
+             controls="controls"
+      >
+        您的游览器不支持视频播放，请升级！
+      </video>
+      <div class="poster" :style="background(poster)" v-show="isVideoEnd">
+        <div class="video-play" @click="videoPlay">
+          <i class="iconfont icon-play"></i>
+        </div>
+        <div class="tip">{{videoTitle}}</div>
+      </div>
+    </div>
+  </div>
+  <!--整车保计算器 start-->
+  <ul class="zcb_count">
+    <li class="title">专线保——最适合城市间大车专线运输</li>
+    <li class="distance_price_count">
+      <label class="label">始发地</label>
+      <div class="select_reset">
+        <select v-model="startProvince" class="zcb_select1">
+          <option v-for="(val,idx) in startProvinceList" :value="val">{{val}}</option>
+        </select>
+      </div>
+      <div class="select_reset">
+        <select v-model="startCity" class="zcb_select2" @change="countPrice">
+          <option v-for="(val,idx) in startCityList"  :value="val" >{{val}}</option>
+        </select>
+      </div>
+    </li>
+    <li class="distance_price_count">
+      <label class="label">目的地</label>
+      <div class="select_reset">
+        <select v-model="endProvince" class="zcb_select1">
+          <option v-for="(val,idx) in endProvinceList" :value="val">{{val}}</option>
+        </select>
+      </div>
+      <div class="select_reset">
+        <select v-model="endCity" class="zcb_select2" @change="countPrice">
+          <option v-for="(val,idx) in endCityList" :value="val">{{val}}</option>
+        </select>
+      </div>
+    </li>
+    <li><span class="label">里程</span><span class="red distance">{{distance}}</span><span>公里</span></li>
+    <li class="block">
+      <span class="label">责任限额</span>
+      <span class="coverage" v-for="item in coverageList" :class="{bechose:item == coverage}" @click="coverage=item;countPrice();">{{item/10000}}万</span>
+    </li>
+    <li class="price_box">
+      <span class="label">保费</span>
+      <span class="fr">
+            <span class="price">{{price | showPrice}}</span><span>元</span>
+      </span>
+    </li>
+  </ul>
+  <!--整车保计算器 end-->
+  <div class="pro_tab">
+    <div class="tab_item" :class="{tab_on: tabIndex===1 }" @click="tabIndex=1">
+      <span>产品介绍</span>
+    </div>
+    <div class="tab_item" :class="{tab_on: tabIndex===2 }" @click="tabIndex=2">
+      <span>详细说明</span>
+    </div>
+  </div>
+  <div class="pro_content" v-show="tabIndex===1">
+    <div class="imgWrapper" v-for="(item,index) in 5">
+      <img :src="'./img/zxb/zxb'+ item +'.jpg'" alt="">
+      <!--<span class="detail h5_detail_btn" v-if="item==11" @click="toGoldClaims"></span>-->
+    </div>
+  </div>
+  <div class="pro_info" v-show="tabIndex===2">
+    <div class="pro_item pro_TiaoKuan">
+      <div class="item_title">
+        <b>产品条款</b>
+        <i></i>
+      </div>
+      <div class="item_text text_center">
+        <p>《无车承运人责任保险条款》</p>
+      </div>
+    </div>
+    <div class="pro_item pro_TiaoKuan">
+      <div class="item_title">
+        <b>承保标的货物种类</b>
+        <i></i>
+      </div>
+      <div class="item_text text_center">
+        <p>各类社会物资、生产生活用品、原材料且不属
+          于“除外承保货物种类”中列明的货物种类。</p>
+      </div>
+    </div>
+    <div class="pro_item pro_ZeRen">
+      <div class="item_title">
+        <b>保险责任</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p class="isTitle">主险保障责任:</p>
+        <div class="isMsg">在保险期间内，因下列原因造成货物损失，依照中华人民共和国法律（不包括港澳台地区法律）应由被保险人承担的经济赔偿责任，保险人按照本保险合同约定负责赔偿：</div>
+        <p class="hasIcon">火灾、爆炸；</p>
+        <p class="hasIcon">雷击、暴风、洪水、暴雪、冰雹、沙尘暴、泥石流、崖崩、突发性滑坡、地面突然塌陷等自然灾害。</p>
+        <p class="hasIcon">运输工具发生碰撞、出轨、倾覆、坠落，搁浅、触礁、沉没，或隧道、桥梁、码头坍塌；</p>
+        <p class="hasIcon">震动、碰撞、挤压或包装破裂；</p>
+        <p class="hasIcon">运输过程中遭受雨淋；</p>
+        <p class="hasIcon">货物正常装卸、搬运时发生意外事故。</p>
+        <p class="isTitle">附加责任险</p>
+        <p class="hasIcon">盗窃、抢劫责任</p>
+      </div>
+    </div>
+    <div class="pro_item pro_MianPei">
+      <div class="item_title">
+        <b>免赔额</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>一般事故每次事故绝对免赔为人民币5000元或损失金额的20%，两者以高者为准；</p>
+        <p>对于火灾、爆炸事故，运输工具倾覆、碰撞事故导致的损失及易碎品类货物的损失，每次事故绝对免赔为人民币10000元或损失金额的20%，两者以高者为准。</p>
+      </div>
+    </div>
+    <div class="pro_item pro_Tab">
+      <div class="item_title">
+        <b>责任限额及保费</b>
+      </div>
+      <div class="item_text">
+        <div class="tab_con">
+          <div class="tab_head">
+            <div class="distance">运输距离</div>
+            <div class="time">每次事故责任限额人民币50万元</div>
+            <div class="time">每次事故责任限额人民币150万</div>
+            <div class="time">每次事故责任限额人民币300万</div>
+          </div>
+          <div class="tab_item">
+            <div class="distance">0-500公里</div>
+            <div class="time">35元</div>
+            <div class="time">50元</div>
+            <div class="time">150元</div>
+          </div>
+          <div class="tab_item" v-for="item in 14">
+            <div class="distance">{{400+100*item}}-{{500+100*item}}公里</div>
+            <div class="time">{{35+7*item}}元</div>
+            <div class="time">{{(50+10*item)}}元</div>
+            <div class="time">{{(150+10*item)}}元</div>
+          </div>
+          <div class="tab_item">
+            <div class="distance">1900公里以上</div>
+            <div class="time">140元</div>
+            <div class="time">200元</div>
+            <div class="time">300元</div>
+          </div>
+        </div>
+      </div>
+      <div class="item_tip">注：本保险协议有效期内同一被保险人累计赔偿限额人民币300万元</div>
+    </div>
+    <div class="pro_item pro_MianPei">
+      <div class="item_title">
+        <b>预付保险费</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <p>保险合同签订前，投保人应向保险人指定账户预存不小于人民币<span style="color:red;">1万元</span>的年度保险费，用于每次扣减结算保险期间内投保人每次申报的单次承运业务的保费，保险合同到期时，如已发生运输业务结算保费不足人民币1万元，保险人不予退还剩余预缴保费。</p>
+        <p>预交保险费金额不足时，投保人将无法申报并获得电子保单；投保人应及时向保险人补缴保险费；单次最低补缴保险费金额为人民币1万元。</p>
+      </div>
+    </div>
+    <div class="pro_item pro_LiPei">
+      <div class="item_title">
+        <b>理赔指南</b>
+        <i></i>
+      </div>
+      <div class="item_text">
+        <div>
+          <i></i>
+          <p class="blue_font">电话报案</p>
+          <p>保险事故发生后，应及时报案。建议首先拨打首页客户服务热线，与客服人员取得联系。<br>
+            报案成功后，专属保险顾问会及时联系被保险人，指导被保险人处理现场。</p>
+        </div>
+        <div>
+          <i></i>
+          <p class="blue_font">审核</p>
+          <p>查勘员完成查勘工作后，专属保险顾问会发送理赔资料清单，指导被保险人收集填写，直至资料合格后，由保险顾问提交给保险公司核损。<br>
+            保险公司给出核损方案后，您的专属保险顾问会从专业的角度和维护被保险人利益的立场，审核其合理性。</p>
+        </div>
+        <div>
+          <i></i>
+          <p class="blue_font">赔付保险金</p>
+          <p>被保险人与保险公司对赔偿金额皆无异议后，保险公司赔付保险金到被保险人指定账户，本次理赔完成并结案。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="zcb_bottom" v-show="alias" style="display: none;">
+    <span class="foot_left1" v-if="flag">{{price | showPrice}}</span>
+    <a :href="backUrl" class="foot_left2" v-else><i class="iconfont icon-shouye"></i>首页</a>
+    <a :href="'tel:'+phoneNumber" class="foot_center" v-if="flag">服务顾问</a>
+    <a :href="'tel:'+servicePhone" class="foot_center" v-else>客服</a>
+    <!-- <a :href="createUrl" class="foot_right">立即投保</a> -->
+    <span @click="insured" class="foot_right">立即投保</span>
+  </div>
+  <div class="loading">
+    <span class="cicle"></span>
+    <div class="reload">
+      <i class="iconfont icon-wifi"></i><br>
+      网络不给力，请重新加载<br>
+      <div onclick="window.location.reload()">重新加载</div>
+    </div>
+  </div>
+</div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/common.js?v=20180911"></script>
+<script src="js/loading.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/mixins.js?v=20180911"></script>
+<script>
+
+  var vm = new Vue({
+    el: '.all',
+    mixins:[provinceCity,showData,zxbCountPrice,mobile,videoLogic,iframeHeight],
+    data: {
+      videoSrc: "",
+      videoTitle:'',
+      isVideoEnd: true,
+      tabIndex: 1, // 控制tab选中状态
+      alias: getParamName('alias'),
+      productName:'专线保',
+      backUrl:backUrl,
+      flag: true,
+      servicePhone: "",
+      createUrl: backUrl+'/zxbCreate?t='+new Date().getTime(),
+    },
+    created:function () {
+      var _this = this;
+      if(_this.alias && _this.alias != "null" && _this.alias != "undefined" && _this.alias != "") {
+          _this.flag = true;
+      }else{
+          _this.flag = false;
+      }
+//      saveDefaultRegisterDate(this.alias,this.productName);
+      saveLocationInfo()
+      this.getPhone();
+      this._getData();
+      this.getProvinceList();
+      this.getCoverage();
+      // this.getAskList();
+    },
+    methods:{
+      insured:function() {
+        this.$nextTick(() => {
+                    setStorage({"createdRouter":this.createUrl});
+                    window.location.href = this.createUrl;
+                })
+      }
+    },
+    mounted() {
+      this.createUrl = this.backUrl+'/zxbCreate?t='+new Date().getTime();
+    }
+  });
+</script>
+</html>

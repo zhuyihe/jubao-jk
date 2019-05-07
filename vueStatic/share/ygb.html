@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>员工保</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="css/ygb.css" type="text/css">
+    <link rel="stylesheet" href="./css/common.css" type="text/css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css">
+    <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+    <link rel="stylesheet" href="./css/loading.css" type="text/css">
+    <script src="js/flexible.js"></script>
+</head>
+<style>
+    .foot_left1{
+        background-color: #fff;
+        color: red;
+    }
+    .foot_left2{
+        background-color: #06acf9;
+        color: #fff;
+    }
+    .all .pro_do .do_tab {
+        padding: 0 0.6rem 0 0.6rem;
+    }
+    .all .pro_do .do_tab .do_item {
+        width: 2rem;
+    }
+</style>
+<body>
+<div class="all jubao" :class="{isShare:alias}">
+    <div class="header" v-show="alias" style="display: none;">
+        <a :href="backUrl" class="back"><i class="iconfont icon-fanhui"></i></a>
+        员工保
+    </div>
+    <div class="banner">
+        <img src="img/ygb/ygbBanner.png" alt="">
+    </div>
+    <div class="pro_video">
+        <div class="video-wrapper">
+            <video :src="videoSrc"
+                   :class="{isPlay:!isVideoEnd}"
+                   ref="video"
+                   @ended="videoEnd"
+                   controls="controls"
+            >
+                您的游览器不支持视频播放，请升级！
+            </video>
+            <div class="poster" :style="background(poster)" v-show="isVideoEnd">
+                <div class="video-play" @click="videoPlay">
+                    <i class="iconfont icon-play"></i>
+                </div>
+                <div class="tip">{{videoTitle}} </div>
+            </div>
+        </div>
+    </div>
+    <div class="pro_do">
+        <div class="do_title">
+            员工保——雇主责任险
+        </div>
+        <div class="do_tab">
+            <div class="do_item" v-for="(item,index) in caseList" :class="{active:caseIndex==index}" @click="caseIndex=index">{{item.product}}</div>
+        </div>
+        <div class="do_content">
+            <div class="cell red">
+                <div>死亡伤残</div>
+                <div>{{caseList[caseIndex].data[0]}}万</div>
+            </div>
+            <div class="cell gray">
+                <div>医疗</div>
+                <div>{{caseList[caseIndex].data[1]}}万</div>
+            </div>
+            <div class="cell gray">
+                <div>误工费</div>
+                <div>{{caseList[caseIndex].data[2]}}元/天</div>
+            </div>
+            <div class="cell gray">
+                <div>扩展保障</div>
+                <div>{{caseList[caseIndex].data[3]}}种</div>
+            </div>
+            <div class="cell blue">
+                <div class="h5_ygbLookUp" :data-caseIndex="caseIndex" @click="showDetail()">查看详情</div>
+                <!--<span style="font-size:0.3rem;color:#a5a5a5;margin-left: 0.4rem;">*现场操作人员包括：司机、搬运等工作危险性高的人员,仅限司机人数占比总人数小于30%</span>-->
+            </div>
+            <div class="cell">
+                <div class="cell_w">司机押运人数</div>
+                <add-subtract v-model="truckerNum"></add-subtract>
+                <div>{{caseList[caseIndex].price[2]}}元/人</div>
+            </div>
+            <div class="cell">
+                <div class="cell_w">搬运工人人数</div>
+                <add-subtract v-model="driverNum"></add-subtract>
+                <div>{{caseList[caseIndex].price[0]}}元/人</div>
+            </div>
+            <div class="cell">
+                <div class="cell_w">文员内勤人数</div>
+                <add-subtract v-model="clerkNum"></add-subtract>
+                <div>{{caseList[caseIndex].price[1]}}元/人</div>
+            </div>
+            <div class="cell">
+                <div>合计保费</div>
+                <div class="red">￥{{allPrice}}.00</div>
+            </div>
+        </div>
+    </div>
+    <div class="pro_tab">
+        <div class="tab_item" :class="{tab_on: tabIndex===1 }" @click="tabIndex=1">
+            <span>产品介绍</span>
+        </div>
+        <div class="tab_item" :class="{tab_on: tabIndex===2 }" @click="tabIndex=2">
+            <span>详细说明</span>
+        </div>
+    </div>
+    <div class="pro_content" v-show="tabIndex===1">
+        <div class="imgWrapper">
+            <img src="./img/ygb/ybg_long.png" alt="">
+            <!--<span class="detail h5_detail_btn" v-if="item==8" @click="toGoldClaims">了解详情</span>-->
+        </div>
+    </div>
+    <div class="pro_info" v-show="tabIndex===2">
+        <div class="pro_item pro_TiaoKuan">
+            <div class="item_title">
+                <b>产品条款</b>
+                <i></i>
+            </div>
+            <div class="item_text text_center">
+                <p>《雇主责任保险条款（2014版）》</p>
+            </div>
+        </div>
+        <div class="pro_item pro_ZeRen">
+            <div class="item_title">
+                <b>保险责任</b>
+                <i></i>
+            </div>
+            <div class="item_text">
+                <p class="blue_font paddingL">主险保障责任:</p>
+                <p><i>1</i>在工作时间和工作场所内，因工作原因受到事故伤害； </p>
+                <p><i>2</i>工作时间前后在工作场所内，从事与工作有关的预备性或收尾性工作时受到事故伤害； </p>
+                <p><i>3</i>在工作时间和工作场所内，因履行工作职责受到暴力等意外伤害；</p>
+                <p><i>4</i>患职业病； </p>
+                <p><i>5</i>因工外出期间，由于工作原因受到伤害或发生事故下落不明；</p>
+                <p><i>6</i>在上下班途中，受到非本人主要责任的交通事故或城市轨道交通、客运轮渡、火车事故伤害； </p>
+                <p><i>7</i>在工作时间和工作岗位上，突发疾病死亡或在48小时之内经抢救无效死亡；</p>
+                <p><i>8</i>在抢险救灾等维护国家利益、公共利益活动中受到伤害；</p>
+                <p><i>9</i>原在军队服役，因战、因公负伤致残，已取得革命伤残军人证，到用人单位后旧伤复发； </p>
+                <p><i>10</i>法律、行政法规规定应当认定为工伤的其他情形。</p>
+                <p class="blue_font paddingL">免费扩展保障:</p>
+                <p><i>1</i>律师费、鉴定费、检验费扩展保障</p>
+                <p><i>2</i>理赔服务时效与预付赔款特约保障</p>
+                <p><i>3</i>简化工伤认定理赔资料特约保障</p>
+                <p><i>4</i>错误遗漏条款保障 </p>
+                <p><i>5</i>运动或娱乐活动条款保障</p>
+                <p><i>6</i>紧急运输费用条款保障</p>
+                <p><i>7</i>境内公出条款保障</p>
+                <p><i>8</i>伤残事故简易赔偿特约保障 </p>
+                <p class="blue_font paddingL">特享保障:</p>
+                <p><i>1</i>自费药特约保障</p>
+                <p><i>2</i>住院津贴保障</p>
+                <p class="blue_font paddingL">（注：特享保障内容适用于其对应的产品版本，详情请见产品介绍页）</p>
+            </div>
+        </div>
+        <div class="pro_item pro_QiXian">
+            <div class="item_title">
+                <b>保险期限</b>
+                <i></i>
+            </div>
+            <div class="item_text text_center">
+                <p>一年</p>
+            </div>
+        </div>
+        <div class="pro_item pro_itemMianZe">
+            <div class="item_title">
+                <b>免赔额</b>
+                <i></i>
+            </div>
+            <div class="item_text">
+                <p class="hasIcon">医疗费用绝对免赔额100元，剩余合理医疗费用按照90%赔偿。</p>
+                <p class="hasIcon">误工费免赔天数5天。</p>
+            </div>
+        </div>
+        <div class="pro_item pro_itemMianZe">
+            <div class="item_title">
+                <b>责任除外说明</b>
+                <i></i>
+            </div>
+            <div class="item_text">
+                <p class="hasIcon">投保人、被保险人及其代表的故意或重大过失行为；</p>
+                <p class="hasIcon">战争、敌对行动、军事行为、武装冲突、罢工、暴动、民众骚乱、恐怖活动；</p>
+                <p class="hasIcon">核辐射、核爆炸、核污染及其他放射性污染；</p>
+                <p class="hasIcon">行政行为或司法行为；</p>
+                <p class="hasIcon">被保险人的工作人员的故意行为、自残、自杀； </p>
+                <p class="hasIcon">被保险人的工作人员醉酒；</p>
+                <p class="hasIcon">被保险人的工作人员从事吸毒等违法犯罪行为；</p>
+                <p class="hasIcon">在工作时间和工作岗位，被保险人的工作人员因投保时已患有的疾病发作或分娩、流产。</p>
+                <p class="blue_font">以上仅为保险合同及条款部分摘要，详细描述请见合同及条款“责任免除”部分。</p>
+            </div>
+        </div>
+        <div class="pro_item pro_LiPei">
+            <div class="item_title">
+                <b>理赔指南</b>
+                <i></i>
+            </div>
+            <div class="item_text">
+                <div>
+                    <i></i>
+                    <p class="blue_font">电话报案</p>
+                    <p>保险事故发生后，应及时报案。建议首先拨打首页客户服务热线，与客服人员取得联系。<br>
+                      报案成功后，专属保险顾问会及时联系被保险人，指导被保险人处理现场。</p>
+                </div>
+                <div>
+                    <i></i>
+                    <p class="blue_font">审核</p>
+                    <p>查勘员完成查勘工作后，专属保险顾问会发送理赔资料清单，指导被保险人收集填写，直至资料合格后，由保险顾问提交给保险公司核损。<br>
+                      保险公司给出核损方案后，您的专属保险顾问会从专业的角度和维护被保险人利益的立场，审核其合理性。</p>
+                </div>
+                <div>
+                    <i></i>
+                    <p class="blue_font">赔付保险金</p>
+                    <p>被保险人与保险公司对赔偿金额皆无异议后，保险公司赔付保险金到被保险人指定账户，本次理赔完成并结案。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="zcb_bottom" v-show="alias" style="display: none;">
+        <span class="foot_left1" v-if="flag">￥{{allPrice}}.00</span>
+        <a :href="backUrl" class="foot_left2" v-else><i class="iconfont icon-shouye"></i>首页</a>
+        <a :href="'tel:'+phoneNumber" class="foot_center" v-if="flag">服务顾问</a>
+        <a :href="'tel:'+servicePhone" class="foot_center" v-else>客服</a>
+        <!-- <a :href="createUrl" class="foot_right">立即投保</a> -->
+        <span @click="insured" class="foot_right">立即投保</span>
+    </div>
+    <div class="loading">
+        <span class="cicle"></span>
+        <div class="reload">
+            <i class="iconfont icon-wifi"></i><br>
+            网络不给力，请重新加载<br>
+            <div onclick="window.location.reload()">重新加载</div>
+        </div>
+    </div>
+    <script class="jubao" src="js/vue.js"></script>
+    <script class="jubao" src="js/common.js?v=20180912"></script>
+    <script class="jubao" src="js/loading.js"></script>
+    <script src="js/ajax.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/mixins.js?v=20180912"></script>
+    <script class="jubao">
+        var caseList = [
+            {product:'特惠版', data:[60,6,100,13],price:[600,300,800]},
+            {product:'标准版', data:[40,4,100,13],price:[560,320,700]},
+            {product:'尊享版', data:[60,6,100,13],price:[840,480,980]},
+            {product:'旗舰版', data:[80,8,100,13],price:[900,500,1100]},
+        ];
+        var vm = new Vue({
+            el: '.all',
+            components:{
+                'add-subtract' : AddSubtract
+            },
+            mixins:[mobile,goldClaims,videoLogic,iframeHeight],
+            data: {
+                videoSrc: "",
+                videoTitle:'',
+                isVideoEnd: true,
+                tabIndex: 1, // 控制tab选中状态
+                ygbUrl: backUrl + "/ygbOrders", // 跳转到员工保介绍页
+                caseList:caseList,//方案列表
+                caseIndex: 0, // 控制方案tab选中状态
+							  truckerNum:0,
+                driverNum:0, //现场操作人数
+                clerkNum:0, //非现场操作人数
+                alias: getParamName('alias'),
+                backUrl:backUrl,
+                productName:'员工保',
+                flag: true,
+                servicePhone: "",
+                createUrl:backUrl+'/ygbCreate?t='+new Date().getTime(),
+            },
+            computed:{
+                allPrice:function(){
+                    var allprice =  this.truckerNum*this.caseList[this.caseIndex].price[2] + this.driverNum*this.caseList[this.caseIndex].price[0] + this.clerkNum*this.caseList[this.caseIndex].price[1];
+                    priceAll('￥'+ allprice +'.00')
+                    return allprice;
+                },
+            },
+            created:function () {
+                var _this = this;
+                if(_this.alias && _this.alias != "null" && _this.alias != "undefined" && _this.alias != "") {
+                    _this.flag = true;
+                }else{
+                    _this.flag = false;
+                }
+                
+//                saveDefaultRegisterDate(this.alias,this.productName);
+              saveLocationInfo()
+                this._getData();
+                this.getPhone();
+            },
+            methods:{
+                showDetail:function () {
+                    console.log(this.caseIndex)
+                  if(window.parent.document.getElementsByClassName('h5_wrapper')[0]){
+//                    window.parent.location = window.parent.location.href.substring(0,window.parent.location.href.indexOf('#'))+'#/ygbLookUp?caseIndex='+this.caseIndex;
+                  }else if(this.alias){
+                    window.location.href = './ygbLookUp.html?caseIndex='+this.caseIndex+'&alias='+this.alias
+                  }else{
+                    window.location.href = './ygbLookUp.html?caseIndex='+this.caseIndex
+                  }
+                },
+                insured:function() {
+                    this.$nextTick(() => {
+                    setStorage({"createdRouter":this.createUrl});
+                    window.location.href = this.createUrl;
+                })
+                }
+            },
+        });
+    </script>
+</div>
+</body>
+</html>

@@ -51,19 +51,16 @@ export default {
       //每次切换
       this.status = newValue;
       this.refresh();
-      console.log(this.orderRows.length);
     }
   },
   mounted() {
     this.status = this.orderStatus;
-    // this.refresh();
     this.pages.order_status = this.status;
     this.getList(this.pages);
   },
   methods: {
     async getList(data, index) {
       let res = await cmnBizChanneOrderlList(data);
-      console.log(res);
       if (res.err_code === 0) {
         //下拉
         if (index === 1) {
@@ -80,7 +77,6 @@ export default {
           }
         } else {
           this.orderRows = res.rows;
-          console.log(this.orderRows.length);
         }
         this.total = res.total;
       }

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>定车货运年保</title>
+    <link rel="stylesheet" href="./css/dchynb.css" type="text/css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_514054_44qysw76w0tqpvi.css">
+    <link rel="stylesheet" href="./css/common.css" type="text/css">
+    <link rel="stylesheet" href="./css/flexible.css" type="text/css">
+    <link rel="stylesheet" href="./css/loading.css" type="text/css">
+    <script src="js/flexible.js"></script>
+</head>
+<style>
+    .foot_left1{
+        background-color: #fff;
+        color: red;
+    }
+    .foot_left2{
+        background-color: #06acf9;
+        color: #fff;
+    }
+</style>
+<body>
+    <div class="all" :class="{isShare:alias}">
+        <div class="header" v-show="alias" style="display: none;">
+            <a :href="backUrl" class="back"><i class="iconfont icon-fanhui"></i></a>
+            定车货运年保
+        </div>
+        <div class="banner">
+            <img src="./img/dchynb/dchynbBanner.jpg" alt="">
+        </div>
+        <div class="pro_video">
+            <div class="video-wrapper">
+                <video :src="videoSrc"
+                       :class="{isPlay:!isVideoEnd}"
+                       ref="video"
+                       @ended="videoEnd"
+                       controls="controls"
+                >
+                    您的游览器不支持视频播放，请升级！
+                </video>
+                <div class="poster" :style="background(poster)" v-show="isVideoEnd">
+                    <div class="video-play" @click="videoPlay">
+                        <i class="iconfont icon-play"></i>
+                    </div>
+                    <div class="tip">{{videoTitle}}</div>
+                </div>
+            </div>
+        </div>
+        <ul class="pro_list">
+          <li>定车货运年保——专为有车企业研发</li>
+          <li class="case_tab">
+            <div class="case_item" v-for="(item,index) in priceData" :class="caseIndex === index ? 'on': ''" @click="caseIndex = index">方案{{NumberToChinese(index+1)}}<br/>{{item.coverage/10000}}万</div>
+          </li>
+          <li>赔偿限额<span class="lr">{{priceData.length>0 ? priceData[caseIndex].coverage/10000 : 0}}万</span></li>
+          <li>保费<span class="lr"><span class="red">{{allPrice}}.00</span> 元</span></li>
+        </ul>
+        <div class="pro_tab">
+            <div class="tab_item" :class="{tab_on: tabIndex===1 }" @click="tabIndex=1">
+                <span>产品介绍</span>
+            </div>
+            <div class="tab_item" :class="{tab_on: tabIndex===2 }" @click="tabIndex=2">
+                <span>详细说明</span>
+            </div>
+        </div>
+        <div class="pro_content" v-show="tabIndex===1">
+            <div class="imgWrapper" v-for="(item,index) in 10">
+                <img :src="'./img/dchynb/dchynb'+ item +'.png'" alt="">
+                <a class="zuhe" v-if="item==10" :href="hcbUrl">货车重大事故保</a>
+                <!--<span class="detail h5_detail_btn" v-if="item == 11" @click="toGoldClaims">了解详情</span>-->
+            </div>
+        </div>
+        <div class="pro_info" v-show="tabIndex===2">
+            <div class="pro_item pro_item1">
+                <div class="item_title">
+                    <b>产品条款</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <p>《公路货运承运人责任保险条款》</p>
+                </div>
+            </div>
+            <div class="pro_item pro_item2">
+                <div class="item_title">
+                    <b>保险责任</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <p>火灾、爆炸；</p>
+                    <p>在运输过程中发生车辆碰撞、倾覆；</p>
+                    <p>因发生上述意外事故而造成被保险货物的散失。</p>
+                    <p>在装货、卸货或转载时，因遭受不属于包装质量不善或装卸人员违反操作规程所造成的损失；</p>
+                    <p>液体货物因受碰撞、挤压致使所用容器(包括封口)损坏而渗漏的损失，或用液体保藏的货物因液体渗漏而造成保藏货物腐烂变质的损失；</p>
+                    <p>符合安全运输规定而遭受雨淋所致的损失。</p>
+                    <p>运输过程中货物发生盗窃、抢劫</p>
+                </div>
+            </div>
+            <div class="pro_item pro_item3">
+                <div class="item_title">
+                    <b>保险期限</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <p>一年</p>
+                </div>
+            </div>
+            <div class="pro_item pro_item4">
+                <div class="item_title">
+                    <b>保障限额与保费</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <img src="./img/dchynb/table.jpg" width="100%">
+                </div>
+                <div class="item_text text_tip">注：5吨以上车辆最低起保限额50万元起。</div>
+            </div>
+            <div class="pro_item pro_item5">
+                <div class="item_title">
+                    <b>免赔额</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <p class="hasIcon">保险金额等于低于50万元的：</p>
+                    <p>每车每次事故绝对免赔额为人民币2000元或损失金额的10%，两者以高者为准。</p>
+                    <p>但火灾事故：每车每次事故绝对免赔额为人民币5000元或损失金额的20%，两者以高者为准。</p>
+                    <p class="hasIcon">保险金额100万元及以上的：</p>
+                    <p>每车每次事故绝对免赔额为人民币5000元或损失金额的10%，两者以高者为准。</p>
+                    <p>但火灾事故：每车每次事故绝对免赔额为人民币10000元或损失金额的20%，两者以高者为准。</p>
+                </div>
+            </div>
+            <!-- <div class="pro_item pro_item6">
+                <div class="item_title">
+                    <b>投保资料</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <div>
+                        <p>企业营业执照</p>
+                        <p>运输车辆行驶证及车辆运输证;</p>
+                        <p>投保单；如车辆较多，可填写投保车辆清单。</p>
+                    </div>
+                    <div>
+                        <p>将以上资料收集齐全后可拨打首页客户服务热线，办理相关投保事宜。</p>
+                    </div>
+                </div>
+            </div> -->
+            <div class="pro_item pro_item7">
+                <div class="item_title">
+                    <b>投保须知</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <p class="isTitle">不保货物：</p>
+                    <p class="hasIcon">金银、珠宝、钻石、玉器、贵重金属；</p>
+                    <p class="hasIcon">古玩、古币、古书、古画、艺术作品、雕塑、邮票；</p>
+                    <p class="hasIcon">旧品、二手品、展览后之展品和陈列品等无法确定其价值的货品；</p>
+                    <p class="hasIcon">枪支弹药、爆炸物品；</p>
+                    <p class="hasIcon">现钞、有价证券、票据、文件、档案、帐册、图纸、技术资料、信用证、护照；</p>
+                    <p class="hasIcon">需冷藏或恒温运输的货物；</p>
+                    <p class="hasIcon">蔬菜、水果、活牲畜、禽鱼类和其他动物。易腐品、易蛀品、农产品，如果仁、花生、玉米、豆类、大小麦、豆粕、鱼粉、菜籽饼、地瓜干、木薯干、肉类、蛋类、蔬菜、水果类等；易变质品、活品，如海鲜、动植物等；</p>
+                    <p class="hasIcon">易燃易爆及危险品（参照GB12268-2005《危险货物品名表》）；</p>
+                    <p class="hasIcon">危险品，化工品如硫酸、水泥等；</p>
+                    <p class="hasIcon">精密仪器或设备——任何仪器或设备如果满足以下条件之一，应视为精密仪器或设备：</p>
+                    <p>a.运输过程中对该仪器或设备的平衡、稳定、防震、防尘、搬运倾斜角度等有特殊严格要求； </p>
+                    <p>b.仪器或设备受损后很难找到配件，必须运回原厂修理或很难修复； </p>
+                    <p>c.单件仪器或设备保额超过人民币100万元对运输有严格要求;</p>
+                    <p class="hasIcon">军火、军品；</p>
+                    <p class="hasIcon">原木、原棉、天然橡胶等；</p>
+                    <p class="hasIcon">汽车，船舶；</p>
+                    <p class="hasIcon">无任何包装且无法确定单件价值的大宗货物，如煤炭、矿石/砂、沥青、焦油、水泥等；</p>
+                    <p class="hasIcon" style="color:black">重大件机械设备（任何机机械设备如果满足以下条件之一，应视为重大件机械设备：任一部件由于体积或重量的原因必须由特殊运输工具运输；任一部件包括包装不能放进40英尺标准集装箱或公路平板车，即超过12米长、2.5米宽或2.5米高；任一部件包括包装超过50吨重；任一部件由于本身的特性必须特殊处理，如要求特殊的绑扎固定及保持重心的平衡）。</p>
+                </div>
+                <div class="item_text">
+                    <p class="isTitle">不赔事项：</p>
+                    <p class="hasIcon">投保人、被保险人或其雇员、驾驶人员或押运人员的故意行为、犯罪行为，以及私吞、藏匿、转移等任何不诚实的行为；</p>
+                    <p class="hasIcon">驾驶人员饮酒、吸毒、被药物麻醉，或无有效驾驶证，或持未审验的驾驶证或审验不合格的驾驶证；</p>
+                    <p class="hasIcon">运输工具不适载；</p>
+                    <p class="hasIcon">货物包装完好而其内容短少或不符，且无法证明是因意外事故所致的损失;
+                        被保险货物的本身缺陷或自然损耗；</p>
+                    <p class="hasIcon">被保险货物包装不善；</p>
+                    <p class="hasIcon">台风、龙卷风、暴风、暴雨、洪水、泥石流、地震、海啸等自然灾害或其他人力不可抗拒因素；</p>
+                    <p class="hasIcon" style="color:black">人工直接供油、高温烘烤。</p>
+                </div>
+            </div>
+            <div class="pro_item pro_item10">
+                <div class="item_title">
+                    <b>理赔指南</b>
+                    <i></i>
+                </div>
+                <div class="item_text">
+                    <div>
+                        <i></i>
+                        <p>电话报案</p>
+                        <p>保险事故发生后，应及时报案。建议首先拨打首页客户服务热线，与客服人员取得联系。<br>
+                          报案成功后，专属保险顾问会及时联系被保险人，指导被保险人处理现场。</p>
+                    </div>
+                    <div>
+                        <i></i>
+                        <p>审核</p>
+                        <p>查勘员完成查勘工作后，专属保险顾问会发送理赔资料清单，指导被保险人收集填写，直至资料合格后，由保险顾问提交给保险公司核损。<br>
+                          保险公司给出核损方案后，您的专属保险顾问会从专业的角度和维护被保险人利益的立场，审核其合理性。</p>
+                    </div>
+                    <div>
+                        <i></i>
+                        <p>赔付保险金</p>
+                        <p>被保险人与保险公司对赔偿金额皆无异议后，保险公司赔付保险金到被保险人指定账户，本次理赔完成并结案。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="zcb_bottom" v-show="alias" style="display: none;">
+            <span class="foot_left1" v-if="flag">￥{{allPrice}}.00</span>
+            <a :href="backUrl" class="foot_left2" v-else><i class="iconfont icon-shouye"></i>首页</a>
+            <a :href="'tel:'+phoneNumber" class="foot_center" v-if="flag">服务顾问</a>
+            <a :href="'tel:'+servicePhone" class="foot_center" v-else>客服</a>
+            <!-- <a :href="createUrl" class="foot_right">立即投保</a> -->
+            <span @click="insured" class="foot_right">立即投保</span>
+        </div>
+        <div class="loading">
+            <span class="cicle"></span>
+            <div class="reload">
+                <i class="iconfont icon-wifi"></i><br>
+                网络不给力，请重新加载<br>
+                <div onclick="window.location.reload()">重新加载</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/common.js?v=20180912"></script>
+<script src="js/loading.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/mixins.js?v=20180912"></script>
+<script src="js/NumberToChinese.js"></script>
+<script>
+    var vm = new Vue({
+        el: '.all',
+        data: {
+            videoSrc: '',
+            poster: './img/dchynb/banner.jpg',
+            isVideoEnd: true,
+            videoTitle:'',
+            caseIndex:0,
+            tabIndex: 1, // 控制tab选中状态
+            alias: getParamName('alias'),
+            backUrl:backUrl,
+            productName:'定车货运年保',
+            priceData:[],
+            isWWW:isWWW,
+            flag:true,
+            servicePhone: "",
+            createUrl:backUrl+'/dchynbCreate?t='+new Date().getTime()
+        },
+        mixins:[mobile,goldClaims,videoLogic,iframeHeight,hynbPrice],
+        computed:{
+            hcbUrl:function () {
+                var url = './hcb.html';
+                return this.alias ? url+'?alias='+this.alias+"&product_name=hcb": url+"?product_name=hcb";
+            },
+            allPrice:function () {
+              var allPrice = this.priceData.length>0 ? this.priceData[this.caseIndex].price/100 : 0;
+              priceAll('￥'+ allPrice +'.00')
+              return allPrice;
+            }
+        },
+        created:function () {
+            var _this = this;
+            if(_this.alias && _this.alias != "null" && _this.alias != "undefined" && _this.alias != "") {
+                _this.flag = true;
+            }else{
+                _this.flag = false;
+            }
+//            saveDefaultRegisterDate(this.alias);
+          saveLocationInfo()
+            this.getPhone();
+            this._getData();
+            this.getPriceData();
+            console.log(this.phoneNumber)
+        },
+        methods:{
+          NumberToChinese:function(num){
+            return NumberToChinese(num);
+          },
+          insured:function() {
+                this.$nextTick(() => {
+                    setStorage({"createdRouter":this.createUrl});
+                    window.location.href = this.createUrl;
+                })
+            }
+        },
+    });
+</script>
+</html>
