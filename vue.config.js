@@ -3,6 +3,7 @@ const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 //gzip压缩插件
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+
 function resolve(dir) {
     return path.join(__dirname, dir)
 }
@@ -19,13 +20,15 @@ module.exports = {
         //区分环境
         config.plugin('define').tap(args => {
             args[0]['process.env'].VUE_APP_LOGOUT_URL = JSON.stringify(process.env.VUE_APP_LOGOUT_URL)
+            //定义图片上传地址
+            args[0]['process.env'].VUE_APP_FILE_URL = JSON.stringify(process.env.VUE_APP_FILE_URL)
             console.log(args[0])
             return args;
         });
         //设置别名
         config.resolve.alias
             .set('@', resolve('src'))
-            .set('@api', resolve('src/api/api'))//接口地址
+            .set('@api', resolve('src/api/api')) //接口地址
             .set('@assets', resolve('src/assets'))
     },
     configureWebpack: config => {
@@ -46,8 +49,7 @@ module.exports = {
                 filename: '[path].gz[query]',
                 algorithm: 'gzip',
                 test: new RegExp(
-                    '\\.(' +
-                    ['js', 'css'].join('|') +
+                    '\\.(' + ['js', 'css'].join('|') +
                     ')$',
                 ),
                 threshold: 10240,
@@ -56,27 +58,27 @@ module.exports = {
         ]
         if (process.env.VUE_APP_CURRENTMODE !== 'development') {
             config.plugins = [...config.plugins, ...pluginsPro]
-          }
+        }
     },
     devServer: {
         port: 8888, // 端口
         open: true, // 自动开启浏览器
         compress: false, // 开启压缩
         overlay: {
-          warnings: true,
-          errors: true
+            warnings: true,
+            errors: true
         }
-      },
-      //定义scss全局变量
-  css: {
-    // 是否使用css分离插件 ExtractTextPlugin
-    extract: true,
-    // 开启 CSS source maps?
-    sourceMap: false,
-    loaderOptions: {
-      sass: {
-        data: `@import "@/assets/scss/global.scss";`
-      },
+    },
+    //定义scss全局变量
+    css: {
+        // 是否使用css分离插件 ExtractTextPlugin
+        extract: true,
+        // 开启 CSS source maps?
+        sourceMap: false,
+        loaderOptions: {
+            sass: {
+                data: `@import "@/assets/scss/global.scss";`
+            },
+        }
     }
-  }
 }

@@ -30,7 +30,7 @@
 </template>
 <script>
 import { cmnServiceConfig, cmnChannelLogin } from "@api";
-import { setLocalStorage,getStorage } from "@assets/js/SessionStorage";
+import { setLocalStorage, getStorage } from "@assets/js/SessionStorage";
 import { mobile_reg } from "@assets/js/reg";
 import { toast, message } from "@assets/js/common";
 export default {
@@ -69,7 +69,6 @@ export default {
       });
     },
     login() {
-      console.log(this.validateForm.rememberMe);
       this.rememberUser();
       let self = this;
       this.loading = true;
@@ -92,11 +91,10 @@ export default {
               self.$store.commit("COMMIT_TOKEN", res.data.access_token);
               //判断是否存在路由
               if (getStorage("createdRouter")) {
-                 window.location.href = getStorage("createdRouter");
+                window.location.href = getStorage("createdRouter");
               } else {
                 self.$router.replace("/dashboard");
               }
-             
             })
             .catch(e => {
               switch (e.err_code) {
@@ -134,7 +132,8 @@ export default {
     },
     // 加密记住用户信息
     rememberUser() {
-      if (this.rememberMe) {
+      console.log(this.validateForm.rememberMe);
+      if (this.validateForm.rememberMe) {
         this.setCookie("rmbUser", "true", 30 * 24); //存储一个带 30 天期限的cookie
         this.setCookie("mobile", encodeURI(this.validateForm.mobile), 30 * 24);
         this.setCookie(
@@ -151,7 +150,7 @@ export default {
     // 读取选择记住密码的用户信息
     readrmbUser() {
       if (this.getCookie("rmbUser") == "true") {
-        this.rememberMe = true;
+        this.validateForm.rememberMe = true;
         this.validateForm.mobile = decodeURI(this.getCookie("mobile"));
         this.validateForm.password = decodeURI(this.getCookie("password"));
       }

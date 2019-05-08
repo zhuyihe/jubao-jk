@@ -38,3 +38,7 @@ export const cmnUseraddressDelete = (params) => get("/v1/cmn/useraddress/delete"
 export const cmnBizChanneOrderlList = (params) => get("/v1/cmn/biz/channel/orderflow/list.v2", params);
 //代理人保费统计
 export const cmnBizPremiumlSum = (params) => get("/v1/cmn/biz/premium/sum", params);
+//获取省份
+export const allProvinceList = (params) => get("/v1/cmn/all/province/list", params)
+//获取价格方案列表
+export const cmnProductpriceList = (params) => get("/v1/cmn/productprice/list", params);

@@ -181,7 +181,12 @@
                 <label class="weui-label">保险金额(万元)</label>
               </div>
               <div class="weui-cell__bd">
-                <input class="weui-input" type="text" :placeholder="'保额不超过'+(form.max_coverage/10000)+'万元'" v-model="form.coverage">
+                <input
+                  class="weui-input"
+                  type="text"
+                  :placeholder="'保额不超过'+(form.max_coverage/10000)+'万元'"
+                  v-model="form.coverage"
+                >
               </div>
             </div>
           </mu-list-item-content>
@@ -194,7 +199,12 @@
                 <label class="weui-label">保险费率</label>
               </div>
               <div class="weui-cell__bd">
-                <input class="weui-input" type="text" readonly :value="form.rate ? (form.rate/10000)+'%' : '--'">
+                <input
+                  class="weui-input"
+                  type="text"
+                  readonly
+                  :value="form.rate ? (form.rate/10000)+'%' : '--'"
+                >
               </div>
             </div>
           </mu-list-item-content>
@@ -222,13 +232,13 @@
         <mu-divider></mu-divider>
         <mu-list-item button :ripple="false" class="felx">
           <mu-list-item-content>
-            <mu-checkbox v-model="aa" label="增加三个以内共同被保险人"></mu-checkbox>
+            <mu-checkbox v-model="select1" label="增加三个以内共同被保险人"></mu-checkbox>
           </mu-list-item-content>
-          <mu-list-item-action v-if='select2'>增加{{(form.coverage*0.3).toFixed(2)}}元</mu-list-item-action>
-           <mu-list-item-action v-else>增加{{(form.coverage*0.6).toFixed(2)}}元</mu-list-item-action>
+          <mu-list-item-action v-if="select2">增加{{(form.coverage*0.3).toFixed(2)}}元</mu-list-item-action>
+          <mu-list-item-action v-else>增加{{(form.coverage*0.6).toFixed(2)}}元</mu-list-item-action>
         </mu-list-item>
         <mu-divider></mu-divider>
-        <div class="baoxianren">
+        <div class="baoxianren" v-if="select1">
           <mu-list-item button :ripple="false" class="felx">
             <mu-list-item-content>
               <div class="weui-cell">
@@ -236,7 +246,12 @@
                   <label class="weui-label">共同被保险人一</label>
                 </div>
                 <div class="weui-cell__bd">
-                  <input class="weui-input" type="text" placeholder="请输入被保险人名称">
+                  <input
+                    class="weui-input"
+                    type="text"
+                    placeholder="请输入被保险人名称"
+                    v-model.trim="addOne"
+                  >
                 </div>
               </div>
             </mu-list-item-content>
@@ -249,7 +264,12 @@
                   <label class="weui-label">共同被保险人二</label>
                 </div>
                 <div class="weui-cell__bd">
-                  <input class="weui-input" type="text" placeholder="请输入被保险人名称">
+                  <input
+                    class="weui-input"
+                    type="text"
+                    placeholder="请输入被保险人名称"
+                    v-model.trim="addTwo"
+                  >
                 </div>
               </div>
             </mu-list-item-content>
@@ -262,20 +282,25 @@
                   <label class="weui-label">共同被保险人三</label>
                 </div>
                 <div class="weui-cell__bd">
-                  <input class="weui-input" type="text" placeholder="请输入被保险人名称">
+                  <input
+                    class="weui-input"
+                    type="text"
+                    placeholder="请输入被保险人名称"
+                    v-model.trim="addThree"
+                  >
                 </div>
               </div>
             </mu-list-item-content>
           </mu-list-item>
         </div>
-        <mu-divider></mu-divider>
-        <mu-list-item button :ripple="false" class="felx">
+        <mu-divider v-if="select1"></mu-divider>
+        <mu-list-item button :ripple="false" class="felx" v-if="select1">
           <mu-list-item-content class="addStress">
-            <mu-checkbox v-model="aa" label="再增加三个以内共同被保险人"></mu-checkbox>
+            <mu-checkbox v-model="select2" label="再增加三个以内共同被保险人"></mu-checkbox>
           </mu-list-item-content>
         </mu-list-item>
-        <mu-divider></mu-divider>
-        <div class="baoxianren">
+        <mu-divider v-if="select1"></mu-divider>
+        <div class="baoxianren" v-if="select2">
           <mu-list-item button :ripple="false" class="felx">
             <mu-list-item-content>
               <div class="weui-cell">
@@ -283,12 +308,17 @@
                   <label class="weui-label">共同被保险人一</label>
                 </div>
                 <div class="weui-cell__bd">
-                  <input class="weui-input" type="text" placeholder="请输入被保险人名称">
+                  <input
+                    class="weui-input"
+                    type="text"
+                    placeholder="请输入被保险人名称"
+                    v-model.trim="addAgainOne"
+                  >
                 </div>
               </div>
             </mu-list-item-content>
           </mu-list-item>
-          <mu-divider></mu-divider>
+          <mu-divider v-if="select2"></mu-divider>
           <mu-list-item button :ripple="false" class="felx">
             <mu-list-item-content>
               <div class="weui-cell">
@@ -296,7 +326,12 @@
                   <label class="weui-label">共同被保险人二</label>
                 </div>
                 <div class="weui-cell__bd">
-                  <input class="weui-input" type="text" placeholder="请输入被保险人名称">
+                  <input
+                    class="weui-input"
+                    type="text"
+                    placeholder="请输入被保险人名称"
+                    v-model.trim="addAgainTwo"
+                  >
                 </div>
               </div>
             </mu-list-item-content>
@@ -309,13 +344,18 @@
                   <label class="weui-label">共同被保险人三</label>
                 </div>
                 <div class="weui-cell__bd">
-                  <input class="weui-input" type="text" placeholder="请输入被保险人名称">
+                  <input
+                    class="weui-input"
+                    type="text"
+                    placeholder="请输入被保险人名称"
+                    v-model.trim="addAgainThree"
+                  >
                 </div>
               </div>
             </mu-list-item-content>
           </mu-list-item>
         </div>
-        <mu-divider></mu-divider>
+        <mu-divider v-if="select2"></mu-divider>
         <div class="tabs">
           <mu-tabs
             :value.sync="active2"
@@ -337,7 +377,12 @@
                     <label class="weui-label">运单号</label>
                   </div>
                   <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" placeholder="请输入运单号">
+                    <input
+                      class="weui-input"
+                      type="text"
+                      placeholder="请输入运单号"
+                      v-model="form.track_no"
+                    >
                   </div>
                 </div>
               </mu-list-item-content>
@@ -350,7 +395,12 @@
                     <label class="weui-label">货物名称</label>
                   </div>
                   <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" placeholder="请输入货物名称">
+                    <input
+                      class="weui-input"
+                      type="text"
+                      placeholder="请输入货物名称"
+                      v-model="form.cargo_name"
+                    >
                   </div>
                 </div>
               </mu-list-item-content>
@@ -363,7 +413,12 @@
                     <label class="weui-label">数量单位</label>
                   </div>
                   <div class="weui-cell__bd">
-                    <input class="weui-input" type="text" placeholder="请输入数量和单位如10吨、20件">
+                    <input
+                      class="weui-input"
+                      type="text"
+                      placeholder="请输入数量和单位如10吨、20件"
+                      v-model="form.quantity"
+                    >
                   </div>
                 </div>
               </mu-list-item-content>
@@ -371,7 +426,7 @@
           </div>
           <div class="zhengche" v-if="active2 === 1">
             <div class="upload-excel">
-              <upload :maxLimit="10"></upload>
+              <upload :maxLimit="10" v-model="form.imgList" :url="fileUrl"></upload>
             </div>
             <div class="tip">温馨提示：请上传装车清单照片</div>
           </div>
@@ -380,7 +435,7 @@
       </mu-list>
       <div class="agresss">
         <div class="check">
-          <mu-checkbox v-model="aa" value="eat"></mu-checkbox>
+          <mu-checkbox v-model="agree" value="eat"></mu-checkbox>
         </div>
         <div class="neirong">
           我已阅读并同意
@@ -405,6 +460,8 @@
 const upload = () => import("@/components/weuiUpload/weuiUpload");
 import { login } from "@/mixins/login.js";
 import { reg_company, carId } from "@assets/js/reg";
+import { allProvinceList, cmnProductpriceList } from "@api";
+import { toast } from "@assets/js/common";
 export default {
   components: {
     upload
@@ -412,7 +469,9 @@ export default {
   data() {
     return {
       open: false, //未登录提示登录
+      productName: "大件保",
       form: {
+        price_id: "",
         beneficiary: "", //被保险人
         truck_type: 2, //货车类型 2普通 1带挂
         plateExtraNo: "", //挂车牌号
@@ -421,22 +480,78 @@ export default {
         startCity: "", //始发地市
         endProvince: "", //目的地省份
         endCity: "", //目的地市
-        goodsType:'',//货物类别
-        coverage:'',//保险金额
-        rate:'',//费率
-        min_premium:'',//最低保费
+        goodsType: "", //货物类别
+        coverage: "", //保险金额
+        rate: "", //费率
+        min_premium: "", //最低保费
+        track_no: "", //运单号
+        cargo_name: "", //货物名称
+        quantity: "", //货物重量
+        imgList: [] //图片数组
       },
       select: true,
-      select1: true,
-      select2: true,
+      select1: false,
+      select2: false,
+      agree: false,
+      addOne: "",
+      addTwo: "",
+      addThree: "",
+      addAgainOne: "",
+      addAgainTwo: "",
+      addAgainThree: "",
       active2: 0,
       reg_company: reg_company,
-      carId: carId
+      carId: carId,
+      fileUrl: "", //图片上传地址
+      allPrice: "",
+      provinceList: [],
+      goodsTypeList: [],
+      goodsNameList: []
     };
   },
-  mounted() {},
+  mounted() {
+    this.fileUrl = process.env.VUE_APP_FILE_URL;
+    this.initData();
+  },
   mixins: [login],
-  methods: {}
+  methods: {
+    async initData() {
+      let res = await Promise.all([
+        allProvinceList(),
+        cmnProductpriceList({ product_name: this.productName })
+      ]);
+      if (res[0].err_code === 0) {
+        this.provinceList = res[0].data;
+      } else {
+        toast("error", res[0].err_msg);
+      }
+      //保额列表
+      if (res[1].err_code === 0) {
+        if (res[1].rows[0]) {
+          res[1].rows = res[1].rows.sort(this.compare("rate"));
+          res[1].rows.forEach(item => {
+            if (item.name.indexOf("-") == -1)
+              this.goodsNameList.push(item.name);
+          });
+          this.goodsTypeList = res[1].rows;
+          this.form.rate = res[1].rows[0].rate;
+          this.form.min_premium = res[1].rows[0].min_premium;
+          this.form.max_coverage = res[1].rows[0].max_coverage;
+          this.form.min_coverage =
+            Math.ceil(this.min_premium / (this.rate / 1000000)) / 10000;
+          this.form.price_id = res[1].rows[0].id;
+        }
+      }
+      console.log(res);
+    },
+    compare(property) {
+      return function(a, b) {
+        var value1 = a[property];
+        var value2 = b[property];
+        return value1 - value2;
+      };
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
