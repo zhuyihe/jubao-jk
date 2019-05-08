@@ -53,7 +53,6 @@ export default {
     goTouchFlag: { type: Boolean, default: false }
   },
   mounted(){
-      console.log(this.routerLinkMode)
   },
   methods: {
     back() {

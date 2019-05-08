@@ -5,20 +5,53 @@
     >
       <router-view class="router"></router-view>
     </transition>-->
-    <transition :name="transitionName"> 
-　　　　　　<router-view class="Router"></router-view>
-　　　　</transition>
+    <transition :name="transitionName">
+      <router-view class="Router"></router-view>
+    </transition>
   </div>
 </template>
 <script>
 import { routeBack } from "@/router/routerBack";
+import { setStorage, getStorage } from "@assets/js/SessionStorage";
+import { cmnServiceProductList } from "@api";
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
-      transitionName: 'slide-right'
+      transitionName: "slide-right"
     };
   },
-  methods: {},
+  created() {
+    if (!getStorage("productList")) {
+      this.getProductList();
+    }
+  },
+  mounted() {
+    // setTimeout(() => {
+    //   let inptArr = document.getElementsByTagName("input");
+    //   console.log(inptArr.length);
+    //   for (let item of inptArr) {
+    //     item.addEventListener("blur", () => {
+    //       this.scroll();
+    //     });
+    //   }
+    // }, 500);
+  },
+  methods: {
+    async getProductList() {
+      // //获取聚保的所有产品
+      let ress = await cmnServiceProductList({ app_id: 1 });
+      setStorage({ cmnServiceProductList: ress });
+    },
+    scroll() {
+      // console.log(document.documentElement.scrollTop)
+      // console.log(document.documentElement.clientHeight)
+      // if(document.documentElement.scrollTop>0){
+      //    ; 
+      // }
+    //  window.scroll(0,0) //失焦后强制让页面归位
+    }
+  },
   watch: {
     $route: function(to, from) {
       //history添加记录
@@ -65,24 +98,24 @@ export default {
   font-size: 40px;
 }
 .Router {
-     position: absolute;
-     width: 100%;
-     transition: .3s  ease-in-out;
-    //  top: 40px;
+  position: absolute;
+  width: 100%;
+  transition: 0.3s ease-in-out;
+  //  top: 40px;
 }
 
 .slide-left-enter,
- .slide-right-leave-active {
-    //  opacity: 0;
-    -webkit-transform: translate(100%, 0);
-    transform: translate(100%, 0);
+.slide-right-leave-active {
+  //  opacity: 0;
+  -webkit-transform: translate(100%, 0);
+  transform: translate(100%, 0);
 }
 
 .slide-left-leave-active,
 .slide-right-enter {
-     opacity: 0;
-    -webkit-transform: translate(-100%, 0);
-    transform: translate(-100% 0);
+  opacity: 0;
+  -webkit-transform: translate(-100%, 0);
+  transform: translate(-100% 0);
 }
 .router {
   position: absolute;

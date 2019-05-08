@@ -30,7 +30,7 @@
 </template>
 <script>
 import { cmnServiceConfig, cmnChannelLogin } from "@api";
-import { setLocalStorage } from "@assets/js/SessionStorage";
+import { setLocalStorage,getStorage } from "@assets/js/SessionStorage";
 import { mobile_reg } from "@assets/js/reg";
 import { toast, message } from "@assets/js/common";
 export default {
@@ -56,6 +56,7 @@ export default {
     };
   },
   mounted() {
+    this.readrmbUser();
     this.getTitle();
   },
   methods: {
@@ -68,6 +69,8 @@ export default {
       });
     },
     login() {
+      console.log(this.validateForm.rememberMe);
+      this.rememberUser();
       let self = this;
       this.loading = true;
       this.$refs.form.validate().then(result => {
@@ -78,17 +81,22 @@ export default {
           };
           cmnChannelLogin(data)
             .then(res => {
-              this.loading = false;
-              let userInfo={
-                appname:res.data.app_alias,
-                app_id:res.data.app_id,
-                app_key:res.data.app_key,
-                app_name:res.data.app_name
+              self.loading = false;
+              let userInfo = {
+                appname: res.data.app_alias,
+                app_id: res.data.app_id,
+                app_key: res.data.app_key,
+                app_name: res.data.app_name
+              };
+              self.$store.commit("USER_INFO", userInfo);
+              self.$store.commit("COMMIT_TOKEN", res.data.access_token);
+              //判断是否存在路由
+              if (getStorage("createdRouter")) {
+                 window.location.href = getStorage("createdRouter");
+              } else {
+                self.$router.replace("/dashboard");
               }
-              console.log(userInfo)
-              self.$store.commit('USER_INFO',userInfo)
-              self.$store.commit('COMMIT_TOKEN',res.data.access_token)
-              self.$router.replace("/dashboard");
+             
             })
             .catch(e => {
               switch (e.err_code) {

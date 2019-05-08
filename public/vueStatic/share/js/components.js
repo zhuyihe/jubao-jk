@@ -386,27 +386,13 @@ Vue.component("page-footer", {
   methods: {
     insure: function () {
       var _this = this;
-      console.log(_this.timeStart, _this.timerNow, _this.timeEnd);
       this.$nextTick(function () {
+        var link=location.protocol +"//" + location.host+"/#/djbCreate";
+        //保存当前页面
         setStorage({
-          'createdRouter': _this.insuredLink
+          'createdRouter': link
         });
-        if (_this.timerNow < _this.timeEnd) {
-          if (_this.insuredLink.indexOf('productName') != -1 || _this.insuredLink.indexOf('djbCreate') != -1) {
-            Toast('为了提供更好的服务体验，大地保险所有单票投保产品，在今晚9点-11点半时间段升级，届时无法正常投保，请大家错开以上时间段进行投保操作。');
-          }
-        }
-        setTimeout(function () {
-          if (_this.timeStart < _this.timerNow && _this.timerNow < _this.timeEnd) {
-            if (_this.insuredLink.indexOf('productName') != -1 || _this.insuredLink.indexOf('djbCreate') != -1) {
-
-            } else {
-              window.location.href = _this.insuredLink;
-            }
-          } else {
-            window.location.href = _this.insuredLink;
-          }
-        }, 1000);
+        window.location.href = link;
       })
     }
   }

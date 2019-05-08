@@ -21,7 +21,7 @@ axios.interceptors.request.use(
         if (store.state.access_token) {
             config.headers["Authorization"] = "Bearer " + store.state.access_token;
         }
-        if(store.state.userInfo.app_key){
+        if (store.state.userInfo.app_key) {
             config.headers["AppKey"] = store.state.userInfo.app_key;
         }
         return config;
@@ -81,15 +81,13 @@ axios.interceptors.response.use(
                 break;
             case 403:
                 toast("warning", "用户登陆过期，请重新登陆");
-                store.state.commit('COMMIT_TOKEN', '')
-                setTimeout(() => {
-                    router.replace({
-                        path: "/login",
-                        query: {
-                            redirect: router.currentRoute.fullPath
-                        }
-                    });
-                }, 1000);
+                store.commit('COMMIT_TOKEN', '')
+                router.push({
+                    path: "/login",
+                    query: {
+                        redirect: router.currentRoute.fullPath
+                    }
+                });
                 break;
             case 400:
                 toast("error", "数据异常，详情请咨询聚保服务热线");

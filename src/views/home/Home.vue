@@ -39,7 +39,7 @@
               :index="index"
               :title="value.name"
               :showTitle="Boolean(value.id && productLists.length>1)"
-              :products="value.products"
+              :products="NameTransLink(value.products)"
             ></product-list>
           </template>
         </div>
@@ -81,7 +81,8 @@ export default {
       active: 0,
       productLists: [],
       columnList: [],
-      loading: false
+      loading: false,
+      routeStrat:'',
     };
   },
   mounted() {
@@ -129,7 +130,6 @@ export default {
     },
     async cmnServiceCategoryList() {
       let res = await cmnServiceCategoryList({ type: 3 });
-      console.log(res);
       if (res.err_code !== 0) {
         Toast({ message: res.err_msg || "未知错误", position: "bottom" });
         return;
@@ -142,19 +142,32 @@ export default {
     async getProductList(category_id) {
       this.loading = true;
       let res = await cmnServiceProductList({ category_id: category_id });
-      console.log(res);
       this.loading = false;
       if (res.err_code !== 0) {
         Toast({ message: res.err_msg || "未知错误", position: "bottom" });
         return;
       }
       this.productLists = res.rows;
-      setStorage({ cmnServiceProductList: res });
     },
     getTab(item) {
       this.getProductList(item.id);
     },
-    NameTransLink() {}
+    NameTransLink(product){
+        const NameTransLink = {
+          "安享一生癌症医疗险":this.routeStrat+"/vueStatic/share/common.html?pid=0000&appname="+this.appname+"&t="+new Date().getTime()+"&alias=",
+          "货运年保超市":this.routeStrat+"/vueStatic/share/common.html?pid=1111&appname="+this.appname+"&t="+new Date().getTime()+"&alias=",
+        };
+        getStorage("cmnServiceProductList").rows.map(item=>{
+          NameTransLink[item.product_name]=`${this.routeStrat}/vueStatic/share/common.html?pid=${item.product_id}&appname=${this.appname}&t=${new Date().getTime()}&alias=`
+        })
+        return product.map((val,idx)=>{
+          if(val.product_name=='大件保'||val.product_name=='普货保基础版-大地财险'){
+            val.link=NameTransLink[val.product_name] || "/";
+          }
+          return val;
+        })
+       
+      }
   }
 };
 </script>

@@ -157,7 +157,9 @@ var from=localStorage.getItem("from");
 var platFormName="miniprogram";
 
 if(isLocal){
-    backUrl=location.protocol +"//" + location.hostname+"/#/home";
+    
+    backUrl=location.protocol +"//" + location.host+"/#/home";
+    console.log(backUrl)
 }else{
     if(isNewjubao){
         backUrl="http://test.jubao56.com/newjubao/#/home";

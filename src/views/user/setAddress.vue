@@ -22,7 +22,6 @@
             <mu-list-item-title>
               <mu-checkbox
                 v-model="item.is_primary"
-                value="eat"
                 label="默认地址"
                 @click="isTop(item.id,item.is_primary)"
                 :readonly="item.is_primary==true"

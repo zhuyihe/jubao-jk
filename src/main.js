@@ -11,7 +11,6 @@ Vue.use(MuseUI);
 Vue.use(header);
 Vue.use(Loading);
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

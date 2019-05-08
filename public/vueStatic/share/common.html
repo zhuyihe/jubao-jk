@@ -40,7 +40,7 @@
                 <div onclick="window.location.reload()">重新加载</div>
             </div>
         </div>
-
+ 
         <!-- 页头标题 -->
         <page-title :page-title="dataObj.product_name"></page-title>
 
@@ -83,25 +83,25 @@
                 var obj={}
                 var resArr = []
                 var abbr={
-                    "zcb":"zcb",
-                    "ygb":"ygb" ,
-                    "spb":"spb" ,
-                    "dchyb-xdphb":"xdphb",
-                    "dchyb-llb":"llb" ,
+                    // "zcb":"zcb",
+                    // "ygb":"ygb" ,
+                    // "spb":"spb" ,
+                    // "dchyb-xdphb":"xdphb",
+                    // "dchyb-llb":"llb" ,
                     // "大宗货物保":"hwb" ,
-                    "hynb-hczdsgb":"hcb" ,
-                    "hynb-dchynb":"dchynb",
-                    "zxb":"zxb" ,
-                    "dchyb-ddphb":"ddphb",
-                    "jkx":"axys" ,
+                    // "hynb-hczdsgb":"hcb" ,
+                    // "hynb-dchynb":"dchynb",
+                    // "zxb":"zxb" ,
+                    // "dchyb-ddphb":"ddphb",
+                    // "jkx":"axys" ,
                     "dchyb-djb":"djb",
-                    "rbygb": "rbygb",
-                    "dchyb-jyb-new": "xjyb",
-                    "dchyb-jyb-new-zhx": "xjybzhx",
-                    "dchyb-jyb-old": "jjyb",
+                    // "rbygb": "rbygb",
+                    // "dchyb-jyb-new": "xjyb",
+                    // "dchyb-jyb-new-zhx": "xjybzhx",
+                    // "dchyb-jyb-old": "jjyb",
                     "dchyb-ddphb-zhx": "phbzhx",
-                    "dchyb-gsb": "gsb",
-                    'hyx':'hyx'
+                    // "dchyb-gsb": "gsb",
+                    // 'hyx':'hyx'
                 }
                 cmnServiceConfig({os_type:8},function(res){
                     if(res.err_code == 0) {
@@ -179,8 +179,9 @@
                                 console.log(_this.dataObj)
                             }
                         });
+                        console.log(getStorage('vuex').access_token)
                         //判断登陆
-                        if(getParamName('alias') == 'null' || getParamName('alias') == '') {
+                        if(!getStorage('vuex').access_token) {
                             this.flag = false;
                         }else{
                             this.flag = true;
