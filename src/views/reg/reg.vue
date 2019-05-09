@@ -36,6 +36,7 @@
       :openFullscreen="openFullscreen"
       :title="agreementContent.title"
       v-on:getOpen="getOpen"
+      v-on:goNext="goNext"
       :html="agreementContent.content"
     ></Dialogs>
   </div>
@@ -111,7 +112,7 @@ export default {
             toast("error", "密码不一致，请检查。");
             self.loading = false;
           }
-        }else{
+        } else {
           self.loading = false;
         }
       });
@@ -151,13 +152,17 @@ export default {
     getOpen(data) {
       this.openFullscreen = !data;
     },
+    goNext(data) {
+      if (data == true) {
+        this.openFullscreen = !data;
+      }
+    },
     async getAgreement() {
       let res = await cmnAgreementList();
       var arr = res.data.filter(item => {
         return item.title == "用户协议";
       });
       this.agreementContent = arr[0];
-      console.log(res);
     }
   }
 };
