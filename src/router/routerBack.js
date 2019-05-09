@@ -57,6 +57,11 @@ export const routeBack = (to, from) => {
       to: '/orderList',
       defaultBack: '/dashboard'
     },
+    //djb
+    {
+      to: '/djbConfirm',
+      defaultBack: from.fullPath
+    },
   ];
 
   // console.log(from.fullPath)

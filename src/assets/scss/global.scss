@@ -11,14 +11,17 @@ $black:#000;
 .all .mu-dialog {
     box-shadow: none !important;
 }
-.orderList{
-    .mu-list-three-line .mu-item{
+
+.orderList {
+    .mu-list-three-line .mu-item {
         height: 120px !important;
     }
 }
-.djb .mu-list{
+
+.djb .mu-list {
     padding-bottom: 0;
-    .weui-cell{
+
+    .weui-cell {
         padding-bottom: 10px;
         padding-top: 10px;
     }

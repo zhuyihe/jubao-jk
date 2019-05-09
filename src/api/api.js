@@ -42,14 +42,15 @@ export const cmnBizPremiumlSum = (params) => get("/v1/cmn/biz/premium/sum", para
 export const allProvinceList = (params) => get("/v1/cmn/all/province/list", params)
 //获取价格方案列表
 export const cmnProductpriceList = (params) => get("/v1/cmn/productprice/list", params);
- // 获取省份下的城市
+// 获取省份下的城市
 export const cmnCityList = (params) => get("/v1/cmn/city/list", params);
 //获取订单价格
-export const dchybOrderPrice = (params) => get("/v1/dchyb/order/price", params); 
+export const dchybOrderPrice = (params) => get("/v1/dchyb/order/price", params);
 // 获取协议列表
-export const cmnAdminAgreementList = (params) => get("/v1/cmn/admin/agreement/list", params); 
+export const cmnAdminAgreementList = (params) => get("/v1/cmn/admin/agreement/list", params);
 //获取客户列表
 export const cmnChannelUserList = (params) => get("/v1/cmn/channel/user/list", params);
 //单次货运保代客投保
 export const cmnDchybChannelSave = (params) => post("/v1/dchyb/order/channel/save", params);
-
+//获取单词货运保订单
+export const dchybOrderInfo = (params) => get("/v1/dchyb/order/info", params);

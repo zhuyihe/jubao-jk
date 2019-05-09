@@ -611,14 +611,6 @@ export default {
       this.form.price_id = obj.id;
       this.form.price = this.rate * this.form.coverage; //动态计算价格
       console.log(this.form.price);
-      this.countPrice();
-      // console.log(
-      //   this.rate,
-      //   this.min_premium,
-      //   this.max_coverage,
-      //   this.min_coverage,
-      //   this.form.price_id
-      // );
     },
     "form.customer_id"(val, oldVal) {
       if (val != "") {
@@ -920,6 +912,10 @@ export default {
           console.log(res);
           setTimeout(() => {
             loading.close();
+            this.$router.push({
+              path: "djbConfirm",
+              query: { orderId: res.data.id, productName: this.productType }
+            });
           }, 2000);
         })
         .catch(e => {
