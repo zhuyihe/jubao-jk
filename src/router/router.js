@@ -136,6 +136,14 @@ let router = [{
       level: 5
     }
   },
+  {
+    path: '/ddphbCreate',
+    component: getComponent('ddphb', 'ddphbCreate'),
+    name: 'ddphbCreate',
+    meta: {
+      level: 3
+    }
+  },
 ]
 const routers = new Router({
   routes: router

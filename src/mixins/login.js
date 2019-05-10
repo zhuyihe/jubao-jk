@@ -8,7 +8,6 @@ export const login = {
         if (!this.$store.state.access_token) {
             this.open = true;
         }
-        console.log(this.$store.state.access_token)
     },
     methods: {
         gologin() {

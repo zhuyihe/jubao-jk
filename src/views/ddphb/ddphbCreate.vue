@@ -33,8 +33,20 @@
                 <label class="weui-label">选择方式</label>
               </div>
               <div class="weui-cell__bd">
-                <mu-radio v-model="radio" value="first" label="填写" :disabled="disabled" @change="radios"></mu-radio>
-                <mu-radio v-model="radio" value="second" label="选择" :disabled="disabled" @change="radios"></mu-radio>
+                <mu-radio
+                  v-model="radio"
+                  value="first"
+                  label="填写"
+                  :disabled="disabled"
+                  @change="radios"
+                ></mu-radio>
+                <mu-radio
+                  v-model="radio"
+                  value="second"
+                  label="选择"
+                  :disabled="disabled"
+                  @change="radios"
+                ></mu-radio>
               </div>
             </div>
           </mu-list-item-content>
@@ -185,15 +197,28 @@
         <mu-divider></mu-divider>
         <mu-list-item button :ripple="false" class="felx">
           <mu-list-item-content>
-            <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell">
               <div class="weui-cell__hd">
-                <label class="weui-label">货物类别</label>
+                <label class="weui-label">保险费率</label>
               </div>
               <div class="weui-cell__bd">
-                <select class="weui-select" v-model="form.goodsType">
-                  <option :value="''">未选择</option>
-                  <option v-for="(val,idx) in goodsNameList" :key="idx" :value="val">{{val}}</option>
-                </select>
+                基本险
+                <span style="float:right">{{(basicRate/10000)+'%'}}</span>
+              </div>
+            </div>
+          </mu-list-item-content>
+        </mu-list-item>
+        <mu-list-item button :ripple="false" class="felx">
+          <mu-list-item-content>
+            <div class="weui-cell">
+              <div class="weui-cell__hd">
+                <label class="weui-label"></label>
+              </div>
+              <div class="weui-cell__bd">
+                <div class="weui-cell__bd">
+                  增加放弃向承运商追偿
+                  <span style="float:right">{{(noBasicRate/10000)+'%'}}</span>
+                </div>
               </div>
             </div>
           </mu-list-item-content>
@@ -203,13 +228,13 @@
           <mu-list-item-content>
             <div class="weui-cell">
               <div class="weui-cell__hd">
-                <label class="weui-label">保险金额(万元)</label>
+                <label class="weui-label">保额范围(万元)</label>
               </div>
               <div class="weui-cell__bd">
                 <input
                   class="weui-input"
                   type="number"
-                  :placeholder="'保额不超过'+(max_coverage/10000)+'万元'"
+                  :placeholder="`保额范围(${min_coverage}万元~${max_coverage/10000}万元)`"
                   v-model="form.coverage"
                   @blur="countPrice"
                 >
@@ -218,170 +243,30 @@
           </mu-list-item-content>
         </mu-list-item>
         <mu-divider></mu-divider>
-        <mu-list-item button :ripple="false" class="felx">
-          <mu-list-item-content>
-            <div class="weui-cell">
-              <div class="weui-cell__hd">
-                <label class="weui-label">保险费率</label>
+        <div class="fangan">
+          <mu-list-item button :ripple="false" class="felx">
+            <mu-list-item-content>
+              <div class="weui-cell">
+                <div class="weui-cell__hd">
+                  <label class="weui-label">保险方案二选一</label>
+                </div>
               </div>
-              <div class="weui-cell__bd">
-                <input
-                  class="weui-input"
-                  type="text"
-                  readonly
-                  :value="rate ? (rate/10000)+'%' : '--'"
-                >
-              </div>
+            </mu-list-item-content>
+          </mu-list-item>
+          <div class="fang_lists">
+            <div class="fang_list">
+              基本险
+              <br>
+              <span class="span">{{(form.coverage*basicRate/100).toFixed(2)}}</span>元
             </div>
-          </mu-list-item-content>
-        </mu-list-item>
-        <mu-divider></mu-divider>
-        <mu-list-item button :ripple="false" class="felx">
-          <mu-list-item-content>
-            <div class="weui-cell">
-              <div class="weui-cell__hd">
-                <label class="weui-label">最低保费</label>
-              </div>
-              <div class="weui-cell__bd">
-                <input class="weui-input" type="text" readonly :value="`${min_premium}元`">
-              </div>
+            <div class="fang_list active">
+              放弃向承运商追偿
+              <br>
+              <span class="span">{{(form.coverage*noBasicRate/100).toFixed(2)}}</span>元
             </div>
-          </mu-list-item-content>
-        </mu-list-item>
-        <mu-divider></mu-divider>
-        <mu-list-item button :ripple="false" class="felx">
-          <mu-list-item-content>
-            <mu-checkbox v-model="select" label="增加放弃向承运商追偿" @change="selected"></mu-checkbox>
-          </mu-list-item-content>
-          <mu-list-item-action>增加{{(form.coverage*0.3).toFixed(2)}}元</mu-list-item-action>
-        </mu-list-item>
-        <mu-divider></mu-divider>
-        <mu-list-item button :ripple="false" class="felx">
-          <mu-list-item-content>
-            <mu-checkbox v-model="select1" label="增加三个以内共同被保险人" @change="selected1"></mu-checkbox>
-          </mu-list-item-content>
-          <mu-list-item-action v-if="select2">增加{{(form.coverage*0.6).toFixed(2)}}元</mu-list-item-action>
-          <mu-list-item-action v-else>增加{{(form.coverage*0.3).toFixed(2)}}元</mu-list-item-action>
-        </mu-list-item>
-        <mu-divider></mu-divider>
-        <div class="baoxianren" v-if="select1">
-          <mu-list-item button :ripple="false" class="felx">
-            <mu-list-item-content>
-              <div class="weui-cell">
-                <div class="weui-cell__hd">
-                  <label class="weui-label">共同被保险人一</label>
-                </div>
-                <div class="weui-cell__bd">
-                  <input
-                    class="weui-input"
-                    type="text"
-                    placeholder="请输入被保险人名称"
-                    v-model.trim="addOne"
-                  >
-                </div>
-              </div>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider></mu-divider>
-          <mu-list-item button :ripple="false" class="felx">
-            <mu-list-item-content>
-              <div class="weui-cell">
-                <div class="weui-cell__hd">
-                  <label class="weui-label">共同被保险人二</label>
-                </div>
-                <div class="weui-cell__bd">
-                  <input
-                    class="weui-input"
-                    type="text"
-                    placeholder="请输入被保险人名称"
-                    v-model.trim="addTwo"
-                  >
-                </div>
-              </div>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider></mu-divider>
-          <mu-list-item button :ripple="false" class="felx">
-            <mu-list-item-content>
-              <div class="weui-cell">
-                <div class="weui-cell__hd">
-                  <label class="weui-label">共同被保险人三</label>
-                </div>
-                <div class="weui-cell__bd">
-                  <input
-                    class="weui-input"
-                    type="text"
-                    placeholder="请输入被保险人名称"
-                    v-model.trim="addThree"
-                  >
-                </div>
-              </div>
-            </mu-list-item-content>
-          </mu-list-item>
+          </div>
         </div>
-        <mu-divider v-if="select1"></mu-divider>
-        <mu-list-item button :ripple="false" class="felx" v-if="select1">
-          <mu-list-item-content class="addStress">
-            <mu-checkbox v-model="select2" label="再增加三个以内共同被保险人" @change="selected2"></mu-checkbox>
-          </mu-list-item-content>
-        </mu-list-item>
-        <mu-divider v-if="select1"></mu-divider>
-        <div class="baoxianren" v-if="select2">
-          <mu-list-item button :ripple="false" class="felx">
-            <mu-list-item-content>
-              <div class="weui-cell">
-                <div class="weui-cell__hd">
-                  <label class="weui-label">共同被保险人一</label>
-                </div>
-                <div class="weui-cell__bd">
-                  <input
-                    class="weui-input"
-                    type="text"
-                    placeholder="请输入被保险人名称"
-                    v-model.trim="addAgainOne"
-                  >
-                </div>
-              </div>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider v-if="select2"></mu-divider>
-          <mu-list-item button :ripple="false" class="felx">
-            <mu-list-item-content>
-              <div class="weui-cell">
-                <div class="weui-cell__hd">
-                  <label class="weui-label">共同被保险人二</label>
-                </div>
-                <div class="weui-cell__bd">
-                  <input
-                    class="weui-input"
-                    type="text"
-                    placeholder="请输入被保险人名称"
-                    v-model.trim="addAgainTwo"
-                  >
-                </div>
-              </div>
-            </mu-list-item-content>
-          </mu-list-item>
-          <mu-divider></mu-divider>
-          <mu-list-item button :ripple="false" class="felx">
-            <mu-list-item-content>
-              <div class="weui-cell">
-                <div class="weui-cell__hd">
-                  <label class="weui-label">共同被保险人三</label>
-                </div>
-                <div class="weui-cell__bd">
-                  <input
-                    class="weui-input"
-                    type="text"
-                    placeholder="请输入被保险人名称"
-                    v-model.trim="addAgainThree"
-                  >
-                </div>
-              </div>
-            </mu-list-item-content>
-          </mu-list-item>
-        </div>
-        <mu-divider v-if="select2"></mu-divider>
+        <mu-divider></mu-divider>
         <div class="tabs">
           <mu-tabs
             :value.sync="active"
@@ -514,7 +399,7 @@ export default {
   data() {
     return {
       open: false, //未登录提示登录
-      product_alias: "dchyb-djb",
+      product_alias: "",
       form: {
         id: "", //	id为0，创建新订单；id不为0，修改已有订单
         price_id: "",
@@ -538,20 +423,14 @@ export default {
         co_beneficiary: "", //共同被保险人，最多6个，以中文顿号（、）分隔；
         add_waiver_of_recovery_from_carrier: false //增加放弃向承运商追偿
       },
-      rate: "", //费率
+      rate: "",
+      basicRate: 0, //基本费率
+      noBasicRate: 0, //放弃追偿
       min_premium: "", //最低保费
+      min_premium_basic: "",
       max_coverage: "", //最大保额
       min_coverage: "", //最小保额
-      select: false,
-      select1: false,
-      select2: false,
       agree: false,
-      addOne: "",
-      addTwo: "",
-      addThree: "",
-      addAgainOne: "",
-      addAgainTwo: "",
-      addAgainThree: "",
       active: 0, //tab
       reg_company: reg_company,
       carId: carId, //车牌正则
@@ -571,13 +450,14 @@ export default {
   },
   mounted() {
     this.fileUrl = process.env.VUE_APP_FILE_URL;
+    this.product_alias = this.$route.query.product_alias;
     if (this.islogin) {
       if (this.$route.query.orderId) {
         this.form.id = this.$route.query.orderId;
-        this.initData().then(()=>{
+        this.initData().then(() => {
           this.setData();
-        })
-      }else{
+        });
+      } else {
         this.initData();
       }
     }
@@ -622,16 +502,17 @@ export default {
       this.form.price = this.rate * this.form.coverage; //动态计算价格
     },
     "form.customer_id"(val, oldVal) {
-      if (val !=="") {
+      if (val !== "") {
         let beneficiary = this.customerList.filter(item => {
           return val == item.id;
         });
-        if(beneficiary.length!==0) this.form.beneficiary = beneficiary[0].company_name;
+        if (beneficiary.length !== 0)
+          this.form.beneficiary = beneficiary[0].company_name;
       }
-    },
+    }
   },
   methods: {
-    async initData() { 
+    async initData() {
       let res = await Promise.all([
         allProvinceList(),
         cmnProductpriceList({ product_alias: this.product_alias }),
@@ -643,20 +524,28 @@ export default {
         toast("error", res[0].err_msg || "未知错误");
       }
       //保额列表
-      if (res[1].err_code === 0) {
+      if (res[1].err_code == 0) {
         if (res[1].rows[0]) {
-          res[1].rows = res[1].rows.sort(this.compare("rate"));
-          res[1].rows.forEach(item => {
-            if (item.name.indexOf("-") == -1)
-              this.goodsNameList.push(item.name);
-          });
-          this.goodsTypeList = res[1].rows;
           this.rate = res[1].rows[0].rate;
           this.min_premium = res[1].rows[0].min_premium;
           this.max_coverage = res[1].rows[0].max_coverage;
           this.min_coverage =
-            Math.ceil(this.min_premium / (this.rate / 1000000)) / 10000;
-          this.form.price_id = res[1].rows[0].id;
+            Math.ceil((this.min_premium / this.rate) * 1000000) / 10000;
+          this.ddPriceList = res[1].rows;
+          this.ddPriceList.map(item => {
+            if (item.name == "大地普货保-基本险-无追偿") {
+              this.form.price_id = item.id;
+              this.noBasicRate = item.rate;
+              this.min_premium_no = item.min_premium;
+              this.min_coverage =
+                Math.ceil((this.min_premium_no / this.noBasicRate) * 1000000) /
+                10000;
+            } else if (item.name == "普货保-大地财险") {
+              this.basicRate = item.rate;
+              this.min_premium_basic = item.min_premium;
+              // this.min_coverage = Math.ceil((this.min_premium_basic / this.basicRate)*1000000)/10000;
+            }
+          });
         }
       }
       //客户列表
@@ -675,7 +564,7 @@ export default {
     async setData() {
       let res = await dchybOrderInfo({ id: this.form.id });
       if (res.err_code === 0) {
-        if(res.data.user_id!==0){
+        if (res.data.user_id !== 0) {
           this.form.customer_id = res.data.user_id;
           this.radio = "second";
         }
@@ -690,49 +579,30 @@ export default {
         this.form.plate_extra_no = res.data.plate_extra_no;
         if (!this.form.plate_extra_no) this.truck_type = 2;
         this.form.type = res.data.type;
-        this.form.type==1?this.active=0:this.active=1
+        this.form.type == 1 ? (this.active = 0) : (this.active = 1);
         this.form.track_no = res.data.track_no;
         this.form.cargo_name = res.data.cargo_name;
         this.form.quantity = res.data.quantity;
         // this.form.goodsType = res.data.goodsType;
-        this.form.cargo_file_urls = res.data.cargo_file_urls ? res.data.cargo_file_urls : [];
+        this.form.cargo_file_urls = res.data.cargo_file_urls
+          ? res.data.cargo_file_urls
+          : [];
       }
     },
-    selected() {
-      if (this.select) {
-        this.form.add_waiver_of_recovery_from_carrier = true;
-      } else {
-        this.form.add_waiver_of_recovery_from_carrier = false;
-      }
-      this.countPrice();
-    },
-    selected1() {
-      this.countPrice();
-    },
-    selected2() {
-      if (!this.addOne || !this.addTwo || !this.addThree) {
-        toast("error", "请先填写上方的被保险人！");
-        this.select2 = false;
-      } else {
-        this.countPrice();
-      }
-    },
-    radios(){
+    radios() {
       this.form.customer_id = "";
       this.form.beneficiary = "";
     },
     //计算价格
+    //获取价格
     countPrice: debounce(async function() {
-      if (this.form.goodsType == "" || !this.form.goodsType) {
-        toast("error", "请选择货物类别！");
-        return;
-      }
+      console.log(this.min_coverage, 777);
       if (!this.form.coverage) {
         this.form.price = 0;
         return;
       }
       if (this.form.coverage < 0) {
-        toast("error", "您输入的保险金额有误！");
+        toast("error", "你输入的金额有误");
         return;
       }
       if (this.form.coverage > this.max_coverage / 10000) {
@@ -743,38 +613,16 @@ export default {
         this.form.coverage = 300;
       }
       if (this.form.coverage < this.min_coverage) {
-        this.form.coverage = this.min_coverage;
+        toast("error", "保险金额不得少于" + this.coverage + "万元！");
       }
       let res = await dchybOrderPrice({
         price_id: this.form.price_id,
-        coverage: (this.form.coverage * 10000) | 0
+        coverage: Math.round(this.form.coverage * 100 * 100) | 0
       });
       if (res.err_code === 0) {
-        if (this.select) {
-          if (this.select1) {
-            if (this.select2) {
-              this.form.price = res.price + this.form.coverage * 90;
-            } else {
-              this.form.price = res.price + this.form.coverage * 60;
-            }
-          } else {
-            this.form.price = res.price + this.form.coverage * 30;
-          }
-        } else if (!this.select) {
-          if (this.select1) {
-            if (this.select2) {
-              this.form.price = res.price + this.form.coverage * 60;
-            } else {
-              this.form.price = res.price + this.form.coverage * 30;
-            }
-          } else {
-            this.form.price = res.price;
-          }
-        } else {
-          this.form.price = res.price;
-        }
+        this.form.price = res.price;
       } else {
-        toast("error", res.err_msg || "未知错误");
+        Toast({ message: res.err_msg || "未知错误", position: "bottom" });
       }
     }, 400),
     next() {
@@ -877,67 +725,6 @@ export default {
       };
       if (this.form.customer_id) {
         data.customer_id = this.form.customer_id;
-      }
-      if (this.select1) {
-        if (this.addOne) {
-          data.co_beneficiary = this.addOne;
-        }
-        if (this.addTwo && this.addTwo) {
-          data.co_beneficiary = this.addOne + "、" + this.addTwo;
-        }
-        if (this.addTwo && this.addTwo && this.addThree) {
-          data.co_beneficiary =
-            this.addOne + "、" + this.addTwo + "、" + this.addThree;
-        }
-        if (this.addTwo && this.addTwo && this.addThree && this.addAgainOne) {
-          data.co_beneficiary =
-            this.addOne +
-            "、" +
-            this.addTwo +
-            "、" +
-            this.addThree +
-            "、" +
-            this.addAgainOne;
-        }
-        if (
-          this.addTwo &&
-          this.addTwo &&
-          this.addThree &&
-          this.addAgainOne &&
-          this.addAgainTwo
-        ) {
-          data.co_beneficiary =
-            this.addOne +
-            "、" +
-            this.addTwo +
-            "、" +
-            this.addThree +
-            "、" +
-            this.addAgainOne +
-            "、" +
-            this.addAgainTwo;
-        }
-        if (
-          this.addTwo &&
-          this.addTwo &&
-          this.addThree &&
-          this.addAgainOne &&
-          this.addAgainTwo &&
-          this.addAgainThree
-        ) {
-          data.co_beneficiary =
-            this.addOne +
-            "、" +
-            this.addTwo +
-            "、" +
-            this.addThree +
-            "、" +
-            this.addAgainOne +
-            "、" +
-            this.addAgainTwo +
-            "、" +
-            this.addAgainThree;
-        }
       }
       const loading = this.$loading({
         text: "订单创建中......"
@@ -1077,5 +864,30 @@ export default {
 }
 .red {
   color: red;
+}
+.fang_lists {
+  display: flex;
+  text-align: center;
+  width: 90%;
+  margin: 30px auto;
+  justify-content: space-around;
+  .active {
+    background: #e2f2ff;
+    border: 1px solid #2ea3ff;
+  }
+}
+.fang_list {
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  font-size: 36px;
+  line-height: 80px;
+  width: 350px;
+  padding: 30px;
+  cursor: pointer;
+  .span {
+    color: #ff7448;
+    font-weight: bold;
+    font-size: 50px;
+  }
 }
 </style>

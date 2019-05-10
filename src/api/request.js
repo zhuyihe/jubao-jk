@@ -8,7 +8,7 @@ axios.defaults.timeout = 60000;
 axios.defaults.baseURL = process.env.VUE_APP_LOGOUT_URL;
 axios.defaults.headers.post["Content-Type"] =
     "application/x-www-form-urlencoded;charset=UTF-8";
-axios.defaults.headers["Platform"] = "H5"
+axios.defaults.headers["Platform"] = "iPhone"
 // let loading= Loading({
 //     text: "正在加载中......",
 // });

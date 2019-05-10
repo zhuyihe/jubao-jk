@@ -387,12 +387,12 @@ Vue.component("page-footer", {
     insure: function () {
       var _this = this;
       this.$nextTick(function () {
-        var link=location.protocol +"//" + location.host+"/#/djbCreate";
+        console.log(this.insuredLink)
         //保存当前页面
         setStorage({
-          'createdRouter': link
+          'createdRouter': this.insuredLink
         });
-        window.location.href = link;
+        window.location.href = this.insuredLink;
       })
     }
   }

@@ -172,16 +172,16 @@
             <div class="weui-cell__bd">{{order.price ? (order.price/100).toFixed(2) : '0.00'}}元</div>
           </div>
         </mu-list-item-content>
-      </mu-list-item>
+      </mu-list-item> 
       <mu-divider></mu-divider>
       <div class="tips">
         提示：已经发生损失事故投保的，保险人不承担任何保险责任，
         且保险人保留向投保人骗取保险金行为的法律权利。
       </div>
       <ul class="bottom">
-        <li class="mon">aaaa</li>
+        <li class="mon"><mu-button color="white" class="butt" :to="{path:'djbCreate',query:{orderId,product_alias}}">返回上一步</mu-button></li>
         <li class="button">
-          <mu-button color="info">下一步</mu-button>
+          <mu-button color="info">立即支付</mu-button>
         </li>
       </ul>
     </mu-list>
@@ -189,24 +189,18 @@
 </template>
 
 <script>
-// import {MessageBox, Indicator, Toast} from 'mint-ui';
 import { dchybOrderInfo } from "@api";
-// import { wwwCheck } from '../../assets/js/common';
-// import Pay from "../components/Pay.vue";
 import { toast } from "@assets/js/common";
 export default {
-  // components: {
-  //   Pay
-  // },
   data() {
     return {
       order: {},
-      rate: ""
+      rate: "",
     };
   },
   created() {
     this.orderId = this.$route.query.orderId;
-    console.log(this.$route.query);
+    this.product_alias = this.$route.query.product_alias;
     this.init();
   },
   methods: {
@@ -307,9 +301,13 @@ export default {
     text-align: center;
     background: white;
     line-height: 100px;
-    color: #ff6633;
+    // color: #ff6633;
     font-size: 38px;
-    font-weight: bold;
+    
+    // font-weight: bold;
+  }
+  .butt{
+    color: black !important;
   }
 }
 </style>

@@ -176,6 +176,11 @@
                         }, function (res) {
                             if (res.err_code === 0 && res.data) {
                                 _this.dataObj = res.data;
+                                if(res.data.product_name=='大件保'){
+                                    _this.dataObj.product_insure_url=location.protocol +"//" + location.host+"/#/djbCreate?product_alias=dchyb-djb";
+                                }else if(res.data.product_name=='普货保基础版-大地财险'){
+                                    _this.dataObj.product_insure_url=location.protocol +"//" + location.host+"/#/ddphbCreate?product_alias=dchyb-ddphb";
+                                }
                                 console.log(_this.dataObj)
                             }
                         });
