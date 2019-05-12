@@ -144,6 +144,16 @@ let router = [{
       level: 3
     }
   },
+  {
+    path: '/ddphbComfirm',
+    component: getComponent('ddphb', 'ddphbComfirm'),
+    name: 'ddphbCreate',
+    meta: {
+      requiresAuth: true,
+      level: 5
+    }
+  },
+
 ]
 const routers = new Router({
   routes: router

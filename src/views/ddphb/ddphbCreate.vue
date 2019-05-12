@@ -254,12 +254,12 @@
             </mu-list-item-content>
           </mu-list-item>
           <div class="fang_lists">
-            <div class="fang_list">
+            <div class="fang_list" :class="index==1?'active':''" @click="statics()">
               基本险
               <br>
               <span class="span">{{(form.coverage*basicRate/100).toFixed(2)}}</span>元
             </div>
-            <div class="fang_list active">
+            <div class="fang_list" :class="index==0?'active':''" @click="giveUp()">
               放弃向承运商追偿
               <br>
               <span class="span">{{(form.coverage*noBasicRate/100).toFixed(2)}}</span>元
@@ -411,7 +411,6 @@ export default {
         start_city: "", //始发地市
         end_province: "", //目的地省份
         end_city: "", //目的地市
-        goodsType: "", //货物类别
         coverage: "", //保险金额
         track_no: "", //运单号
         cargo_name: "", //货物名称
@@ -419,9 +418,7 @@ export default {
         cargo_file_urls: [], //图片数组
         customer_id: "", //客户id
         type: 1, //1单票 2整车
-        price: "", //价格 单位分
-        co_beneficiary: "", //共同被保险人，最多6个，以中文顿号（、）分隔；
-        add_waiver_of_recovery_from_carrier: false //增加放弃向承运商追偿
+        price: "" //价格 单位分
       },
       rate: "",
       basicRate: 0, //基本费率
@@ -445,6 +442,7 @@ export default {
       radio: "first",
       customerList: [],
       disabled: false,
+      index: 0, //方案选择
       islogin: this.$store.state.access_token
     };
   },
@@ -489,18 +487,6 @@ export default {
         this.form.end_city = "";
       }
     },
-    "form.goodsType"(val, oldVal) {
-      var obj = this.goodsTypeList.find(item => {
-        return item.name == val;
-      });
-      this.rate = obj.rate;
-      this.min_premium = obj.min_premium;
-      this.max_coverage = obj.max_coverage;
-      this.min_coverage =
-        Math.ceil(this.min_premium / (this.rate / 1000000)) / 10000;
-      this.form.price_id = obj.id;
-      this.form.price = this.rate * this.form.coverage; //动态计算价格
-    },
     "form.customer_id"(val, oldVal) {
       if (val !== "") {
         let beneficiary = this.customerList.filter(item => {
@@ -533,8 +519,8 @@ export default {
             Math.ceil((this.min_premium / this.rate) * 1000000) / 10000;
           this.ddPriceList = res[1].rows;
           this.ddPriceList.map(item => {
+            this.form.price_id = item.id;
             if (item.name == "大地普货保-基本险-无追偿") {
-              this.form.price_id = item.id;
               this.noBasicRate = item.rate;
               this.min_premium_no = item.min_premium;
               this.min_coverage =
@@ -560,6 +546,42 @@ export default {
       } else {
         toast("error", res[0].err_msg || "未知错误");
       }
+      if (this.$route.query.index == 1) {
+        this.statics();
+        this.index = this.$route.query.index * 1;
+      } else if (this.$route.query.index == 0) {
+        this.giveUp();
+        this.index = this.$route.query.index * 1;
+      } else {
+        this.giveUp();
+      }
+      console.log(this.index);
+    },
+    statics() {
+      this.index = 1;
+      this.ddPriceList.map((item, index) => {
+        if (item.name == "普货保-大地财险") {
+          this.form.price_id = item.id;
+          this.$route.query.index = 1;
+          this.min_coverage =
+            Math.ceil((this.min_premium_basic / this.basicRate) * 1000000) /
+            10000;
+        }
+        this.countPrice();
+      });
+    },
+    giveUp() {
+      this.index = 0;
+      this.ddPriceList.map((item, index) => {
+        if (item.name == "大地普货保-基本险-无追偿") {
+          this.form.price_id = item.id;
+          this.$route.query.index = 0;
+          this.min_coverage =
+            Math.ceil((this.min_premium_no / this.noBasicRate) * 1000000) /
+            10000;
+        }
+        this.countPrice();
+      });
     },
     async setData() {
       let res = await dchybOrderInfo({ id: this.form.id });
@@ -613,19 +635,26 @@ export default {
         this.form.coverage = 300;
       }
       if (this.form.coverage < this.min_coverage) {
-        toast("error", "保险金额不得少于" + this.coverage + "万元！");
+        toast("error", "保险金额不得少于" + this.min_coverage + "万元！");
       }
       let res = await dchybOrderPrice({
         price_id: this.form.price_id,
         coverage: Math.round(this.form.coverage * 100 * 100) | 0
       });
+      console.log(this.form.price_id);
+      console.log(res.price);
       if (res.err_code === 0) {
         this.form.price = res.price;
       } else {
-        Toast({ message: res.err_msg || "未知错误", position: "bottom" });
+        toast("error", res.err_msg || "未知错误");
       }
     }, 400),
     next() {
+      if (this.index == 1) {
+        this.statics();
+      } else if (this.index == 0) {
+        this.giveUp();
+      }
       if (!this.checkData()) return;
       this.getAgree("不保货物", 1);
     },
@@ -646,11 +675,16 @@ export default {
         !this.form.end_city
       )
         errMsg.push("请选择本次路线的始发地和目的地！");
-      if (!this.form.goodsType) errMsg.push("请选择货物类别！");
       if (!this.form.coverage) errMsg.push("请输入保险金额！");
       if (this.form.coverage < 0) errMsg.push("您输入的保险金额有误！");
-      if (this.form.coverage > this.max_coverage / 10000)
-        errMsg.push("保险金额不得超过" + this.max_coverage / 10000 + "万！");
+      if (
+        this.form.coverage < this.min_coverage ||
+        this.form.coverage > this.max_coverage
+      )
+        errMsg.push(
+          `保险金额应在${this.min_coverage}万元和！${this.max_coverage /
+            10000}万元之间`
+        );
       if (this.active === 0 && !this.form.track_no)
         errMsg.push("单票投请输入运单号！");
       if (this.active === 0 && !this.form.cargo_name)
@@ -719,8 +753,6 @@ export default {
         start_city: this.form.start_city,
         end_province: this.form.end_province,
         end_city: this.form.end_city,
-        add_waiver_of_recovery_from_carrier: this.form
-          .add_waiver_of_recovery_from_carrier,
         ...cargo
       };
       if (this.form.customer_id) {
@@ -731,10 +763,11 @@ export default {
       });
       cmnDchybChannelSave(data)
         .then(res => {
+          console.log(res);
           setTimeout(() => {
             loading.close();
             this.$router.push({
-              path: "djbConfirm",
+              path: "ddphbComfirm",
               query: { orderId: res.data.id, product_alias: this.product_alias }
             });
           }, 2000);
@@ -750,9 +783,14 @@ export default {
         data.price_id = this.form.price_id;
       }
       let res = await cmnAdminAgreementList(data);
+      console.log(res);
       if (res.err_code === 0) {
-        this.agreementContent = res.rows[0];
-        this.openFullscreen = true;
+        if (res.rows.length !== 0) {
+          this.agreementContent = res.rows[0];
+          this.openFullscreen = true;
+        } else {
+          toast("warning", "条约整理中，敬请期待！");
+        }
       }
     }
   }

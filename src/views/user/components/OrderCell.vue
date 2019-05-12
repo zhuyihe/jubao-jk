@@ -23,10 +23,35 @@
     <mu-divider></mu-divider>
     <mu-list-item :ripple="false" class="adress" left>
       <mu-list-item-title class="dothis">
-        <mu-button color="#666" small flat class="boder1" v-show="[16,128,256,512].indexOf(orderInfo.order_status)===-1">取消订单</mu-button>
-        <mu-button color="#06acf9" small flat class="boder2" v-show="orderInfo.order_status===8">待付款</mu-button>
-        <mu-button color="#06acf9" small flat class="boder2" v-show="orderInfo.order_status===2">上传投保单</mu-button>
-        <mu-button color="#06acf9" small flat class="boder2" v-show="[4,128,256,512].indexOf(orderInfo.order_status)!==-1">查看详情</mu-button>
+        <mu-button
+          color="#666"
+          small
+          flat
+          class="boder1"
+          v-show="[16,128,256,512].indexOf(orderInfo.order_status)===-1"
+        >取消订单</mu-button>
+        <mu-button
+          color="#06acf9"
+          small
+          flat
+          class="boder2"
+          v-show="orderInfo.order_status===8"
+          @click="goPay(orderInfo)"
+        >待付款</mu-button>
+        <mu-button
+          color="#06acf9"
+          small
+          flat
+          class="boder2"
+          v-show="orderInfo.order_status===2"
+        >上传投保单</mu-button>
+        <mu-button
+          color="#06acf9"
+          small
+          flat
+          class="boder2"
+          v-show="[4,128,256,512].indexOf(orderInfo.order_status)!==-1"
+        >查看详情</mu-button>
       </mu-list-item-title>
     </mu-list-item>
     <mu-divider></mu-divider>
@@ -34,23 +59,23 @@
 </template>
 <script>
 const productInfo = {
-  'zxb': "/zxbConfirm", //专线保 514
-  'ygb': "/ygbDetails", //员工保 4
-  'zcb': "/zcbConfirm", //整车保  2
-  'jkx': "/axjkxDetail", //安享一生癌症医疗险 515
-  'spb': "/spbOrderDetails", //商铺档口火灾保 16
-  'dchyb-xdphb': "/phbConfirm", //信达普货保 32
-  'dchyb-ddphb': "/phbConfirm", //大地普货保 516
-  'hynb-dchynb': "/dchynbOrderDetails", //定车货运年保 512
-  'hynb-hczdsgb': "/hcbOrderDetails", //货车重大事故保 256
-  'dchyb-djb': "/djbConfirm", //大件保 519
-  'dchyb-jyb-new': '/phbConfirm', //新轿运保 131102
-  'dchyb-jyb-old': '/phbConfirm', //旧轿运保  131103
-  'dchyb-ddphb-zhx': '/phbConfirm',
-  'dchyb-gsb': '/phbConfirm',
-  'dchyb-llb': '/phbConfirm',
-  'dchyb-jyb-new-zhx': '/phbConfirm',
-  'hyx':"/hyxComfirm"
+  zxb: "/zxbConfirm", //专线保 514
+  ygb: "/ygbDetails", //员工保 4
+  zcb: "/zcbConfirm", //整车保  2
+  jkx: "/axjkxDetail", //安享一生癌症医疗险 515
+  spb: "/spbOrderDetails", //商铺档口火灾保 16
+  "dchyb-xdphb": "/phbConfirm", //信达普货保 32
+  "dchyb-ddphb": "/ddphbComfirm", //大地普货保 516
+  "hynb-dchynb": "/dchynbOrderDetails", //定车货运年保 512
+  "hynb-hczdsgb": "/hcbOrderDetails", //货车重大事故保 256
+  "dchyb-djb": "/djbConfirm", //大件保 519
+  "dchyb-jyb-new": "/phbConfirm", //新轿运保 131102
+  "dchyb-jyb-old": "/phbConfirm", //旧轿运保  131103
+  "dchyb-ddphb-zhx": "/phbConfirm",
+  "dchyb-gsb": "/phbConfirm",
+  "dchyb-llb": "/phbConfirm",
+  "dchyb-jyb-new-zhx": "/phbConfirm",
+  hyx: "/hyxComfirm"
 };
 export default {
   props: {
@@ -58,12 +83,28 @@ export default {
       product_name: ""
     }
   },
+  mounted() {
+    // console.log(this.orderInfo);
+  },
   filters: {
     dateTran(val) {
       let str = val.substring(0, val.indexOf("+"));
       return str.replace("T", " ");
     }
   },
+  methods: {
+    goPay(orderInfo) {
+      this.$router.push({
+        path: productInfo[orderInfo.product_alias],
+        query: {
+          orderId: orderInfo.order_id,
+          orderStatus: orderInfo.order_status,
+          product_alias: orderInfo.product_alias
+        }
+      });
+      console.log(orderInfo);
+    }
+  }
 };
 </script>
 

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "dev-build": "vue-cli-service build --mode development"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -45,7 +46,7 @@
           "*"
         ],
         "selectorBlackList": [
-          "mu-","weui-"
+          "mu-", "weui-"
         ]
       }
     }

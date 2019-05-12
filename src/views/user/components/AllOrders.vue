@@ -23,6 +23,7 @@
 <script>
 import { cmnBizChanneOrderlList } from "@api";
 import OrderCell from "./OrderCell.vue";
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
@@ -49,16 +50,18 @@ export default {
   watch: {
     orderStatus(newValue, oldValue) {
       //每次切换
+      window.scroll(0, 0);
       this.status = newValue;
-      this.refresh();
+      this.refresh(newValue);
     }
   },
   mounted() {
     this.status = this.orderStatus;
-    this.pages.order_status = this.status;
-    this.getList(this.pages);
+    console.log(this.status);
+    this.refresh(this.status);
   },
   methods: {
+    //index==1表示下拉
     async getList(data, index) {
       let res = await cmnBizChanneOrderlList(data);
       if (res.err_code === 0) {
@@ -81,15 +84,17 @@ export default {
         this.total = res.total;
       }
     },
-    refresh() {
+    //status切换的状态
+    refresh(status) {
       this.refreshing = true;
       if (this.orderRows.length !== 0) {
         this.$refs.container.scrollTop = 0;
       }
       //重新加载列表
       this.pages.page = 1;
-      this.pages.order_status = this.status;
+      this.pages.order_status = status;
       this.loadAll = false;
+      console.log(this.pages);
       this.getList(this.pages);
       setTimeout(() => {
         this.refreshing = false;

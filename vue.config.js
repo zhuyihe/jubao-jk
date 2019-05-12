@@ -1,6 +1,6 @@
 const path = require('path')
 //去console插件
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 //gzip压缩插件
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
@@ -13,7 +13,7 @@ module.exports = {
     //文件打包输出路径
     outputDir: 'dist',
     //放置生成的静态资源
-    assetsDir: 'static',
+    assetsDir: 'vueStatic',
     //去除map文件
     productionSourceMap: false,
     chainWebpack: config => {
@@ -34,17 +34,17 @@ module.exports = {
     configureWebpack: config => {
         //生产环境插件
         let pluginsPro = [
-            new UglifyJsPlugin({
-                uglifyOptions: {
-                    compress: {
-                        warnings: false,
-                        drop_debugger: true,
-                        drop_console: true,
-                    },
-                },
-                sourceMap: false,
-                parallel: true,
-            }),
+            // new UglifyJsPlugin({
+            //     uglifyOptions: {
+            //         compress: {
+            //             warnings: false,
+            //             drop_debugger: true,
+            //             drop_console: true,
+            //         },
+            //     },
+            //     sourceMap: false,
+            //     parallel: true,
+            // }),
             new CompressionWebpackPlugin({
                 filename: '[path].gz[query]',
                 algorithm: 'gzip',

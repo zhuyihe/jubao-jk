@@ -47,9 +47,9 @@ export default {
       // console.log(document.documentElement.scrollTop)
       // console.log(document.documentElement.clientHeight)
       // if(document.documentElement.scrollTop>0){
-      //    ; 
+      //    ;
       // }
-    //  window.scroll(0,0) //失焦后强制让页面归位
+      //  window.scroll(0,0) //失焦后强制让页面归位
     }
   },
   watch: {
@@ -77,7 +77,6 @@ export default {
       }
 
       //路由动画
-      //        console.log(to.meta.level,from.meta.level);
       let toLevel = to.meta.level;
       let fromLevel = from.meta.level;
 
@@ -86,7 +85,7 @@ export default {
       } else if (toLevel < fromLevel) {
         this.transitionName = "slide-right";
       } else {
-        this.transitionName = "slide-right";
+        this.transitionName = "slide-left";
       }
     }
   }
@@ -94,9 +93,6 @@ export default {
 </script>
 
 <style lang="scss">
-.aa {
-  font-size: 40px;
-}
 .Router {
   position: absolute;
   width: 100%;
@@ -104,18 +100,102 @@ export default {
   //  top: 40px;
 }
 
-.slide-left-enter,
-.slide-right-leave-active {
-  //  opacity: 0;
-  -webkit-transform: translate(100%, 0);
-  transform: translate(100%, 0);
+@keyframes slideInLeft {
+  from {
+    transform: translate3d(100%, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
 }
-
-.slide-left-leave-active,
-.slide-right-enter {
-  opacity: 0;
-  -webkit-transform: translate(-100%, 0);
-  transform: translate(-100% 0);
+@keyframes slideInRight {
+  from {
+    transform: translate3d(0%, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(-100%, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
+}
+.slide-left-enter-active {
+  position: fixed;
+  top: 0;
+  left: 0%;
+  width: 100vw;
+  height: 100vh;
+  animation: slideInLeft 0.3s ease-in-out forwards;
+}
+.slide-left-leave-active {
+  position: fixed;
+  top: 0;
+  left: 0%;
+  width: 100vw;
+  height: 100vh;
+  animation: slideInRight 0.3s ease-in-out forwards;
+}
+/*向右滑动*/
+@keyframes slideOutLeft {
+  from {
+    transform: translate3d(-100%, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(0%, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
+}
+@keyframes slideOutRight {
+  from {
+    transform: translate3d(0%, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
+}
+.slide-right-enter-active {
+  position: fixed;
+  top: 0;
+  left: 0%;
+  width: 100vw;
+  height: 100vh;
+  animation: slideOutLeft 0.3s ease-in-out forwards;
+}
+.slide-right-leave-active {
+  position: fixed;
+  top: 0;
+  left: 0%;
+  width: 100vw;
+  height: 100vh;
+  animation: slideOutRight 0.3s ease-in-out forwards;
 }
 .router {
   position: absolute;

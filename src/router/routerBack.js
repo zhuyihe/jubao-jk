@@ -62,6 +62,10 @@ export const routeBack = (to, from) => {
       to: '/djbConfirm',
       defaultBack: from.fullPath
     },
+    {
+      to: '/ddphbComfirm',
+      defaultBack: from.fullPath
+    },
   ];
 
   // console.log(from.fullPath)

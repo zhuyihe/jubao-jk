@@ -32,21 +32,24 @@ export default {
       type: Boolean
     }
   },
-  mounted() {
+  watch: {
+    title(n, o) {
+      console.log(n, o);
+    }
   },
   methods: {
     closeFullscreenDialog() {
-       this.$emit("getOpen", this.openFullscreen);
+      this.$emit("getOpen", this.openFullscreen);
     },
-    closeDialog(){
+    closeDialog() {
       //如果标题为“不保货物” 那么表示创建订单，正常情况下直接关闭dialogs
-      if(this.title.includes("不保货物")){
-        let data={
-          openFullscreen:this.openFullscreen,
-          goNext:true
-        }
-        this.$emit("goNext",data);
-      }else{
+      if (this.title.includes("不保货物")) {
+        let data = {
+          openFullscreen: this.openFullscreen,
+          goNext: true
+        };
+        this.$emit("goNext", data);
+      } else {
         this.$emit("goNext", this.openFullscreen);
       }
     }

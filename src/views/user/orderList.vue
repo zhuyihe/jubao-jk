@@ -9,6 +9,7 @@
         text-color="#409EFF"
         center
         class="mu-ta"
+        @change="tabs(active1)"
       >
         <template v-for="(item,index) in tabList">
           <mu-tab :key="index">{{item}}</mu-tab>
@@ -50,6 +51,16 @@ export default {
   mounted() {
     if (JSON.stringify(this.$route.query) !== "{}") {
       this.active1 = Number(this.$route.query.active1);
+    }
+  },
+  methods: {
+    tabs(value) {
+      this.$router.push({
+        path: "orderList",
+        query: {
+          active1: value
+        }
+      });
     }
   }
 };

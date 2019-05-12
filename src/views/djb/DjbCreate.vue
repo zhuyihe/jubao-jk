@@ -33,8 +33,20 @@
                 <label class="weui-label">选择方式</label>
               </div>
               <div class="weui-cell__bd">
-                <mu-radio v-model="radio" value="first" label="填写" :disabled="disabled" @change="radios"></mu-radio>
-                <mu-radio v-model="radio" value="second" label="选择" :disabled="disabled" @change="radios"></mu-radio>
+                <mu-radio
+                  v-model="radio"
+                  value="first"
+                  label="填写"
+                  :disabled="disabled"
+                  @change="radios"
+                ></mu-radio>
+                <mu-radio
+                  v-model="radio"
+                  value="second"
+                  label="选择"
+                  :disabled="disabled"
+                  @change="radios"
+                ></mu-radio>
               </div>
             </div>
           </mu-list-item-content>
@@ -574,10 +586,10 @@ export default {
     if (this.islogin) {
       if (this.$route.query.orderId) {
         this.form.id = this.$route.query.orderId;
-        this.initData().then(()=>{
+        this.initData().then(() => {
           this.setData();
-        })
-      }else{
+        });
+      } else {
         this.initData();
       }
     }
@@ -622,16 +634,17 @@ export default {
       this.form.price = this.rate * this.form.coverage; //动态计算价格
     },
     "form.customer_id"(val, oldVal) {
-      if (val !=="") {
+      if (val !== "") {
         let beneficiary = this.customerList.filter(item => {
           return val == item.id;
         });
-        if(beneficiary.length!==0) this.form.beneficiary = beneficiary[0].company_name;
+        if (beneficiary.length !== 0)
+          this.form.beneficiary = beneficiary[0].company_name;
       }
-    },
+    }
   },
   methods: {
-    async initData() { 
+    async initData() {
       let res = await Promise.all([
         allProvinceList(),
         cmnProductpriceList({ product_alias: this.product_alias }),
@@ -675,7 +688,7 @@ export default {
     async setData() {
       let res = await dchybOrderInfo({ id: this.form.id });
       if (res.err_code === 0) {
-        if(res.data.user_id!==0){
+        if (res.data.user_id !== 0) {
           this.form.customer_id = res.data.user_id;
           this.radio = "second";
         }
@@ -690,12 +703,14 @@ export default {
         this.form.plate_extra_no = res.data.plate_extra_no;
         if (!this.form.plate_extra_no) this.truck_type = 2;
         this.form.type = res.data.type;
-        this.form.type==1?this.active=0:this.active=1
+        this.form.type == 1 ? (this.active = 0) : (this.active = 1);
         this.form.track_no = res.data.track_no;
         this.form.cargo_name = res.data.cargo_name;
         this.form.quantity = res.data.quantity;
         // this.form.goodsType = res.data.goodsType;
-        this.form.cargo_file_urls = res.data.cargo_file_urls ? res.data.cargo_file_urls : [];
+        this.form.cargo_file_urls = res.data.cargo_file_urls
+          ? res.data.cargo_file_urls
+          : [];
       }
     },
     selected() {
@@ -717,7 +732,7 @@ export default {
         this.countPrice();
       }
     },
-    radios(){
+    radios() {
       this.form.customer_id = "";
       this.form.beneficiary = "";
     },

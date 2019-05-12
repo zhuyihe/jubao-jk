@@ -44,7 +44,7 @@
       <img src="@assets/img/adress.png" alt>
       <p>暂无可用地址</p>
     </div>
-    <mu-button fab color="$blue" class="button" to="/addAddress">
+    <mu-button fab color="$blue" class="button" to="/addAddress?active=add">
       <mu-icon value="add"></mu-icon>
     </mu-button>
   </div>
@@ -86,7 +86,7 @@ export default {
             this.loading = false;
           }, 2000);
           //数据加载完
-          if (res.rows.length < 2) {
+          if (res.rows.length < 5) {
             this.loadText = "暂无更多数据";
             setTimeout(() => {
               this.loadAll = true;

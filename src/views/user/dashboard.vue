@@ -22,7 +22,7 @@
       </mu-list-item>
     </mu-list>
     <mu-list class="showAll">
-      <mu-list-item button ripple to="orderList">
+      <mu-list-item button ripple to="orderList?active1=0">
         <mu-list-item-action>
           <mu-icon value="description" color="blue" class="icons"></mu-icon>
         </mu-list-item-action>
