@@ -1,11 +1,42 @@
 const path = require('path')
-//去console插件
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 //gzip压缩插件
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 function resolve(dir) {
     return path.join(__dirname, dir)
+}
+//对一些不经常改动的库，可以通过cdn引入，webpack不对他们打包  
+let externals = {
+    'vue': 'Vue',
+    'axios': 'axios',
+    'vue-router': 'VueRouter',
+    'vuex': 'Vuex',
+    'weui': 'weui',
+    'muse-ui': 'MuseUI'
+}
+const cdn = {
+    css: [
+        //muse-ui css
+        'https://unpkg.com/muse-ui@3.0.2/dist/muse-ui.css',
+        //font
+        'http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css',
+        //weui
+        'https://unpkg.com/weui@2.0.0/dist/style/weui.min.css'
+    ],
+    js: [
+        //vue
+        'https://unpkg.com/vue@2.6.10/dist/vue.min.js',
+        //axios
+        'http://cdn.staticfile.org/axios/0.19.0-beta.1/axios.min.js',
+        //vuex
+        'https://unpkg.com/vuex@3.1.0/dist/vuex.min.js',
+        //vue-router
+        'https://unpkg.com/vue-router@3.0.6/dist/vue-router.min.js',
+        //muse-ui
+        'https://unpkg.com/muse-ui@3.0.2/dist/muse-ui.js',
+        //weui
+        'https://unpkg.com/weui.js@1.1.4/dist/weui.min.js'
+    ]
 }
 module.exports = {
     //基本路径
@@ -22,9 +53,15 @@ module.exports = {
             args[0]['process.env'].VUE_APP_LOGOUT_URL = JSON.stringify(process.env.VUE_APP_LOGOUT_URL)
             //定义图片上传地址
             args[0]['process.env'].VUE_APP_FILE_URL = JSON.stringify(process.env.VUE_APP_FILE_URL)
-            console.log(args[0])
             return args;
         });
+        //忽略打包
+        config.externals(externals)
+        config.plugin('html')
+            .tap(args => {
+                args[0].cdn = cdn;
+                return args
+            })
         //设置别名
         config.resolve.alias
             .set('@', resolve('src'))
@@ -38,13 +75,13 @@ module.exports = {
             //     uglifyOptions: {
             //         compress: {
             //             warnings: false,
-            //             drop_debugger: true,
-            //             drop_console: true,
+            //             drop_console: true,//console
+            //             drop_debugger: false,
+            //             pure_funcs: ['console.log']//移除console
             //         },
-            //     },
-            //     sourceMap: false,
-            //     parallel: true,
-            // }),
+            //         sourceMap: false,
+            //         parallel: true,
+            //     }),
             new CompressionWebpackPlugin({
                 filename: '[path].gz[query]',
                 algorithm: 'gzip',

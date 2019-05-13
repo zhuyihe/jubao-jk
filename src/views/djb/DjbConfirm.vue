@@ -172,16 +172,22 @@
             <div class="weui-cell__bd">{{order.price ? (order.price/100).toFixed(2) : '0.00'}}元</div>
           </div>
         </mu-list-item-content>
-      </mu-list-item> 
+      </mu-list-item>
       <mu-divider></mu-divider>
       <div class="tips">
         提示：已经发生损失事故投保的，保险人不承担任何保险责任，
         且保险人保留向投保人骗取保险金行为的法律权利。
       </div>
       <ul class="bottom">
-        <li class="mon"><mu-button color="white" class="butt" :to="{path:'djbCreate',query:{orderId,product_alias}}">返回上一步</mu-button></li>
+        <li class="mon">
+          <mu-button
+            color="white"
+            class="butt"
+            :to="{path:'djbCreate',query:{orderId,product_alias}}"
+          >返回上一步</mu-button>
+        </li>
         <li class="button">
-          <mu-button color="info">立即支付</mu-button>
+          <mu-button color="info" @click="goPay" v-loading="loading" data-mu-loading-size="24">立即支付</mu-button>
         </li>
       </ul>
     </mu-list>
@@ -189,13 +195,14 @@
 </template>
 
 <script>
-import { dchybOrderInfo } from "@api";
+import { dchybOrderInfo, dchybOrderPay } from "@api";
 import { toast } from "@assets/js/common";
 export default {
   data() {
     return {
       order: {},
       rate: "",
+      loading: false
     };
   },
   created() {
@@ -224,6 +231,23 @@ export default {
         }
       } catch (e) {
         toast("error", e.err_msg);
+      }
+    },
+    async goPay() {
+      this.loading = true;
+      let data = {
+        amount: this.order.price,
+        order_id: this.orderId * 1
+      };
+      let res = await dchybOrderPay(data);
+      try {
+        this.loading = false;
+        console.log(res);
+        window.location.href = res.data.pay_url;
+      } catch (e) {
+        console.log(e);
+        toast("error", e.err_msg);
+        this.loading = false;
       }
     }
   }
@@ -303,10 +327,10 @@ export default {
     line-height: 100px;
     // color: #ff6633;
     font-size: 38px;
-    
+
     // font-weight: bold;
   }
-  .butt{
+  .butt {
     color: black !important;
   }
 }

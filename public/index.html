@@ -7,11 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title>jubao-dk</title>
-  <link rel="stylesheet" type="text/css"
-    href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.css" />
-    <!-- <link rel="stylesheet" href="https://unpkg.com/weui@2.0.0/dist/style/weui.min.css"> -->
-    <link rel="stylesheet" href="https://unpkg.com/weui@2.0.0/dist/style/weui.min.css">
-    <script src="https://unpkg.com/weui.js@1.1.4/dist/weui.min.js" type="text/javascript" charset="utf-8"></script>
+  <% for(var css of htmlWebpackPlugin.options.cdn.css) { %>
+  <link rel="stylesheet" href="<%=css%>" as="style">
+  <% } %>
+  <% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
+  <script src="<%=js%>"></script>
+  <% } %>
 </head>
 
 <body>

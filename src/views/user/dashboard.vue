@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
-    <v-header title="个人中心" backIcon></v-header>
-    <mu-list textline="two-line" class="price">
+    <v-header title="个人中心" backIcon class="header"></v-header>
+    <mu-list textline="two-line" class="price mu-price">
       <mu-list-item ripple>
         <mu-list-item-content>
           <mu-list-item-title>{{(totalSum.total/100).toFixed(2)}}</mu-list-item-title>
@@ -156,6 +156,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.dashboard{
+  padding-bottom: 80px
+}
+.header{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  right: 0;
+  z-index: 10000;
+}
 .price {
   display: flex;
   justify-content: space-around;
@@ -167,6 +177,9 @@ export default {
     color: red;
     text-align: center;
   }
+}
+.mu-price{
+  margin-top: 60px
 }
 .showAll {
   background: white;

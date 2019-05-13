@@ -14,7 +14,7 @@
     <div class="mu-homecontent homecontent">
       <mu-carousel hide-controls class="banner">
         <mu-carousel-item v-for="(item,index) in banner" :key="index">
-          <img :src="item.image_url" class="ims">
+          <img :src="item.image_url" class="ims" @click="goUrl(item)">
         </mu-carousel-item>
       </mu-carousel>
       <div class="tap">
@@ -82,7 +82,7 @@ export default {
       productLists: [],
       columnList: [],
       loading: false,
-      routeStrat:'',
+      routeStrat: ""
     };
   },
   mounted() {
@@ -152,22 +152,48 @@ export default {
     getTab(item) {
       this.getProductList(item.id);
     },
-    NameTransLink(product){
-        const NameTransLink = {
-          "安享一生癌症医疗险":this.routeStrat+"/vueStatic/share/common.html?pid=0000&appname="+this.appname+"&t="+new Date().getTime()+"&alias=",
-          "货运年保超市":this.routeStrat+"/vueStatic/share/common.html?pid=1111&appname="+this.appname+"&t="+new Date().getTime()+"&alias=",
-        };
-        getStorage("cmnServiceProductList").rows.map(item=>{
-          NameTransLink[item.product_name]=`${this.routeStrat}/vueStatic/share/common.html?pid=${item.product_id}&appname=${this.appname}&t=${new Date().getTime()}&alias=`
-        })
-        return product.map((val,idx)=>{
-          if(val.product_name=='大件保'||val.product_name=='普货保基础版-大地财险'){
-            val.link=NameTransLink[val.product_name] || "/";
-          }
-          return val;
-        })
-       
+    goUrl(item) {
+      console.log(item.target_url.indexOf("www") == -1);
+      if (item.target_url.indexOf("www") !== -1) {
+        window.open(item.target_url);
+      } else {
+        this.$router.push(item.target_url);
       }
+    },
+    NameTransLink(product) {
+      const NameTransLink = {
+        安享一生癌症医疗险:
+          this.routeStrat +
+          "/vueStatic/share/common.html?pid=0000&appname=" +
+          this.appname +
+          "&t=" +
+          new Date().getTime() +
+          "&alias=",
+        货运年保超市:
+          this.routeStrat +
+          "/vueStatic/share/common.html?pid=1111&appname=" +
+          this.appname +
+          "&t=" +
+          new Date().getTime() +
+          "&alias="
+      };
+      getStorage("cmnServiceProductList").rows.map(item => {
+        NameTransLink[item.product_name] = `${
+          this.routeStrat
+        }/vueStatic/share/common.html?pid=${item.product_id}&appname=${
+          this.appname
+        }&t=${new Date().getTime()}&alias=`;
+      });
+      return product.map((val, idx) => {
+        if (
+          val.product_name == "大件保" ||
+          val.product_name == "普货保基础版-大地财险"
+        ) {
+          val.link = NameTransLink[val.product_name] || "/";
+        }
+        return val;
+      });
+    }
   }
 };
 </script>

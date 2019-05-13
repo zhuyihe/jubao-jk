@@ -28,6 +28,7 @@
           small
           flat
           class="boder1"
+          @click="cancelOrder(orderInfo)"
           v-show="[16,128,256,512].indexOf(orderInfo.order_status)===-1"
         >取消订单</mu-button>
         <mu-button
@@ -51,7 +52,15 @@
           flat
           class="boder2"
           v-show="[4,128,256,512].indexOf(orderInfo.order_status)!==-1"
+          @click="showDetail(orderInfo)"
         >查看详情</mu-button>
+        <mu-button
+          color="#06acf9"
+          small
+          flat
+          class="boder2"
+          v-show="orderInfo.order_status===16"
+        >已取消订单</mu-button>
       </mu-list-item-title>
     </mu-list-item>
     <mu-divider></mu-divider>
@@ -77,6 +86,10 @@ const productInfo = {
   "dchyb-jyb-new-zhx": "/phbConfirm",
   hyx: "/hyxComfirm"
 };
+import { message, toast } from "@assets/js/common";
+import { cmnBizOrderflowUpdate } from "@api";
+import { getStorage } from "@assets/js/SessionStorage";
+import { setLocationQuery } from "@assets/js/query";
 export default {
   props: {
     orderInfo: {
@@ -103,6 +116,47 @@ export default {
         }
       });
       console.log(orderInfo);
+    },
+    cancelOrder(item) {
+      message("confirm", "您确认取消订单吗")
+        .then(() => {
+          console.log(item);
+          let data = {
+            id: item.id,
+            order_status: "cancelled"
+          };
+          console.log(data);
+          cmnBizOrderflowUpdate(data)
+            .then(res => {
+              console.log(res);
+              if (res.err_code === 0) {
+                toast("success", "订单取消成功");
+                this.$emit("deletOrder", true);
+              }
+            })
+            .catch(e => {
+              toast("error", e.err_msg);
+            });
+        })
+        .catch(() => {});
+    },
+    showDetail(item) {
+      var arr = ["dchyb-ddphb", "dchyb-djb"];
+      var isProductAlias = arr.indexOf(item.product_alias) != -1;
+      console.log(isProductAlias);
+      let info = { orderId: item.order_id, productType: item.product_alias };
+      let locationQuery = getStorage("locationQuery");
+      if (locationQuery && locationQuery.alias) {
+        info.alias = locationQuery.alias;
+      }
+      if (locationQuery && locationQuery.AppKey) {
+        info.AppKey = locationQuery.AppKey;
+      }
+      if (isProductAlias) {
+        window.location.href = setLocationQuery("./vueStatic/paySuccess.html", {
+          ...info
+        });
+      }
     }
   }
 };

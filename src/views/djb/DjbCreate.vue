@@ -514,7 +514,8 @@ import {
   cmnAdminAgreementList,
   cmnChannelUserList,
   cmnDchybChannelSave,
-  dchybOrderInfo
+  dchybOrderInfo,
+  dchybOrderPay
 } from "@api";
 import { toast, debounce } from "@assets/js/common";
 import Dialogs from "@/components/Dialog";

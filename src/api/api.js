@@ -54,3 +54,7 @@ export const cmnChannelUserList = (params) => get("/v1/cmn/channel/user/list", p
 export const cmnDchybChannelSave = (params) => post("/v1/dchyb/order/channel/save", params);
 //获取单词货运保订单
 export const dchybOrderInfo = (params) => get("/v1/dchyb/order/info", params);
+//大地支付
+export const dchybOrderPay = (params) => post("/v1/dchyb/order/pay", params);
+//渠道用户删除订单
+export const cmnBizOrderflowUpdate = (params) => post("/v1/cmn/biz/channel/orderflow/update", params); 

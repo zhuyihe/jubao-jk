@@ -79,7 +79,6 @@ export default {
       //路由动画
       let toLevel = to.meta.level;
       let fromLevel = from.meta.level;
-
       if (toLevel > fromLevel) {
         this.transitionName = "slide-left";
       } else if (toLevel < fromLevel) {

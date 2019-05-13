@@ -172,7 +172,7 @@
           <mu-button color="white" class="butt" @click="back">返回并修改</mu-button>
         </li>
         <li class="button">
-          <mu-button color="info">立即支付</mu-button>
+          <mu-button color="info" @click="goPay" v-loading="loading" data-mu-loading-size="24">立即支付</mu-button>
         </li>
       </ul>
     </mu-list>
@@ -180,14 +180,15 @@
 </template>
 
 <script>
-import { dchybOrderInfo } from "@api";
+import { dchybOrderInfo, dchybOrderPay } from "@api";
 import { toast } from "@assets/js/common";
 export default {
   data() {
     return {
       order: {},
       rate: "",
-      index: 0
+      index: 0,
+      loading: false
     };
   },
   created() {
@@ -205,7 +206,6 @@ export default {
         }
         this.order = res.data;
         this.rate = res.data.rate;
-        console.log(this.order);
         if (res.data.add_waiver_of_recovery_from_carrier) {
           this.rate += 30;
         }
@@ -234,6 +234,23 @@ export default {
           product_alias: this.product_alias
         }
       });
+    },
+    async goPay() {
+      this.loading = true;
+      let data = {
+        amount: this.order.price,
+        order_id: this.orderId * 1
+      };
+      let res = await dchybOrderPay(data);
+      try {
+        this.loading = false;
+        console.log(res);
+        window.location.href = res.data.pay_url;
+      } catch (e) {
+        console.log(e);
+        toast("error", e.err_msg);
+        this.loading = false;
+      }
     }
   }
 };

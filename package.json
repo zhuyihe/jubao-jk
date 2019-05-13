@@ -25,8 +25,13 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "@vue/cli-plugin-babel": "^3.6.0",
     "@vue/cli-service": "^3.6.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "cnpm": "^6.0.0",
     "compression-webpack-plugin": "^2.0.0",
     "install": "^0.12.2",
@@ -46,7 +51,8 @@
           "*"
         ],
         "selectorBlackList": [
-          "mu-", "weui-"
+          "mu-",
+          "weui-"
         ]
       }
     }

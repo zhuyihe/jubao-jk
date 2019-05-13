@@ -23,7 +23,7 @@
     </div>
     <div v-if="active1 === 1">
       <keep-alive>
-        <all-orders :orderStatus="8"></all-orders>
+        <all-orders :orderStatus="15"></all-orders>
       </keep-alive>
     </div>
     <div v-if="active1 === 2">

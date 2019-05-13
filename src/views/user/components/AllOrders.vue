@@ -10,7 +10,7 @@
         :loading-text="loadText"
       >
         <template v-for="(val,index) in orderRows">
-          <order-cell :orderInfo="val" :key="index"></order-cell>
+          <order-cell :orderInfo="val" :key="index" v-on:deletOrder="deletOrder"></order-cell>
         </template>
       </mu-load-more>
     </mu-list>
@@ -50,14 +50,12 @@ export default {
   watch: {
     orderStatus(newValue, oldValue) {
       //每次切换
-      window.scroll(0, 0);
       this.status = newValue;
       this.refresh(newValue);
     }
   },
   mounted() {
     this.status = this.orderStatus;
-    console.log(this.status);
     this.refresh(this.status);
   },
   methods: {
@@ -65,6 +63,7 @@ export default {
     async getList(data, index) {
       let res = await cmnBizChanneOrderlList(data);
       if (res.err_code === 0) {
+        // console.log(res.rows,index)
         //下拉
         if (index === 1) {
           this.orderRows.push(...res.rows);
@@ -72,11 +71,15 @@ export default {
             this.loading = false;
           }, 2000);
           //数据加载完
+          // console.log(res.rows.length)
           if (res.rows.length < 5) {
             this.loadText = "暂无更多数据";
             setTimeout(() => {
               this.loadAll = true;
             }, 2000);
+          } else {
+            this.loadText = "正在加载中";
+            this.loadAll = false;
           }
         } else {
           this.orderRows = res.rows;
@@ -87,8 +90,9 @@ export default {
     //status切换的状态
     refresh(status) {
       this.refreshing = true;
+      //  window.scrollTo(0, 0);
       if (this.orderRows.length !== 0) {
-        this.$refs.container.scrollTop = 0;
+        this.$refs.container.$el.scrollTop = 0;
       }
       //重新加载列表
       this.pages.page = 1;
@@ -102,9 +106,17 @@ export default {
     },
     load() {
       this.loading = true;
+      console.log(this.pages);
       this.pages.page++;
       this.pages.order_status = this.status;
+      console.log(this.pages);
       this.getList(this.pages, 1);
+    },
+    //取消订单刷新页面
+    deletOrder(bool) {
+      if (bool) {
+        this.refresh(this.status);
+      }
     }
   }
 };
@@ -114,7 +126,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 250px);
+  max-height: calc(100vh - 240px);
 }
 .demo-loadmore-content {
   flex: 1;
